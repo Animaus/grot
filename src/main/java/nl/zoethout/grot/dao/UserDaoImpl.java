@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import nl.zoethout.grot.domain.Address;
-import nl.zoethout.grot.domain.Member;
 import nl.zoethout.grot.domain.Role;
 import nl.zoethout.grot.domain.User;
 
@@ -105,13 +104,6 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	
-	}
-
-	@Override
-	public Member readMember(String userName) {
-		User user = readUser(userName);
-		Member member = new Member(user);
-		return member;
 	}
 
 	@Override
@@ -224,9 +216,9 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public List<Member> listProfiles() {
+	public List<User> listProfiles() {
 
-		List<Member> profiles = new ArrayList<Member>();
+		List<User> profiles = new ArrayList<User>();
 
 		String SQL = "SELECT user FROM User user";
 		TypedQuery<User> query = em.createQuery(SQL, User.class);
@@ -234,8 +226,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			List<User> users = query.getResultList();
 			for (User user : users) {
-				Member member = new Member(user);
-				profiles.add(member);
+				profiles.add(user);
 			}
 		} catch (NoResultException e) {
 			// Oeps...

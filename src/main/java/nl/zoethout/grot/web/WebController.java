@@ -14,7 +14,7 @@ import nl.zoethout.grot.util.AttributeProviderImpl;
 
 public abstract class WebController {
 
-	// TODO 99 - Constanten naar enumeratie? Wegens geen "protected static final" en kunnen itereren...
+	// TODO JAVA 8 - Constanten naar enumeratie? Wegens geen "protected static final" en kunnen itereren...
 	protected static final String PAGE_HOME = "home";
 	protected static final String PAGE_LOGIN = "login";	
 	protected static final String PAGE_POC = "poc";
@@ -104,7 +104,6 @@ public abstract class WebController {
 		}
 	}
 
-	// TODO 25 - Users - save member with values
 	protected void editAuthorisation(UserService userService, HttpServletRequest req, User user) {
 		Principal principal = provider(req).getSAPrincipal();
 		if (principal != null && principal.hasRole(ADMIN)) {
@@ -124,9 +123,7 @@ public abstract class WebController {
 		}
 	}
 
-	// TODO 25 - Users - save member with values
 	protected void setAuthorisation(UserService userService, User user) {
-		// New user
 		Role role = userService.readRole("ROLE_USER");
 		user.getRoles().add(role);
 		user.setEnabled(true);

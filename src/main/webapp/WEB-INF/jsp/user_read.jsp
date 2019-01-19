@@ -1,9 +1,9 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sft"%><%@ taglib uri="http://www.springframework.org/tags" prefix="sst"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div align="center">
-	<table border="0" style="width: 750px;" cellspacing="4" cellpadding="4">
+	<table style="width: 750px;">
 		<tr>
 			<td valign="top" style="width: 50%;">
-				<table border="0" style="width: 100%;">
+				<table style="width: 100%;">
 					<tr>
 						<td valign="top" style="width: 35%;"></td>
 						<td valign="top" style="width: 65%;"></td>
@@ -54,7 +54,7 @@
 				</table>
 			</td>
 			<td valign="top" style="width: 50%;">
-				<table border="0" style="width: 100%;">
+				<table style="width: 100%;">
 					<tr>
 						<td valign="top" style="width: 35%;"></td>
 						<td valign="top" style="width: 65%;"></td>

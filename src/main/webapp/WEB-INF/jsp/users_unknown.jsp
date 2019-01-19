@@ -8,7 +8,7 @@
 		<tr>
 			<td>
 				<c:forEach items='${profiles}' var='profile'>
-					<img src="user/${profile.userName}/avatar.png" width="24" border="0" onError="this.src='<sst:url value="/img" />/user.png';">&nbsp;<a href="user/${profile.userName}">${profile.firstName} ${profile.prefix} ${profile.lastName}</a><br/>
+					<img src="user/${profile.userName}/avatar.png" width="24" onError="this.src='<sst:url value="/img" />/user.png';">&nbsp;<a href="user/${profile.userName}">${profile.firstName} ${profile.prefix} ${profile.lastName}</a><br/>
 				</c:forEach>
 			</td>
 		</tr>

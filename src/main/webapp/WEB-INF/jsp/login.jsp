@@ -30,24 +30,22 @@
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<p align="center">
-					<form class="form-horizontal" method="post" action="login">
-						<button type="submit" class="btn">Gerard</button>
-						<input type="hidden" name="username" value="zoetg00">
-						<input type="hidden" name="password" value="123456">
-					</form>
-					<form class="form-horizontal" method="post" action="login">
-						<button type="submit" class="btn">Thierry</button>
-						<input type="hidden" name="username" value="front00">
-						<input type="hidden" name="password" value="123456">
-					</form>
-					<form class="form-horizontal" method="post" action="login">
-						<button type="submit" class="btn">Jeanne</button>
-						<input type="hidden" name="username" value="arc0j00">
-						<input type="hidden" name="password" value="123456">
-					</form>
-				</p>
+			<td align="center">
+				<form class="form-horizontal" method="post" action="login">
+					<button type="submit" class="btn">Gerard</button>
+					<input type="hidden" name="username" value="zoetg00">
+					<input type="hidden" name="password" value="123456">
+				</form>
+				<form class="form-horizontal" method="post" action="login">
+					<button type="submit" class="btn">Thierry</button>
+					<input type="hidden" name="username" value="front00">
+					<input type="hidden" name="password" value="123456">
+				</form>
+				<form class="form-horizontal" method="post" action="login">
+					<button type="submit" class="btn">Jeanne</button>
+					<input type="hidden" name="username" value="arc0j00">
+					<input type="hidden" name="password" value="123456">
+				</form>
 			</td>
 		</tr>
 	</table>

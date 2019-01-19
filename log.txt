@@ -31,6 +31,9 @@ SOLVED
 	R		: 22	- Users - save member with address (backend)
 	R		: 23	- Users - save member with address (frontend)
 	R		: 24	- Users - save member with roles
+	R		: 25	- Users - save member with values
+	R		: 26	- Users - fieldvalidation
+	R		: 27	- Users - copy fieldvalidation from PocController to UserController
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 FAILED
@@ -47,9 +50,6 @@ WISHLIST
 TODO
 ------------------------------------------------------------------------------------------------------------------------------------------------
 	R		: 15	- Users - registration
-	R		: 25	- Users - save member with values
-	R		: 26	- Users - fieldvalidation
-	R		: 27	- Users - copy fieldvalidation from PocController to UserController
 
 
 ================================================================================================================================================
@@ -896,6 +896,9 @@ TASKS PERFORMED
 ------------------------------------------------------------------------------------------------------------------------------------------------
 26.	R		: Users - fieldvalidation
 
+				https://www.tutorialspoint.com/springmvc/springmvc_hibernate_validator.htm
+				https://stackoverflow.com/questions/12146298/spring-mvc-how-to-perform-validation
+
 	S		: add
 				nl.zoethout.grot.validation.UserValidator
 	S		: re-write
@@ -905,6 +908,16 @@ TASKS PERFORMED
 	D		: Kept being bothered by a NullpointerException when WrapClass "nl.zoethout.grot.domain.Member" was used as "<editUser>" on page.
 				Obviously, some component of "nl.zoethout.grot.domain.Member" was not loaded
 	D		: Decided to use just "nl.zoethout.grot.domain.User" on page, with just one field: "firstName"
+
+	S		: add
+	D		: copied from "Member"
+				nl.zoethout.grot.domain.User.getDateBirthDisplay()
+				nl.zoethout.grot.domain.User.getDateRegisteredDisplay()
+				nl.zoethout.grot.domain.User.getUserRoleNames()
+	D		: copied from "UserWrapper"
+				nl.zoethout.grot.domain.User.hasRole(String)
+	S		: delete
+				nl.zoethout.grot.domain.User.sdf
 
 	D		: Copied working validation example to desired methods (GET / POST)
 	S		: add
@@ -952,15 +965,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.PocController.rmUserGet(Map<String, Object>)
 				-> rmUserGet(Model, HttpServletRequest)
 
-	D		: added mutable user
-	S		: add
-				nl.zoethout.grot.util.SessionAttributes.MUTABLE
-				nl.zoethout.grot.util.AttributeProvider.getSAMutable()
-				nl.zoethout.grot.util.AttributeProvider.setSAMutable(User)
-				nl.zoethout.grot.util.AttributeProviderImpl.getSAMutable()
-				nl.zoethout.grot.util.AttributeProviderImpl.setSAMutable(User)
-	D		: (why? didn't use it...)
-
+	D		: add immutable user to sessionattributes
 	S		: add
 				nl.zoethout.grot.util.SessionAttributes.FIXED
 				nl.zoethout.grot.util.AttributeProvider.getSAFixed()
@@ -1020,6 +1025,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.PocController -> PocController_26-02
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp -> user_readable_26-02.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp -> user_writable_26-02.jsp
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 25.	R		: Users - save member with values
@@ -1227,49 +1233,43 @@ TASKS PERFORMED
 	D		: save routes to read userPage, which method put model-attribute "member" instead of "mutable"
 
 	D		: fase-out SAMember
-
-disabled
+	S		: delete
 				nl.zoethout.grot.util.AttributeProvider.getSAMember()
 				nl.zoethout.grot.util.AttributeProvider.setSAMember(Member)
 				nl.zoethout.grot.util.AttributeProviderImpl.getSAMember()
 				nl.zoethout.grot.util.AttributeProviderImpl.setSAMember(Member)
-
-				nl.zoethout.grot.web.PocController.rmMemberGet(Model, HttpServletRequest)
-				nl.zoethout.grot.web.PocController.rmMemberPost(Member, BindingResult, Model, HttpServletRequest)
-
-				nl.zoethout.grot.web.PocController.rmOozerGet(Model, HttpServletRequest)
-				nl.zoethout.grot.web.PocController.rmOozerPost(User, Address, BindingResult, Model, HttpServletRequest)
-
-re-write
+	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUsers(Model, HttpServletRequest)
 				nl.zoethout.grot.web.UserController.rmUser(Model, HttpServletRequest, String)
-	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_read.jsp
 				/src/main/webapp/WEB-INF/jsp/user_read_button.jsp
 
+	D		: CLEAN CODE
+	S		: delete
+				nl.zoethout.grot.web.PocController.rmMemberGet(Model, HttpServletRequest)
+				nl.zoethout.grot.web.PocController.rmMemberPost(Member, BindingResult, Model, HttpServletRequest)
+				nl.zoethout.grot.web.PocController.rmOozerGet(Model, HttpServletRequest)
+				nl.zoethout.grot.web.PocController.rmOozerPost(User, Address, BindingResult, Model, HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
+				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
+				nl.zoethout.grot.web.UserController.maRoles_24(HttpServletRequest)
 
-|	// TODO 26 - Users - fieldvalidation - 01 GET added
-|
-|		// Get the username
-|		// Chosen member - getting user entity
-|		// Chosen member - to session attributes
-|		// Chosen member - to model attributes (P19-02)
-|		// Associated address - to model attributes
-|		// Page
-|
-|	S		: add
-|				/src/main/webapp/WEB-INF/jsp/user_test_verified_write.jsp
-|				/src/main/webapp/WEB-INF/jsp/user_test_edit.jsp
-|
-|	// TODO 26 - Users - fieldvalidation - 03 POST added
-|
-|		// Validator
-|		// validate
-|		// pages
-|
-|	S		: add
-|				/src/main/webapp/WEB-INF/jsp/user_test_verified.jsp
-|				/src/main/webapp/WEB-INF/jsp/user_test_read_button.jsp
+	D		: fase-out Member
+	S		: moved
+				nl.zoethout.grot.domain.Member -> nl.zoethout.grot.web.PocController.Member
+	S		: delete
+				nl.zoethout.grot.dao.UserDao.readMember(String)
+				nl.zoethout.grot.dao.UserDaoImpl.readMember(String)
+				nl.zoethout.grot.service.UserService.readMember(String)
+				nl.zoethout.grot.service.UserServiceImpl.readMember(String)
+	S		: re-write
+				nl.zoethout.grot.dao.UserDao.listProfiles()
+				nl.zoethout.grot.dao.UserDaoImpl.listProfiles()
+				nl.zoethout.grot.util.AttributeProvider.setSAProfiles(List<User>)
+				nl.zoethout.grot.util.AttributeProviderImpl.setSAProfiles(List<User>)
+				nl.zoethout.grot.service.UserService.listProfiles()
+				nl.zoethout.grot.service.UserServiceImpl.listProfiles()
+				nl.zoethout.grot.web.UserController.rmUsers(Model, HttpServletRequest)
 
 
 

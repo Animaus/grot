@@ -2,10 +2,9 @@ package nl.zoethout.grot.dao;
 
 import java.util.List;
 
+import nl.zoethout.grot.domain.Address;
 import nl.zoethout.grot.domain.Role;
 import nl.zoethout.grot.domain.User;
-import nl.zoethout.grot.domain.Address;
-import nl.zoethout.grot.domain.Member;
 
 public interface UserDao {
 
@@ -24,8 +23,6 @@ public interface UserDao {
 	public User readUser(String userName);
 
 	public Address readAddress(int userId);
-
-	public Member readMember(String userName);
 
 	public void deleteUser(String userName);
 
@@ -54,6 +51,6 @@ public interface UserDao {
 	/**
 	 * List of UserProfiles
 	 */
-	public List<Member> listProfiles();
+	public List<User> listProfiles();
 
 }

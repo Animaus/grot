@@ -67,9 +67,6 @@ public class User {
 	@Column(name = "date_registered")
 	private Date dateRegistered;
 
-	// TODO 26 - Users - fieldvalidation - deleted
-//	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
 	public User() {
 		super();
 	}
@@ -154,7 +151,6 @@ public class User {
 		this.dateBirth = dateBirth;
 	}
 
-	// TODO 26 - Users - fieldvalidation - added
 	public String getDateBirthDisplay() {
 		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
 		return s.format(this.dateBirth);
@@ -168,7 +164,6 @@ public class User {
 		this.dateRegistered = dateRegistered;
 	}
 
-	// TODO 26 - Users - fieldvalidation - added
 	public String getDateRegisteredDisplay() {
 		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
 		return s.format(this.dateRegistered);
@@ -182,7 +177,6 @@ public class User {
 		this.roles = roles;
 	}
 
-	// TODO 26 - Users - fieldvalidation - added
 	public boolean hasRole(String roleName) {
 		boolean result = false;
 		for (Role role : this.roles) {
@@ -193,8 +187,7 @@ public class User {
 		}
 		return result;
 	}
-	
-	// TODO 26 - Users - fieldvalidation - added
+
 	public List<String> getUserRoleNames() {
 		List<String> result = new ArrayList<String>();
 		for (Role role : this.roles) {
@@ -207,23 +200,15 @@ public class User {
 		return this.roles;
 	}
 
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + " , firstName=" + firstName + " , prefix=" + prefix + " , lastName=" + lastName + " , sex=" + sex
-				+ " , password=" + password + " , enabled=" + enabled + " , dateBirth=" + dateBirth
-				+ " , dateRegistered=" + dateRegistered + " , roles=" + roles + "]";
-	}
-
-	// TODO 26 - Users - fieldvalidation - mutable user
-	public String getClassName() {
-		return this.getClass().getCanonicalName();
-	}
-	
-	// TODO 25 - Users - save member with values
 	public void changeCase() {
-		// ProperCase
 		setFirstName(TextUtil.toProperCase(getFirstName()));
 		setLastName(TextUtil.toProperCase(getLastName()));
 	}
 
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + " , firstName=" + firstName + " , prefix=" + prefix + " , lastName="
+				+ lastName + " , sex=" + sex + " , password=" + password + " , enabled=" + enabled + " , dateBirth="
+				+ dateBirth + " , dateRegistered=" + dateRegistered + " , roles=" + roles + "]";
+	}
 }

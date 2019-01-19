@@ -11,8 +11,8 @@ import nl.zoethout.grot.domain.Address;
 import nl.zoethout.grot.domain.User;
 import nl.zoethout.grot.service.UserService;
 
-// TODO 26 - Users - fieldvalidation - 02 Validator added
-// FIXME Can be made generic...!
+// TODO JAVA 8 - Can be made generic...!
+@SuppressWarnings("unused")
 public class UserValidator implements Validator {
 
 	// Zie:

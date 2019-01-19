@@ -9,13 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import nl.zoethout.grot.dao.UserDao;
+import nl.zoethout.grot.domain.Address;
 import nl.zoethout.grot.domain.Principal;
 import nl.zoethout.grot.domain.Role;
 import nl.zoethout.grot.domain.User;
 import nl.zoethout.grot.util.AttributeProvider;
 import nl.zoethout.grot.util.AttributeProviderImpl;
-import nl.zoethout.grot.domain.Address;
-import nl.zoethout.grot.domain.Member;
 
 /*
  * This is the meta data that Spring will use when autowiring the eventService
@@ -72,11 +71,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Member readMember(String userName) {
-		return userDao.readMember(userName);
-	}
-
-	@Override
 	public Role readRole(String roleName) {
 		return userDao.readRole(roleName);
 	}
@@ -99,15 +93,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Member> listProfiles() {
+	public List<User> listProfiles() {
 		return userDao.listProfiles();
-	}
-
-	/**
-	 * Opvragen identieke veldwaarden
-	 */
-	private List<String> listPropertiesSame(String pojoField, String pojoValue) {
-		return userDao.listPropertiesSame(pojoField, pojoValue);
 	}
 
 	/**
@@ -117,50 +104,4 @@ public class UserServiceImpl implements UserService {
 	private List<String> listPropertiesLike(String pojoField, String pojoValue) {
 		return userDao.listPropertiesLike(pojoField, pojoValue);
 	}
-
-	// -------------------------------------------------------------------
-	// Validaties
-	// -------------------------------------------------------------------
-
-	// TODO 26 - Users - fieldvalidation
-	private String validField(String fieldName, String fieldValue, int maximum, int userID) {
-		String strError = "";
-		int intUser = 0;
-
-		// Voorkomen check op zelf
-		if (userID > 0) {
-			intUser = 1;
-		}
-
-		if (fieldValue.length() > 0 & fieldValue.length() < maximum) {
-			strError = "field.invalid";
-		} else if (fieldValue.length() > 0) {
-			List<String> result = listPropertiesSame(fieldName, fieldValue);
-			int checkResult = result.size() - intUser;
-			if (checkResult > 0) {
-				strError = "field.used";
-			}
-		}
-
-		return strError;
-	}
-
-	@Override
-	// TODO 26 - Users - fieldvalidation
-	public String validPhoneNumber(Member member) {
-		String fieldValue = member.getPhone1();
-		int userID = member.getUserId();
-		String errorMessage = validField("phone1", fieldValue, 10, userID);
-		return errorMessage;
-	}
-
-	// @Override
-	// TODO 26 - Users - fieldvalidation
-	public String validMailAddress(Member member) {
-		String fieldValue = member.getEmail1();
-		int userID = member.getUserId();
-		String errorMessage = validField("email1", fieldValue, -1, userID);
-		return errorMessage;
-	}
-
 }

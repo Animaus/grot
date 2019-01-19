@@ -3,10 +3,10 @@
 	<sft:form method = "POST" action = "save" modelAttribute = "mutable">
 	<button type="submit" class="btn"><sst:message code='save.tag' /></button>
 
-	<table border="0" style="width: 750px;" cellspacing="4" cellpadding="4">
+	<table style="width: 750px;">
 		<tr>
 			<td valign="top" style="width: 50%;">
-				<table border="0" style="width: 100%;">
+				<table style="width: 100%;">
 					<tr>
 						<td valign="top" style="width: 35%;"></td>
 						<td valign="top" style="width: 65%;"></td>
@@ -90,7 +90,7 @@
 				</table>
 			</td>
 			<td valign="top" style="width: 50%;">
-				<table border="0" style="width: 100%;">
+				<table style="width: 100%;">
 					<tr>
 						<td valign="top" style="width: 35%;"></td>
 						<td valign="top" style="width: 65%;"></td>

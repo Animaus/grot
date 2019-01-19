@@ -11,7 +11,7 @@
 <h2 align="center">ERROR</h2>
 
 <div align="center">
-	<table style="width: 95%;" cellpadding="4" cellspacing="4" border="0">
+	<table style="width: 95%;">
         <tr>
             <td valign="top"><b>Date</b></td>
             <td valign="top">${timestamp}</td>

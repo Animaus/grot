@@ -12,7 +12,7 @@
 		<tr>
 		<c:forEach items='${profiles}' var='profile'><tr>
 			<td>
-				<img src="user/${profile.userName}/avatar.png" width="24" border="0" onError="this.src='<sst:url value="/img" />/user.png';">
+				<img src="user/${profile.userName}/avatar.png" width="24" onError="this.src='<sst:url value="/img" />/user.png';">
 			</td>
 			<td>
 				<a href="user/${profile.userName}">${profile.firstName} ${profile.prefix} ${profile.lastName}</a>

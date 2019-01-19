@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import nl.zoethout.grot.domain.Member;
 import nl.zoethout.grot.domain.Principal;
 import nl.zoethout.grot.domain.User;
 
@@ -50,19 +49,9 @@ public class AttributeProviderImpl implements AttributeProvider {
 	}
 
 	@Override
-	public void setSAProfiles(List<Member> profiles) {
+	public void setSAProfiles(List<User> profiles) {
 		ses.setAttribute(SessionAttributes.PROFILES, profiles);
 	}
-
-//	@Override
-//	public Member getSAMember() {
-//		return (Member) ses.getAttribute(SessionAttributes.MEMBER);
-//	}
-//
-//	@Override
-//	public void setSAMember(Member member) {
-//		ses.setAttribute(SessionAttributes.MEMBER, member);
-//	}
 
 	@Override
 	public User getSAFixed() {
@@ -73,17 +62,4 @@ public class AttributeProviderImpl implements AttributeProvider {
 	public void setSAFixed(User user) {
 		ses.setAttribute(SessionAttributes.FIXED, user);
 	}
-	
-	@Override
-	// TODO 26 - Users - fieldvalidation - mutable user
-	public User getSAMutable() {
-		return (User) ses.getAttribute(SessionAttributes.MUTABLE);
-	}
-
-	@Override
-	// TODO 26 - Users - fieldvalidation - mutable user
-	public void setSAMutable(User user) {
-		ses.setAttribute(SessionAttributes.MUTABLE, user);
-	}
-
 }

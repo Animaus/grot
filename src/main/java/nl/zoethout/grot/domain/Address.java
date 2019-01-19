@@ -50,7 +50,7 @@ public class Address {
 	// -------------------------------------------------------------------
 	// Getters en setters voor koppelingen
 	// -------------------------------------------------------------------
-	
+
 	public User getUser() {
 		return this.user;
 	}
@@ -155,18 +155,6 @@ public class Address {
 		this.email2 = email2;
 	}
 
-	@Override
-	public String toString() {
-		return "Address [userName=" + userName + ", streetName=" + streetName + ", streetNumber=" + streetNumber
-				+ ", zip=" + zip + ", city=" + city + ", country=" + country + "]";
-	}
-
-	// TODO 26 - Users - fieldvalidation - mutable user
-	public String getClassName() {
-		return this.getClass().getCanonicalName();
-	}
-
-	// TODO 25 - Users - save member with values
 	public void changeCase() {
 		// UpperCase
 		setZip(getZip().toUpperCase());
@@ -178,4 +166,9 @@ public class Address {
 		setStreetName(TextUtil.toProperCase(getStreetName()));
 	}
 
+	@Override
+	public String toString() {
+		return "Address [userName=" + userName + ", streetName=" + streetName + ", streetNumber=" + streetNumber
+				+ ", zip=" + zip + ", city=" + city + ", country=" + country + "]";
+	}
 }
