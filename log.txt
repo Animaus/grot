@@ -1,0 +1,97 @@
+R = Reason
+S = Solution
+V = Versioning
+P = Problem
+
+
+================================================================================================================================================
+SOLVED
+================================================================================================================================================
+	R		: 01	- Setup a project using Spring-boot and Spring-MVC
+	R		: 02	- Make class-diagram
+
+================================================================================================================================================
+WISHLIST
+================================================================================================================================================
+	R		: 99	- ???
+
+================================================================================================================================================
+TODO
+================================================================================================================================================
+	R		: 03	- Add / update classes for domain and web
+	R		: 04	- Create diagram for SQL-datamodel
+	R		: 05	- Create SQL-datamodel for user
+	R		: 06	- Create persistence unit
+	R		: 07	- Create basic web-interface
+
+
+
+================================================================================================================================================
+TASKS PERFORMED
+================================================================================================================================================
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+01.	R		: Setup a project using Spring-boot and Spring-MVC
+
+	S		: Created basic files and code for Hello World : see "install.zip"
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+02.	R		: Make class-diagram
+
+				Argo program shortcut contains hard-coded reference to JAVA 6 and requires JAVA 6 to be installed.
+				After installation of Argo, change program shortcut to refer to JAVA 8 (JDK-jre) and uninstall JAVA 6.
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+03.	R		: Add / update classes for domain and web
+
+	S		: add (generated from Argo)
+				nl.zoethout.grot.domain.Adres.java
+				nl.zoethout.grot.domain.Beheerder.java
+				nl.zoethout.grot.domain.Evenement.java
+				nl.zoethout.grot.domain.Gebruiker.java
+				nl.zoethout.grot.domain.Groep.java
+				nl.zoethout.grot.domain.Groepslid.java
+				nl.zoethout.grot.domain.Organisatie.java
+				nl.zoethout.grot.domain.Tent.java
+
+	S		: re-factored
+				nl.zoethout.grot.domain.Gebruiker -> User.java
+				nl.zoethout.grot.domain.Organisatie -> Organization
+				nl.zoethout.grot.domain.Groep -> Group
+				nl.zoethout.grot.domain.Groepslid -> GroupMember
+				nl.zoethout.grot.domain.Evenement -> Event
+				nl.zoethout.grot.domain.Adres -> Address
+
+	S		: add javax annotations
+				nl.zoethout.grot.domain.User.tents
+
+	S		: add dependencies for javax
+				<dependency>
+					<groupId>javax</groupId>
+					<artifactId>javaee-api</artifactId>
+					<version>6.0</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>javax.servlet</groupId>
+					<artifactId>jstl</artifactId>
+					<version>1.2</version>
+				</dependency>
+				<dependency>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+					<version>2.5</version>
+					<scope>provided</scope>
+				</dependency>
+
+	S		: add constructors, getters and setters
+				nl.zoethout.grot.domain.User
+				nl.zoethout.grot.domain.Tent
+				nl.zoethout.grot.domain.Organization
+				nl.zoethout.grot.domain.Group
+				nl.zoethout.grot.domain.GroupMember
+				nl.zoethout.grot.domain.Event
+				nl.zoethout.grot.domain.Administrator
+				nl.zoethout.grot.domain.Address
+
+	- more annotations to go in user -
