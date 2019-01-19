@@ -1,0 +1,75 @@
+	JAVA and Maven version	:
+		$ java -version
+		$ mvn -v
+	What is currently available	:
+	(a tree representation of your project dependencies)
+		$ mvn dependency:tree
+
+
+	Create Maven folder structure
+		$ md .\src\main\java
+		$ md .\src\main\resources
+		$ md .\src\test\java
+		$ md .\src\test\resources
+	Actually	:
+		$ md .\src\main\java\nl\zoethout\grot\other
+		$ md .\src\main\java\nl\zoethout\grot\web
+		$ md .\src\main\resources\static\css
+		$ md .\src\main\webapp\WEB-INF\jsp
+		$ md .\src\test\java
+		$ md .\src\test\resources
+
+
+	Create .java file with annotations
+		$ copy HomeAutoCfg.java .\src\main\java\nl\zoethout\grot\other\HomeAutoCfg.java
+
+
+	Start, browse and exit...
+
+	Start the application	:
+		$ mvn spring-boot:run
+	Browse to	:
+		http://localhost:8080/
+	Gracefully exit the application	:
+		press ctrl-c
+
+
+	Start an executable jar/war	:
+		$ java -jar .\target\grot-0.0.1-SNAPSHOT.war
+	Start, browse and exit...
+
+
+	| Start the application on a different port	:
+	|	$ mvn spring-boot:run -Dserver.port=9090 
+
+	| Maven-commands can be combined	:
+	|	$ mvn clean package spring-boot:run -Dserver.port=9090
+
+
+	To create a dynamic web project with maven	:
+		$ mvn archetype:generate -DgroupId=nl.zoethout.grot -DartifactId=grot -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+
+
+	Make the project support Eclipse IDE
+	(creates .settings folder in Eclipse workspace)
+		$ mvn eclipse:eclipse -Dwtpversion=2.0
+
+
+	Delete HomeAutoCfg.java
+		$ del /q .\src\main\java\nl\zoethout\grot\other\HomeAutoCfg.java
+
+	Add code
+		$ copy .\inst_web.xml .\src\main\webapp\WEB-INF\web.xml
+		$ copy .\inst_mvc-dispatcher-servlet.xml .\src\main\webapp\WEB-INF\mvc-dispatcher-servlet.xml
+		$ copy .\inst_welcome.jsp .\src\main\webapp\WEB-INF\jsp\welcome.jsp
+		$ copy .\inst_main.css .\src\main\resources\static\css\main.css
+		$ copy .\inst_application.properties .\src\main\resources\application.properties
+		$ copy .\inst_Application.java .\src\main\java\nl\zoethout\grot\Application.java
+		$ copy .\inst_DataTransfer.java .\src\main\java\nl\zoethout\grot\other\DataTransfer.java
+		$ copy .\inst_Welcome.java .\src\main\java\nl\zoethout\grot\web\Welcome.java
+		$ copy .\inst_Api.java .\src\main\java\nl\zoethout\grot\web\Api.java
+
+	JSP limitations
+		You can’t create an executable jar to run this code in Spring-boot embedded Tomcat, because of a hard coded file pattern in Tomcat.
+		Read this Spring Boot – JSP limitation:
+		(https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-jsp-limitations)

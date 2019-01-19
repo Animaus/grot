@@ -36,6 +36,7 @@
 		<div class="starter-template">
 			<h1>Spring Boot Web JSP Example</h1>
 			<h2>Message: ${message}</h2>
+			<p align="center"><img src="img/worker.gif"></p>
 		</div>
 
 	</div>

@@ -1,0 +1,212 @@
+================================================
+02. Create Dynamic Web Project in Maven
+================================================
+http://www.beingjavaguys.com/2013/08/spring-maven-web-application-in-eclipse.html
+
+
+************************************************
+	Add in pom.xml after parent-section:
+************************************************
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+
+************************************************
+	To create dynamic web project with maven, navigate to the folder where you want to store the project and supply following command:
+************************************************
+
+		$ mvn archetype:generate -DgroupId=com.beingjavaguys.sample -DartifactId=SampleSpringMaven -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+
+	Make it support Eclipse IDE
+		$ mvn eclipse:eclipse -Dwtpversion=2.0
+
+
+
+Was	:
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.beingjavaguys.sample</groupId>
+	<artifactId>SampleSpringMaven</artifactId>
+	<packaging>war</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>SampleSpringMaven Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<finalName>SampleSpringMaven</finalName>
+	</build>
+
+</project>
+
+
+
+Is:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- 11.1 Creating the POM... -->
+
+	<artifactId>grot</artifactId>
+	<packaging>war</packaging>
+	<name>Spring Boot Web Autumn</name>
+	<description>Spring Boot Web Autumn</description>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.2.RELEASE</version>
+	</parent>
+
+
+	<!-- 02. Make sure compiles platform independent... -->
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<!-- 11.2 Adding Classpath Dependencies... -->
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- Dependency from Spring MVC Dynamic web project ... -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<!-- 11.5 Creating an Executable Jar... -->
+
+	<build>
+		<finalName>GROT Setup</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!-- Additional lines to be added here... -->
+
+</project>
+
+
+
+	Type mvn spring-boot:run from the root project directory to start the application.
+		$ mvn spring-boot:run
+
+	Browse to http://localhost:8080/
+		You should see: Hello World!
+
+	To gracefully exit the application, press ctrl-c.
+
+
+************************************************
+	Update .xml files
+************************************************
+
+	Update pom.xml
+
+	Here we are all done with importing a working spring mvc maven project in eclipse. Now lets add some source code to our project:
+		Update web.xml
+
+
+    <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"  
+        version="2.5">  
+      
+        <display-name>Sample Spring Maven Project</display-name>  
+      
+        <servlet>  
+            <servlet-name>mvc-dispatcher</servlet-name>  
+            <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
+            <load-on-startup>1</load-on-startup>  
+        </servlet>  
+      
+        <servlet-mapping>  
+            <servlet-name>mvc-dispatcher</servlet-name>  
+            <url-pattern>*.htm</url-pattern>  
+        </servlet-mapping>  
+      
+        <context-param>  
+            <param-name>contextConfigLocation</param-name>  
+            <param-value>/WEB-INF/mvc-dispatcher-servlet.xml</param-value>  
+        </context-param>  
+      
+        <listener>  
+            <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
+        </listener>  
+    </web-app>
+
+
+
+	Add mvc-dispatcher-servlet.xml
+	\src\main\webapp\WEB-INF\mvc-dispatcher-servlet.xml
+
+
+    <beans xmlns="http://www.springframework.org/schema/beans"  
+        xmlns:context="http://www.springframework.org/schema/context"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+        xsi:schemaLocation="  
+            http://www.springframework.org/schema/beans       
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+            http://www.springframework.org/schema/context   
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd">  
+       
+        <context:component-scan base-package="com.beingjavaguys.controller" />  
+       
+        <bean  
+            class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+            <property name="prefix">  
+                <value>/WEB-INF/pages/</value>  
+            </property>  
+            <property name="suffix">  
+                <value>.jsp</value>  
+            </property>  
+        </bean>  
+       
+    </beans>
+
+
+************************************************
+	Add / copy / update soe other files
+************************************************
+
+src\main\webapp\WEB-INF\jsp\welcome.jsp
+src\main\webapp\WEB-INF\mvc-dispatcher-servlet.xml
+src\main\webapp\WEB-INF\web.xml
+src\main\java\nl\zoethout\grot\Application.java
+src\main\java\nl\zoethout\grot\web\WelcomeController.java
+src\main\resources\static\css\main.css
+src\main\resources\application.properties

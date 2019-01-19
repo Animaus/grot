@@ -1,0 +1,182 @@
+================================================
+01 - Hello world
+================================================
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started-first-application.html
+
+************************************************
+11. Developing Your First Spring Boot Application
+************************************************
+
+	Pre-conditions:	JAVA + Maven installed
+	JAVA and Maven version	:
+
+		$ java -version
+
+H:\_java\_opleiding 2018\_eduvision\case\autumn>java -version
+java version "1.8.0_151"
+Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.151-b12, mixed mode)
+
+		$ mvn -v
+
+Apache Maven 3.5.3 (3383c37e1f9e9b3bc3df5050c29c8aff9f295297; 2018-02-24T20:49:05+01:00)
+Maven home: C:\Program Files\maven\bin\..
+Java version: 1.8.0_151, vendor: Oracle Corporation
+Java home: C:\Program Files\Bali\jdk1.8.0_151\jre
+Default locale: nl_NL, platform encoding: Cp1252
+OS name: "windows 7", version: "6.1", arch: "amd64", family: "windows"
+
+
+************************************************
+11.1 Creating the POM
+************************************************
+
+	We need to start by creating a Maven pom.xml file. The pom.xml is
+	the recipe that is used to build your project. Open your favorite
+	text editor and add the following:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- 11.1 Creating the POM -->
+
+	<artifactId>spring-boot-web-jsp</artifactId>
+	<packaging>war</packaging>
+	<name>Spring Boot Web Autumn</name>
+	<description>Spring Boot Web Autumn</description>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.2.RELEASE</version>
+	</parent>
+
+	<!-- Additional lines to be added here... -->
+
+</project>
+
+
+************************************************
+11.2 Adding Classpath Dependencies
+************************************************
+
+	What we currently have	:
+	(a tree representation of your project dependencies)
+
+		$ mvn dependency:tree
+
+	edit your pom.xml and add the spring-boot-starter-web dependency immediately below the parent section
+
+<dependencies>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+</dependencies>
+
+
+************************************************
+11.3 Writing the Code
+************************************************
+
+	create Maven folder structure
+
+		$ mvn-folders.cmd
+		$ md .\src\main\java
+		$ md .\src\main\resources
+		$ md .\src\test\java
+		$ md .\src\test\resources
+
+	create .java file with annotations
+		save in : src\main\java
+
+import org.springframework.boot.*;
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@EnableAutoConfiguration
+public class Example {
+
+	@RequestMapping("/")
+	String home() {
+		return "Hello World!";
+	}
+
+	public static void main(String[] args) throws Exception {
+		SpringApplication.run(Example.class, args);
+	}
+
+}
+
+
+************************************************
+11.4 Running the Example
+************************************************
+
+	Type mvn spring-boot:run from the root project directory to start the application.
+		$ mvn spring-boot:run
+
+	Browse to http://localhost:8080/
+		You should see: Hello World!
+
+	To gracefully exit the application, press ctrl-c.
+
+
+************************************************
+11.5 Creating an Executable Jar
+************************************************
+
+	To create an executable jar, we need to add the spring-boot-maven-plugin to our pom.xml
+
+<build>
+	<plugins>
+		<plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+		</plugin>
+	</plugins>
+</build>
+
+	Save your pom.xml and run mvn package from the command line, as follows:
+		$ mvn package
+
+	Type mvn spring-boot:run from the root project directory to start the application.
+		$ mvn spring-boot:run
+
+
+
+************************************************
+Part III. Using Spring Boot
+************************************************
+
+	https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-build-systems.html
+
+************************************************
+13. Build Systems
+************************************************
+
+	Choose a build system that supports dependency management, like Maven.
+
+************************************************
+13.1 Dependency Management
+************************************************
+
+	When you upgrade Spring Boot itself, these dependencies are upgraded as well in a consistent way.
+	You can still specify a version and override Spring Boot’s recommendations if you need to do so.
+
+************************************************
+13.2 Maven
+************************************************
+
+	Maven users can inherit from the spring-boot-starter-parent project to obtain sensible defaults.
+
+************************************************
+13.2.1 Inheriting the Starter Parent
+************************************************
+
+	How to inherit from the spring-boot-starter-parent (set the parent section in pom.xml).

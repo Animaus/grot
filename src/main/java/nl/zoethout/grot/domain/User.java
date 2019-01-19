@@ -8,7 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 public abstract class User {
-	private double userId;
+	private Integer id;
 	private String password;
 	private boolean loginStatus;
 	private boolean isAdmin;
@@ -16,16 +16,17 @@ public abstract class User {
 	private Date lastEdited;
 	private String firstName;
 	private String lastName;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade=CascadeType.ALL)
+	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
+	// cascade=CascadeType.ALL)
 	private Collection<Tent> tents;
 	private Address address;
 
-	public double getUserId() {
-		return userId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setUserId(double userId) {
-		this.userId = userId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getPassword() {

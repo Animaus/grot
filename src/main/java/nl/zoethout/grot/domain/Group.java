@@ -3,7 +3,8 @@ package nl.zoethout.grot.domain;
 import java.util.Vector;
 
 public class Group {
-	public String name;
+	private Integer id;
+	public String groupName;
 	public String purpose;
 	public String description;
 	public String website;
@@ -18,12 +19,20 @@ public class Group {
 		super();
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getName() {
-		return name;
+		return groupName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.groupName = name;
 	}
 
 	public String getPurpose() {
