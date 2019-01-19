@@ -42,8 +42,8 @@
 		<!-- 15 - Login controller -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.7</version><!--$NO-MVN-MAN-VER$-->
+			<artifactId>commons-text</artifactId>
+			<version>1.4</version>
 		</dependency>
 
 		<dependency>
@@ -115,6 +115,13 @@
 		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
 			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
 			<artifactId>spring-security-test</artifactId> <scope>test</scope> </dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>5.0.6.RELEASE</version><!--$NO-MVN-MAN-VER$ -->
+		</dependency>
 
 	</dependencies>
 

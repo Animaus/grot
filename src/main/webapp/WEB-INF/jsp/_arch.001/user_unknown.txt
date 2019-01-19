@@ -1,0 +1,64 @@
+Persoons-gegevens
+.Gebruikersnaam
+.	front00
+Voornaam
+	Thierry
+Achternaam
+	Fronte
+Tussenvoegsels
+	de la
+Geslacht
+	man
+Geboortedatum
+	1118-06-17
+Datum registratie
+	2018-06-17 
+
+
+Member(User, List<String>)
+sdf : SimpleDateFormat
+
+=user : User
+=getUser()
+=setUser(User)
+
+===hasRole(String)
+
+getUserId()
+setUserId(Integer)
+
+* roles : List<String>
+* setRoles(List<String>)
+* getRoles()
+
+* getUserName()
+* setUserName(String)
+
+* getFirstName()
+* setFirstName(String)
+
+* getLastName()
+* setLastName(String)
+
+* getPrefix()
+* setPrefix(String)
+
+* getSex()
+* setSex(String)
+
+* getDateBirth()
+* getDateBirthDisplay()
+* setDateBirth(Date)
+
+* getDateRegistered()
+* getDateRegisteredDisplay()
+* setDateRegistered(Date)
+
+* getEmail()
+* setEmail(String)
+
+* getPassword()
+* setPassword(String)
+
+* isEnabled()
+* setEnabled(boolean)

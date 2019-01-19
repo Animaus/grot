@@ -16,6 +16,7 @@ public class UserRole implements Serializable {
 	@Id
 	@Column(name = "role_id", nullable = false, length = 20)
 	private Integer roleId;
+	
 	@Column(name = "user_id", nullable = false, length = 7)
 	private Integer userId;
 

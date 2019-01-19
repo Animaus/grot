@@ -8,17 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import nl.zoethout.grot.AttributeProvider;
-import nl.zoethout.grot.AttributeProviderImpl;
 import nl.zoethout.grot.dao.UserDao;
-import nl.zoethout.grot.domain.WrappedUser;
+import nl.zoethout.grot.domain.Principal;
 import nl.zoethout.grot.domain.Role;
 import nl.zoethout.grot.domain.User;
+import nl.zoethout.grot.util.AttributeProvider;
+import nl.zoethout.grot.util.AttributeProviderImpl;
+import nl.zoethout.grot.domain.Address;
+import nl.zoethout.grot.domain.Member;
 
 /*
  * This is the meta data that Spring will use when autowiring the eventService
- * property in the Controller created in the previous step. We’ve explicitly
- * defined the name “userService” in the annotation’s value, otherwise without
+ * property in the Controller created in the previous step. We've explicitly
+ * defined the name 'userService' in the annotation's value, otherwise without
  * it Spring would have named the bean equal to the classname automatically and the
  * autowiring of this bean in the Controller and other classes would have
  * failed.
@@ -28,7 +30,7 @@ import nl.zoethout.grot.domain.User;
  * Annotation will be recognized by the tx:annotation-driven element in the
  * application context. Having placed the annotation at the class level means
  * that all methods in this class by default should adhere to these transaction
- * rules. "propagation = Propagation.SUPPORTS" means a transaction isn’t
+ * rules. "propagation = Propagation.SUPPORTS" means a transaction isn't
  * necessary, but if one exists, then the method will run in that transaction.
  * The readOnly=true attribute is pretty straight forward, by default all data
  * retrieved should be read only. No writes to the datasource are permitted.
@@ -50,8 +52,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public void saveAddress(Address address) {
+		userDao.saveAddress(address);
+	}
+
+	@Override
+	public User readUser(int userId) {
+		return userDao.readUser(userId);
+	}
+
+	@Override
 	public User readUser(String userName) {
 		return userDao.readUser(userName);
+	}
+
+	@Override
+	public Address readAddress(int userId) {
+		return userDao.readAddress(userId);
+	}
+
+	@Override
+	public Member readMember(String userName) {
+		return userDao.readMember(userName);
 	}
 
 	@Override
@@ -64,18 +86,21 @@ public class UserServiceImpl implements UserService {
 		return userDao.readRoles();
 	}
 
+	@Override
 	public User loginUser(String userName, String password) {
 		return userDao.loginUser(userName, password);
 	}
 
-	public void setGenialUser(HttpServletRequest req, User usr) {
+	@Override
+	public void setPrincipal(HttpServletRequest req, User usr) {
 		AttributeProvider attr = AttributeProviderImpl.getProvider(req);
-		WrappedUser genialUser = attr.getSAUser();
-		if (genialUser == null) {
-			List<String> roles = userDao.listUserRoles(usr.getUserId());
-			genialUser = WrappedUser.getUser(usr, roles);
-			attr.setSAUser(genialUser);
-		}
+		Principal principal = Principal.getUser(usr);
+		attr.setSAPrincipal(principal);
+	}
+
+	@Override
+	public List<Member> listProfiles() {
+		return userDao.listProfiles();
 	}
 
 	/**
@@ -97,7 +122,7 @@ public class UserServiceImpl implements UserService {
 	// Validaties
 	// -------------------------------------------------------------------
 
-	@SuppressWarnings("unused")
+	// TODO 26 - Users - fieldvalidation
 	private String validField(String fieldName, String fieldValue, int maximum, int userID) {
 		String strError = "";
 		int intUser = 0;
@@ -118,6 +143,24 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return strError;
+	}
+
+	@Override
+	// TODO 26 - Users - fieldvalidation
+	public String validPhoneNumber(Member member) {
+		String fieldValue = member.getPhone1();
+		int userID = member.getUserId();
+		String errorMessage = validField("phone1", fieldValue, 10, userID);
+		return errorMessage;
+	}
+
+	// @Override
+	// TODO 26 - Users - fieldvalidation
+	public String validMailAddress(Member member) {
+		String fieldValue = member.getEmail1();
+		int userID = member.getUserId();
+		String errorMessage = validField("email1", fieldValue, -1, userID);
+		return errorMessage;
 	}
 
 }

@@ -21,11 +21,21 @@ SOLVED
 	R		: 05	- SQL-datamodel - script and code
 	R		: 11	- Consistent display of pages and texts
 	R		: 13	- Users - more properties and storage
+	R		: 14	- Custom errorpage
+	R		: 16	- Login and pseudo-security
+	R		: 17	- Users - show a list of users
+	R		: 18	- Users - make the list of users admin-dependant
+	R		: 19	- Users - show a single user with all it's fields
+	R		: 20	- Users - get hibernate annotations to work on sql-model
+	R		: 21	- Users - show a single user with fields of address on page(s)
+	R		: 22	- Users - save member with address (backend)
+	R		: 23	- Users - save member with address (frontend)
+	R		: 24	- Users - save member with roles
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 FAILED
 ------------------------------------------------------------------------------------------------------------------------------------------------
-	R		: 10	- Basic security
+	R		: 10	- Basic Spring security
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 WISHLIST
@@ -36,10 +46,11 @@ WISHLIST
 ------------------------------------------------------------------------------------------------------------------------------------------------
 TODO
 ------------------------------------------------------------------------------------------------------------------------------------------------
-	R		: 14	- Users - display
 	R		: 15	- Users - registration
-	R		: 16	- Login - pseudo-security
-	R		: 17	- errorpage
+	R		: 25	- Users - save member with values
+	R		: 26	- Users - fieldvalidation
+	R		: 27	- Users - copy fieldvalidation from PocController to UserController
+
 
 ================================================================================================================================================
 TASKS PERFORMED
@@ -224,7 +235,7 @@ TASKS PERFORMED
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-10	R		: Basic security
+10	R		: Basic Spring security
 
 	D		: after several day of fruitless trying, I gave up.
 
@@ -244,7 +255,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.domain.UserRole
 				nl.zoethout.grot.domain.Role
 	D		: SQL model
-				/src/main/resources/db.sql
+				/src/main/resources/db_example.sql
 	D		: entries for spring.jpa & spring.datasource
 				/src/main/resources/application.properties
 	D		: repositories
@@ -290,7 +301,7 @@ TASKS PERFORMED
 
 	S		: re-write
 	D		: SQL model
-				/src/main/resources/db.sql
+				/src/main/resources/db_example.sql
 	S		: add
 				nl.zoethout.grot.domain.User.password
 				nl.zoethout.grot.domain.User.dateBirth
@@ -319,7 +330,7 @@ TASKS PERFORMED
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-16.	R		: Login - pseudo-security
+16.	R		: Login and pseudo-security
 
 	S		: add
 				nl.zoethout.grot.dao.UserDao.loginUser(String, String)
@@ -337,7 +348,7 @@ TASKS PERFORMED
 	S		: re-write
 				nl.zoethout.grot.domain.Role.toString()
 	D		: deleted call to property "users" in entity.
-				You want a user with associated roles but at the same time you do not want not all connected users to those roles.
+				You want a user with associated roles but at the same time you do not want not all users connected to those roles.
 	*P16-01	: solved...!
 
 	* P16-02	: Exception...!
@@ -356,7 +367,7 @@ TASKS PERFORMED
 					 ->org.hibernate.collection.internal.PersistentSet[0]
 					 -> etc...
 				Cause	:
-					getter and setter for nl.zoethout.grot.domain.User.roles should not have existed
+					getter and setter for nl.zoethout.grot.domain.User.roles
 	S		: delete
 				nl.zoethout.grot.domain.User.getRoles()
 				nl.zoethout.grot.domain.User.setRoles(Set<Role>)
@@ -389,4 +400,894 @@ TASKS PERFORMED
 				page does not display error on login
 				should redirect to home on succesfull login
 				method : nl.zoethout.grot.web.UserController.rmCheck(Map<String, Object>, HttpServletRequest)
-				user entity is too limited : does not have first-, last- and surname
+				user entity is too limited : does not have prefix, sex, first- and lastname
+
+	S		: re-write
+				nl.zoethout.grot.web.HomeController.rmWelcome(Map<String, Object>, HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmCheck(HttpServletRequest)
+				/src/main/webapp/WEB-INF/jsp/login.jsp
+				nl.zoethout.grot.dao.UserDaoImpl.loginUser(String, String)
+	S		: add
+				nl.zoethout.grot.SessionAttributes.ERROR
+				nl.zoethout.grot.AttributeProvider.setSAError(String)
+				nl.zoethout.grot.AttributeProviderImpl.setSAError(String)
+	S		: add
+				nl.zoethout.grot.domain.User.userName
+				nl.zoethout.grot.domain.User.firstName
+				nl.zoethout.grot.domain.User.lastName
+				nl.zoethout.grot.domain.User.prefix
+				nl.zoethout.grot.domain.User.sex
+	D		: and matching getters / setters on nl.zoethout.grot.domain.User and nl.zoethout.grot.domain.WrappedUser
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/home.jsp
+				/src/main/webapp/WEB-INF/jsp/poc.jsp
+				/src/main/webapp/WEB-INF/jsp/login.jsp
+
+	S		: rename
+				nl.zoethout.grot.web.HomeController.rmWelcome(Map<String, Object>, HttpServletRequest)	-> rmHome
+				nl.zoethout.grot.web.UserController.rmCheck(HttpServletRequest)					-> rmLoginGet
+	S		: add
+				nl.zoethout.grot.AttributeProvider.getSAPrincipal()
+				nl.zoethout.grot.AttributeProvider.setSAPrincipal(Principal)
+				nl.zoethout.grot.AttributeProviderImpl.getSAPrincipal()
+				nl.zoethout.grot.AttributeProviderImpl.setSAPrincipal(Principal)
+				nl.zoethout.grot.service.UserService.setPrincipal(HttpServletRequest, User)
+				nl.zoethout.grot.service.UserServiceImpl.setPrincipal(HttpServletRequest, User)
+	S		: re-write
+				nl.zoethout.grot.web.UserController.rmLoginGet(HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLogout(HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLoginPost(Map<String, Object>, HttpServletRequest)
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+14.	R		: Custom errorpage
+
+	S		: re-write
+				/src/main/resources/application.properties
+	D		: entries to disable whitelabel errorpage
+				| # ERRORPAGE - as of SpringBootVersion >= 1.3
+				| server.error.whitelabel.enabled=false
+				| server.error.include-stacktrace=always
+	S		: add
+				nl.zoethout.grot.HttpError
+				nl.zoethout.grot.web.CustomErrorController
+				/src/main/webapp/WEB-INF/jsp/error.jsp
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+17.	R		: Users - show a list of users
+
+	S		: renamed
+				nl.zoethout.grot.domain.WrappedUser -> Principal
+	S		: add
+				nl.zoethout.grot.domain.Member
+	D		: initially Principal, but removed removed singleton behaviour to be able to put different instances in one list.
+
+
+	D		: CLEAN CODE
+
+	S		: add
+				nl.zoethout.grot.web.WebController.getAttr(HttpServletRequest)
+	S		: re-write
+				nl.zoethout.grot.web.UserController.rmLoginGet(HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLogout(HttpServletRequest)
+	S		: add
+				nl.zoethout.grot.web.WebController.PAGE_HOME
+				nl.zoethout.grot.web.WebController.PAGE_LOGIN
+				nl.zoethout.grot.web.WebController.PAGE_POC
+				nl.zoethout.grot.web.WebController.PAGE_ERROR
+				nl.zoethout.grot.web.WebController.PAGE_TEST
+				nl.zoethout.grot.web.WebController.REDIRECT_HOME
+				nl.zoethout.grot.web.WebController.REDIRECT_REPOSITORY
+	S		: re-write
+				nl.zoethout.grot.web.HomeController.rmHome(Map<String, Object>, HttpServletRequest)
+				nl.zoethout.grot.web.CustomErrorController.handleError(Map<String, Object>, HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLoginGet(HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLogout(HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLoginPost(Map<String, Object>, HttpServletRequest)
+
+
+	D		: ADD A MENU-ITEM FOR USERS / MEMBERS
+
+	S		: re-write
+				/src/main/resources/link.properties
+				nl.zoethout.grot.web.HomeController.setAttributes(HttpServletRequest)
+				/src/main/webapp/WEB-INF/jsp/error.jsp
+				/src/main/webapp/WEB-INF/jsp/home.jsp
+				/src/main/webapp/WEB-INF/jsp/login.jsp
+				/src/main/webapp/WEB-INF/jsp/poc.jsp
+				/src/main/webapp/WEB-INF/jsp/test.jsp
+	S		: add
+				/src/main/webapp/WEB-INF/jsp/users_menu.jsp
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+18.	R		: Users - make the list of users admin-dependant
+
+	S		: add to interface
+				nl.zoethout.grot.dao.UserDao.listProfiles()
+				nl.zoethout.grot.service.UserService.listProfiles()
+				nl.zoethout.grot.AttributeProvider.setSAProfiles(List<Member>)
+				nl.zoethout.grot.AttributeProvider.getSAMember()
+				nl.zoethout.grot.AttributeProvider.setSAMember(Member)
+	S		: add to implement
+				nl.zoethout.grot.dao.UserDaoImpl.listProfiles()
+				nl.zoethout.grot.service.UserServiceImpl.listProfiles()
+				nl.zoethout.grot.AttributeProviderImpl.setSAProfiles(List<Member>)
+				nl.zoethout.grot.AttributeProviderImpl.getSAMember()
+				nl.zoethout.grot.AttributeProviderImpl.setSAMember(Member)
+	S		: add
+				nl.zoethout.grot.web.WebController.getAttr(HttpServletRequest)
+				nl.zoethout.grot.web.WebController.getAuthorPage(HttpServletRequest, String, String, boolean)
+				nl.zoethout.grot.web.WebController.checkRole(HttpServletRequest, String)
+				nl.zoethout.grot.web.UserController.rmUsers(Model, HttpServletRequest)
+				/src/main/webapp/WEB-INF/jsp/users_unknown.jsp
+				/src/main/webapp/WEB-INF/jsp/users_verified.jsp		(just some nifty edit-links for admin only)
+				nl.zoethout.grot.web.WebController.PAGE_USERS_UNKNOWN
+				nl.zoethout.grot.web.WebController.PAGE_USERS_VERIFIED
+
+
+	D		: CLEAN CODE
+
+	S		: moved from root to util
+				nl.zoethout.grot.SessionAttributes		-> nl.zoethout.grot.util.SessionAttributes
+				nl.zoethout.grot.AttributeProvider		-> nl.zoethout.grot.util.AttributeProvider
+				nl.zoethout.grot.AttributeProviderImpl	-> nl.zoethout.grot.util.AttributeProviderImpl
+				nl.zoethout.grot.HttpError			-> nl.zoethout.grot.util.HttpError
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+19.	R		: Users - show a single user with all it's fields
+
+	D		: wrote some functionality, then got to writing forms to display and edit users
+	D		: already made a distinction on pages for admin, profile-owner, other user
+	D		: reference to make fields and labels for single user
+				| spring_12
+				| : user_read_guest.jsp
+				| : user_read_author.jsp
+
+	S		: add (read single user)
+				nl.zoethout.grot.dao.UserDao.readMember(String)
+				nl.zoethout.grot.dao.UserDaoImpl.readMember(String)
+				nl.zoethout.grot.service.UserService.readMember(String)
+				nl.zoethout.grot.service.UserServiceImpl.readMember(String)
+				nl.zoethout.grot.util.SessionAttributes.MEMBER
+				nl.zoethout.grot.util.AttributeProvider.getSAMember()
+				nl.zoethout.grot.util.AttributeProvider.setSAMember(Member)
+				nl.zoethout.grot.util.AttributeproviderImpl.getSAMember()
+				nl.zoethout.grot.util.AttributeProviderImpl.setSAMember(Member)
+	S		: add (show single user)
+				nl.zoethout.grot.util.CountryCode
+				nl.zoethout.grot.domain.Member.getCountryName()
+				nl.zoethout.grot.util.Roles
+				nl.zoethout.grot.domain.Member.getRoleNames()
+				nl.zoethout.grot.web.WebController.PAGE_USER_UNKNOWN
+				nl.zoethout.grot.web.WebController.PAGE_USER_VERIFIED
+				nl.zoethout.grot.web.WebController.PAGE_USER_VERIFIED_WRITE
+				nl.zoethout.grot.web.UserController.rmUser(Model, HttpServletRequest, String)
+				/src/main/webapp/WEB-INF/jsp/user_unknown.jsp
+				/src/main/webapp/WEB-INF/jsp/user_verified.jsp
+				/src/main/webapp/WEB-INF/jsp/user_verified_write.jsp
+	S		: add (start for edit / save single user)
+				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
+				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, String)
+
+	* P19-01	: /WEB-INF/jsp/user_unknown.jsp (line: [9], column: [3]) Unable to find setter method for attribute: [commandName]
+	D		: https://stackoverflow.com/questions/46989072/org-apache-jasper-jasperexception-web-inf-views-home-jsp-line-25-column
+				After version 5, commandName was removed, you should use modelAttribute, instead.
+	S		: re-write
+				\src\main\webapp\WEB-INF\jsp\user_unknown.jsp
+	D		: commandName -> modelAttribute
+	* P19-01	: solved...!
+
+	* P19-02	: Request processing failed; nested exception is java.lang.IllegalStateException:
+			  Neither BindingResult nor plain target object for bean name 'member' available as request attribute
+	D		: Words "request attribute" and "modelAttribute" made me think to add the member entity as an attribute to the model.
+	S		: re-write
+				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
+				nl.zoethout.grot.web.UserController.rmUser(Model, HttpServletRequest, String)
+	* P19-02	: solved...!
+
+	D		: static display of data to guest does work now.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+20.	R		: Users - get hibernate annotations to work on sql-model
+
+	D		: after many trial and error succeeded in adapting SQL-model (version db_example_180625_1406.sql)
+	D		: what I did sub-optimally I don't know, even downloaded pretty good example
+				https://www.journaldev.com/2916/hibernate-one-to-one-mapping-example-annotation
+				HibernateOneToOneMapping.zip
+
+	S		: re-write
+				/src/main/resources/db_example.sql
+				| CREATE TABLE `db_example`.`address` (
+				| 	`user_id` INT(10) UNSIGNED UNIQUE,
+				| 	`user_name` char(7) NOT NULL UNIQUE,
+				| 	`street_name` VARCHAR(255) NOT NULL,
+				| 	`street_number` VARCHAR(255) NOT NULL,
+				| 	`zip` CHAR(7) NOT NULL,
+				| 	`city` VARCHAR(128) NOT NULL,
+				| 	`country` CHAR(2) NOT NULL,
+				| 	`phone1` char(10) DEFAULT NULL,
+				| 	`phone2` char(10) DEFAULT NULL,
+				| 	`email1` varchar(30) DEFAULT NULL,
+				| 	`email2` varchar(30) DEFAULT NULL,
+				| 	`date_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+				| 	PRIMARY KEY (`user_id`, `user_name`),
+				| 	UNIQUE KEY `uni_user_id` (`user_id`) USING BTREE,
+				| 	UNIQUE KEY `uni_user_name` (`user_name`) USING BTREE,
+				| 	CONSTRAINT `fk_address_user_id` FOREIGN KEY (`user_id`)
+				| 		REFERENCES `db_example`.`user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE);
+
+	S		: add
+				nl.zoethout.grot.dao.UserDao.readAddress(int)
+				nl.zoethout.grot.dao.UserDaoImpl.readAddress(int)
+				nl.zoethout.grot.service.UserService.readAddress(int)
+				nl.zoethout.grot.service.UserServiceImpl.readAddress(int)
+	D		: (appears not to be used???)
+
+	S		: re-write
+				nl.zoethout.grot.domain.User
+				| @Entity
+				| @Table(name = "user", catalog = "db_example")
+				| public class User {
+				| 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+				| 	private Address address;
+				| 	@Id
+				| 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+				| 	@Column(name = "user_id")
+				| 	private Integer userId;
+				| 	public Address getAddress() {
+				| 		return address;
+				| 	}
+				| 	public void setAddress(Address address) {
+				| 		this.address = address;
+				| 	}
+				| 	public Integer getUserId() {
+				| 		return userId;
+				| 	}
+				| 	public void setUserId(Integer userId) {
+				| 		this.userId = userId;
+				| 	}
+				| 	// Other code
+				| }
+
+	S		: re-write
+				nl.zoethout.grot.domain.Address
+				| @Entity
+				| @Table(name = "address", catalog = "db_example")
+				| public class Address {
+				| 	@OneToOne(fetch = FetchType.LAZY)
+				| 	@PrimaryKeyJoinColumn
+				| 	private User user;
+				| 	@Id
+				| 	@Column(name = "user_id")
+				| 	private int userId;
+				| 	@Column(name = "user_name")
+				| 	private String userName;
+				| 	public User getUser() {
+				| 		return this.user;
+				| 	}
+				| 	public void setUser(User user) {
+				| 		this.user = user;
+				| 	}
+				| 	public Integer getUserId() {
+				| 		return userId;
+				| 	}
+				| 	public void setUserId(Integer userId) {
+				| 		this.userId = userId;
+				| 	}
+				| 	public String getUserName() {
+				| 		return userName;
+				| 	}
+				| 	public void setUserName(String userName) {
+				| 		this.userName = userName;
+				| 	}
+				| 	// Other code
+				| }
+
+	S		: re-write
+				nl.zoethout.grot.domain.Member
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+21.	R		: Users - show a single user with fields of address on page(s)
+
+	D		: WARNING - WARNING - WARNING
+				make a flawless fieldmapping between .jsp , .properties and respective entities
+				make utterly sure the number of fields and spelling of fields are an exact match
+				(for instance: no "mail" instead of "email", no missing fields on one end)
+				test with	: nl.zoethout.grot.web.PocController.rmRepository()
+
+	S		: re-write
+				/src/main/resources/spring-context.xml
+				| <bean class="org.springframework.context.support.ResourceBundleMessageSource" id="messageSource">
+				| 	<property name="basename" value="messages" />
+				| </bean>
+	S		: re-write
+				/src/main/resources/messages.properties
+				/src/main/resources/messages_nl.properties
+	S		: add
+				/src/main/webapp/WEB-INF/jsp/user_read.jsp
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_unknown.jsp
+				/src/main/webapp/WEB-INF/jsp/user_verified.jsp
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+22.	R		: Users - save member with address (backend)
+
+	D		: BACKEND
+
+	S		: add
+				nl.zoethout.grot.dao.UserDao.saveAddress(Address)
+				nl.zoethout.grot.dao.UserDaoImpl.saveAddress(Address)
+				nl.zoethout.grot.service.UserService.saveAddress(Address)
+				nl.zoethout.grot.service.UserService.saveAddressImpl(Address)
+				nl.zoethout.grot.domain.Member.Member(UserService, User, Address)
+				nl.zoethout.grot.domain.Member.saveAddress()
+				nl.zoethout.grot.domain.Member.saveUser()
+				nl.zoethout.grot.domain.Member.save()
+				nl.zoethout.grot.web.WebController.isAuthor(HttpServletRequest, String)
+	S		: re-write
+				nl.zoethout.grot.web.PocController.rmSaveUser(Map<String, Object>)
+				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
+	S		: rename
+				nl.zoethout.grot.web.WebController.getAttr(HttpServletRequest) -> provider(HttpServletRequest)
+
+	D		: CLEAN CODE
+	D		: value no longer from field, but composite entity instead. Type from List<String> to Set<Role>.
+
+	S		: rename & re-write
+				nl.zoethout.grot.domain.Member.roles -> userRoles
+				nl.zoethout.grot.domain.Member.getRoles() -> getUserRoles()
+				nl.zoethout.grot.domain.Member.setRoles(List<String>) -> setUserRoles(Set<Role>)
+				nl.zoethout.grot.domain.Member.getRoleNames() -> getUserRoleNames()
+				nl.zoethout.grot.domain.Principal.roles -> userRoles
+				nl.zoethout.grot.domain.Principal.getRoles() -> getUserRoles()
+				nl.zoethout.grot.domain.Principal.setRoles(List<String>) -> setUserRoles(Set<Role>)
+				nl.zoethout.grot.domain.Member.Member(User, List<String>) -> Member(User)
+	S		: add
+				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
+				/src/main/webapp/WEB-INF/jsp/user_verified_write.jsp
+				/src/main/webapp/WEB-INF/jsp/user_read.jsp
+				/src/main/webapp/WEB-INF/jsp/user_read_button.jsp
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_verified.jsp
+				/src/main/webapp/WEB-INF/jsp/user_unknown.jsp
+				/src/main/resources/messages.properties
+				/src/main/resources/messages_nl.properties
+	S		: removed
+				nl.zoethout.grot.domain.Member.userRoles
+				nl.zoethout.grot.domain.Principal.userRoles
+				nl.zoethout.grot.dao.UserDao.listUserRoles(int)
+				nl.zoethout.grot.dao.UserDaoImpl.listUserRoles(int)
+	S		: re-write
+				nl.zoethout.grot.domain.Principal.Principal(User, List<String>) -> Principal(User)
+				nl.zoethout.grot.domain.Principal.getUser(User, List<String>) -> getUser(User)
+				nl.zoethout.grot.domain.Principal.hasRole(String)
+				nl.zoethout.grot.domain.Member.hasRole(String)
+				nl.zoethout.grot.service.UserServiceImpl.setPrincipal(HttpServletRequest, User)
+				nl.zoethout.grot.web.PocController.rmDao(Model, HttpServletRequest)
+				nl.zoethout.grot.dao.UserDaoImpl.readMember(String)
+				nl.zoethout.grot.dao.UserDaoImpl.listProfiles()
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+23.	R		: Users - save member with address (frontend)
+
+	* P23-01	: controller does not get request attributes
+	D		: 1 - both method in controller and form action in page use GET instead of POST
+	D		: 2 - fields on page are not in form-scope
+	S		: re-write
+				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
+				/src/main/webapp/WEB-INF/jsp/user_unknown.jsp
+				/src/main/webapp/WEB-INF/jsp/user_verified.jsp
+				/src/main/webapp/WEB-INF/jsp/user_read.jsp
+	S		: add
+				/src/main/webapp/WEB-INF/jsp/user_read_button.jsp
+	* P23-01	: solved...!
+
+	S		: add
+				nl.zoethout.grot.domain.Member.Member()
+				nl.zoethout.grot.dao.UserDao.readUser(int)
+				nl.zoethout.grot.dao.UserDaoImpl.readUser(int)
+				nl.zoethout.grot.service.UserService.readUser(int)
+				nl.zoethout.grot.service.UserServiceImpl.readUser(int)
+	S		: re-write
+				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+24.	R		: Users - save member with roles
+
+	S		: add
+				nl.zoethout.grot.domain.Member.revive(UserService, int)
+				nl.zoethout.grot.domain.Member.getUserService()
+				nl.zoethout.grot.domain.Member.setUserService(UserService)
+				nl.zoethout.grot.web.UserController.editAuthorisation(HttpServletRequest, Member)
+				nl.zoethout.grot.web.UserController.setAuthorisation(User)
+				nl.zoethout.grot.web.UserController.maRoles(HttpServletRequest)
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
+
+	D		: CLEAN CODE
+
+	S		: add
+				nl.zoethout.grot.domain.UserWrapper
+	S		: re-write
+	D		: extends UserWrapper
+				nl.zoethout.grot.domain.Principal
+				nl.zoethout.grot.domain.Member
+	S		: delete (from Principal)
+				nl.zoethout.grot.domain.Principal.user
+				nl.zoethout.grot.domain.Principal.getUserRoles()
+				nl.zoethout.grot.domain.Principal.setUserRoles(Set<Role>)
+				nl.zoethout.grot.domain.Principal.hasRole(String)
+				nl.zoethout.grot.domain.Principal.getUserId()
+				nl.zoethout.grot.domain.Principal.setUserId(Integer)
+				nl.zoethout.grot.domain.Principal.getUserName()
+				nl.zoethout.grot.domain.Principal.setUserName(String)
+				nl.zoethout.grot.domain.Principal.getFirstName()
+				nl.zoethout.grot.domain.Principal.setFirstName(String)
+				nl.zoethout.grot.domain.Principal.getLastName()
+				nl.zoethout.grot.domain.Principal.setLastName(String)
+				nl.zoethout.grot.domain.Principal.getPrefix()
+				nl.zoethout.grot.domain.Principal.setPrefix(String)
+				nl.zoethout.grot.domain.Principal.getSex()
+				nl.zoethout.grot.domain.Principal.setSex(String)
+				nl.zoethout.grot.domain.Principal.getPassword()
+				nl.zoethout.grot.domain.Principal.setPassword(String)
+				nl.zoethout.grot.domain.Principal.isEnabled()
+				nl.zoethout.grot.domain.Principal.setEnabled(boolean)
+				nl.zoethout.grot.domain.Principal.getDateBirth()
+				nl.zoethout.grot.domain.Principal.setDateBirth(Date)
+				nl.zoethout.grot.domain.Principal.getDateRegistered()
+				nl.zoethout.grot.domain.Principal.setDateRegistered(Date)
+	S		: delete (from Member)
+				nl.zoethout.grot.domain.Member.user
+				nl.zoethout.grot.domain.Member.hasRole(String)
+				nl.zoethout.grot.domain.Member.getUser()
+				nl.zoethout.grot.domain.Member.setUser(User)
+				nl.zoethout.grot.domain.Member.getUserRoles()
+				nl.zoethout.grot.domain.Member.setUserRoles(Set<Role>)
+				nl.zoethout.grot.domain.Member.getUserId()
+				nl.zoethout.grot.domain.Member.setUserId(Integer)
+				nl.zoethout.grot.domain.Member.getUserName()
+				nl.zoethout.grot.domain.Member.setUserName(String)
+				nl.zoethout.grot.domain.Member.getFirstName()
+				nl.zoethout.grot.domain.Member.setFirstName(String)
+				nl.zoethout.grot.domain.Member.getLastName()
+				nl.zoethout.grot.domain.Member.setLastName(String)
+				nl.zoethout.grot.domain.Member.getPrefix()
+				nl.zoethout.grot.domain.Member.setPrefix(String)
+				nl.zoethout.grot.domain.Member.getSex()
+				nl.zoethout.grot.domain.Member.setSex(String)
+				nl.zoethout.grot.domain.Member.getPassword()
+				nl.zoethout.grot.domain.Member.setPassword(String)
+				nl.zoethout.grot.domain.Member.isEnabled()
+				nl.zoethout.grot.domain.Member.setEnabled(boolean)
+				nl.zoethout.grot.domain.Member.getDateBirth()
+				nl.zoethout.grot.domain.Member.setDateBirth(Date)
+				nl.zoethout.grot.domain.Member.getDateRegistered()
+				nl.zoethout.grot.domain.Member.setDateRegistered(Date)
+	S		: delete
+				nl.zoethout.grot.util.Roles
+	S		: add
+				nl.zoethout.grot.domain.User.getRoles()
+				nl.zoethout.grot.domain.User.setRoles(Set<Role>)
+	D		: reversal of P16-02
+
+	D		: edit page does not show roles when no admin
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
+
+19:25 4-7-2018
+	S		: re-write
+	D		: after save routing to read-mode page
+				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+26.	R		: Users - fieldvalidation
+
+	S		: add
+				nl.zoethout.grot.validation.UserValidator
+	S		: re-write
+				/src/main/resources/messages.properties
+				/src/main/resources/messages_nl.properties
+
+	D		: Kept being bothered by a NullpointerException when WrapClass "nl.zoethout.grot.domain.Member" was used as "<editUser>" on page.
+				Obviously, some component of "nl.zoethout.grot.domain.Member" was not loaded
+	D		: Decided to use just "nl.zoethout.grot.domain.User" on page, with just one field: "firstName"
+
+	D		: Copied working validation example to desired methods (GET / POST)
+	S		: add
+				nl.zoethout.grot.web.PocController.rmStudentGet(Map<String, Object>) -> rmUserGet(Map<String, Object>)
+				/src/main/webapp/WEB-INF/jsp/validation/student.jsp -> user_writable.jsp
+				nl.zoethout.grot.web.PocController.rmStudentPost(Student, BindingResult, Model) -> rmUserPost(Student, BindingResult, Model)
+				/src/main/webapp/WEB-INF/jsp/validation/result.jsp -> user_readable.jsp
+	D		: action points to wrong method
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+	D		: changed navigation
+	D		: changed table definition
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+	D		: moved form definition outside table
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+	D		: added form definition outside table
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+	D		: added button below form definition
+	D		: added taglib "www.springframework.org/tags"
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+	D		: removed old button
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+
+	D		: removed "modelAttribute" from form definition
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+	* P26-01	: Exception...!
+				Request processing failed;
+				 nested exception is java.lang.IllegalStateException:
+				 Neither BindingResult nor plain target object for bean name 'command' available as request attribute
+	D		: added "modelAttribute" to form definition
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+	* P26-01	: Solved...!
+
+	D		: chosen member - username
+	D		: chosen member - reading
+	D		: chosen member - session
+	D		: chosen member - model (P19-02 / mutable user)
+	D		: changed signature
+	S		: re-write
+				nl.zoethout.grot.web.PocController.rmUserGet(Map<String, Object>)
+				-> rmUserGet(Model, HttpServletRequest)
+
+	D		: added mutable user
+	S		: add
+				nl.zoethout.grot.util.SessionAttributes.MUTABLE
+				nl.zoethout.grot.util.AttributeProvider.getSAMutable()
+				nl.zoethout.grot.util.AttributeProvider.setSAMutable(User)
+				nl.zoethout.grot.util.AttributeProviderImpl.getSAMutable()
+				nl.zoethout.grot.util.AttributeProviderImpl.setSAMutable(User)
+	D		: (why? didn't use it...)
+
+	S		: add
+				nl.zoethout.grot.util.SessionAttributes.FIXED
+				nl.zoethout.grot.util.AttributeProvider.getSAFixed()
+				nl.zoethout.grot.util.AttributeProvider.setSAFixed(User)
+				nl.zoethout.grot.util.AttributeProvider.Impl.getSAFixed()
+				nl.zoethout.grot.util.AttributeProvider.Impl.setSAFixed(User)
+				nl.zoethout.grot.web.PocController.rmUserGet(Model, HttpServletRequest)
+
+	D		: added tables for user and address
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+
+	D		: saved version 26-01
+				nl.zoethout.grot.web.PocController -> PocController_26-01
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp -> user_readable_26-01.jsp
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp -> user_writable_26-01.jsp
+
+	D		: changed model attribute from "student" to "mutable"
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+	* P26-02	: Exception...!
+				org.springframework.beans.NotReadablePropertyException:
+				 Invalid property 'name' of bean class [nl.zoethout.grot.domain.User]:
+				 Bean property 'name' is not readable or has an invalid getter method
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+	S		: add
+				nl.zoethout.grot.domain.User.getClassName()
+	* P26-02	: Solved...!
+
+	* P26-03	: Exception...!
+				org.springframework.beans.NotReadablePropertyException: Invalid property 'countryName' of bean class [nl.zoethout.grot.domain.Address]
+	S		: add
+				nl.zoethout.grot.domain.Address.getCountryName()
+	* P26-03	: Solved...!
+
+	D		: moved fields to table for user
+	D		: added field for chosen member - session
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+	S		: add
+				nl.zoethout.grot.domain.Address.getClassName()
+
+	D		: validate just one field (firstName)
+	S		: add
+				nl.zoethout.grot.validation.UserValidator
+				nl.zoethout.grot.web.PocController.rmUserPost(User, BindingResult, Model)
+
+	D		: show validated user in read-mode
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+	D		: lost model-attribute "mutable" (no field values shown)
+	D		: found notation to show address and it's values
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+
+	D		: saved version 26-02
+				nl.zoethout.grot.web.PocController -> PocController_26-02
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp -> user_readable_26-02.jsp
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp -> user_writable_26-02.jsp
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+25.	R		: Users - save member with values
+
+	S		: add
+				nl.zoethout.grot.domain.Member.changeCase()
+	S		: re-write
+				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
+
+	D		: added more fields to mutable
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+	D		: conversion error on date fields
+	D		: disabled editing date fields
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+
+	D		: no dates or roles shown
+	D		: changed signature
+	S		: re-write
+				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult)
+				-> rmUserPost(Model, User, BindingResult, HttpServletRequest)
+
+	D		: move methods to abstract parent class
+	S		: re-write
+	D		: changed signature
+				nl.zoethout.grot.web.UserController.editAuthorisation(HttpServletRequest, Member)
+				-> editAuthorisation(UserService, HttpServletRequest, Member)
+				nl.zoethout.grot.web.UserController.setAuthorisation(User)
+				-> setAuthorisation(UserService, User)
+	S		: re-write
+				nl.zoethout.grot.web.UserController.editAuthorisation(HttpServletRequest, Member)
+	S		: re-write
+				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
+	S		: add
+				nl.zoethout.grot.web.WebController.editAuthorisation(UserService, HttpServletRequest, Member)
+				nl.zoethout.grot.web.WebController.setAuthorisation(UserService, User)
+	S		: delete
+				nl.zoethout.grot.web.UserController.editAuthorisation(UserService, HttpServletRequest, Member)
+				nl.zoethout.grot.web.UserController.setAuthorisation(UserService, User)
+	S		: re-write
+	D		: changed signature
+				nl.zoethout.grot.web.WebController.editAuthorisation(UserService, HttpServletRequest, Member)
+				-> editAuthorisation(UserService, HttpServletRequest, User)
+	S		: re-write
+				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
+				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
+
+	D		: change case
+	S		: add
+				nl.zoethout.grot.domain.User.changeCase()
+				nl.zoethout.grot.domain.Address.changeCase()
+	S		: re-write
+				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
+
+	* P25-01	: Exception...!
+				javax.el.ELException: Error reading [dateBirthDisplay] on type [nl.zoethout.grot.domain.User]
+	D		: field is not on model entity
+	S		: re-write
+				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
+	* P25-01	: Solved...!
+
+	* P25-02	: Exception...!
+				org.springframework.orm.jpa.JpaSystemException
+	D		: added some more fields that needed value before saving
+	S		: re-write
+				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
+	* P25-02	: Solved...!
+
+	* P25-03	: Validation error...!
+				Failed to convert property value of type 'java.lang.String[]' to required type 'java.util.Set' for property 'roles'
+				Cannot convert value of type 'java.lang.String' to required type 'nl.zoethout.grot.domain.Role' for property 'roles[0]'
+	S		: add
+				nl.zoethout.grot.web.PocController.RoleEditor
+				nl.zoethout.grot.web.PocController.initBinder(WebDataBinder)
+	* P25-03	: Solved...!
+
+	D		: added support for input and display of "Role" and "Country"
+	S		: add
+				nl.zoethout.grot.web.PocController.maCountries(HttpServletRequest)
+	S		: re-write
+				nl.zoethout.grot.web.PocController.maRoles(HttpServletRequest)
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+
+	D		: more validations
+	S		: re-write
+				nl.zoethout.grot.validation.AddressValidator
+				nl.zoethout.grot.validation.UserValidator
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+27	R		: Users - copy fieldvalidation from PocController to UserController
+
+	D		: Start with pages. (Essentially: eradicate "Member". May decide to remove "Member" everywhere.)
+
+				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
+			->
+				/src/main/webapp/WEB-INF/jsp/user_test_verified_write.jsp
+				/src/main/webapp/WEB-INF/jsp/user_test_edit.jsp
+
+				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
+			->
+				/src/main/webapp/WEB-INF/jsp/user_test_verified.jsp
+				/src/main/webapp/WEB-INF/jsp/user_test_read_button.jsp
+
+	D		: Challenge: URL from PocController is different to UserController. Latter is what I want.
+
+				GET	: nl.zoethout.grot.web.PocController.rmUserGet(Model, HttpServletRequest)
+				GET	: nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
+
+				POST	: nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
+				POST	: nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
+
+	S		: re-write
+	D		: disabled requestmapping (commented out)
+				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
+				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
+	S		: add
+	D		: copy from nl.zoethout.grot.web.PocController
+				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
+	S		: re-write
+	D		: added correct requestmapping
+				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
+
+	* P27-01	: Exception...!
+				org.apache.jasper.el.JspELException: /WEB-INF/jsp/user_writable.jsp(97,38) '${roles.keySet()}'
+				 Method not found: class java.util.LinkedHashSet.keySet()
+	S		: re-write
+	D		: renamed / commented out annotation
+				nl.zoethout.grot.web.UserController.maRoles(HttpServletRequest) -> maRoles_24
+	S		: add
+	D		: copy from nl.zoethout.grot.web.PocController
+				nl.zoethout.grot.web.UserController.maRoles(HttpServletRequest)
+	* P27-01	: Solved...!
+
+	S		: re-write
+	D		: changed signature to edit chosen member
+				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest) ->
+				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest, String)
+	D		: strange format of dates
+	D		: URL to "Proofs of concepts"
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
+	D		: (copy of "user_writable.jsp")
+	D		: no field "enabled" or "countryname"
+	S		: add
+	D		: copy from nl.zoethout.grot.web.PocController
+				nl.zoethout.grot.web.UserController.maCountries(HttpServletRequest)
+	D		: Tworks...! With submit-button missing... :-(
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
+	D		: Tworks...! Submit-button shows, but doesn't work... :-(
+
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
+	D		:
+				<sft:form method = "POST" action = "user" modelAttribute = "mutable">
+			->
+				<sft:form method = "POST" action = "save" modelAttribute = "mutable">
+	D		: Tworks...! With Exception on date fields... :-(
+
+	S		: add
+	D		: copy from nl.zoethout.grot.web.PocController
+				nl.zoethout.grot.web.UserController.initBinder(WebDataBinder)
+				nl.zoethout.grot.web.UserController.RoleEditor
+	D		: https://www.logicbig.com/tutorials/spring-framework/spring-core/property-editors.html
+	D		: Tworks...! But no routing to read... :-(
+
+	D		: temporary logging to "test"
+				getCode : city.length
+				getDefaultMessage : null
+				getObjectName : mutable
+				Field error in object 'mutable' on field 'address.city': rejected value [Test];
+				 codes [city.length.mutable.address.city,city.length.address.city,city.length.city,city.length.java.lang.String,city.length];
+				 arguments []; default message [null]
+	D		: (Conclusion = validation fails on field "city")
+
+	S		: re-write
+	D		: changed signature to route to appropriate page
+				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
+					->
+				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest, String)
+	D		: Tworks...! Correct routing on validation fail... :-)
+
+	D		: on validation succeed route to read member
+	S		: add
+				nl.zoethout.grot.web.UserController.logging(Model, BindingResult, String)
+	S		: re-write
+				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest, String)
+				/src/main/webapp/WEB-INF/jsp/user_read_button.jsp
+	D		: (copy of "user_readable.jsp")
+	D		: Tworks...! Correct routing to generic page on validation succes... :-)
+
+	D		: saving to database from interface
+	* P27-02	: Exception...!
+				Request processing failed;
+				 nested exception is java.lang.IllegalStateException:
+				 Neither BindingResult nor plain target object for bean name 'mutable' available as request attribute
+	D		: (but changed ARE correctly saved to DB, so problem could be in page)
+	D		: save routes to read userPage, which method put model-attribute "member" instead of "mutable"
+
+	D		: fase-out SAMember
+
+disabled
+				nl.zoethout.grot.util.AttributeProvider.getSAMember()
+				nl.zoethout.grot.util.AttributeProvider.setSAMember(Member)
+				nl.zoethout.grot.util.AttributeProviderImpl.getSAMember()
+				nl.zoethout.grot.util.AttributeProviderImpl.setSAMember(Member)
+
+				nl.zoethout.grot.web.PocController.rmMemberGet(Model, HttpServletRequest)
+				nl.zoethout.grot.web.PocController.rmMemberPost(Member, BindingResult, Model, HttpServletRequest)
+
+				nl.zoethout.grot.web.PocController.rmOozerGet(Model, HttpServletRequest)
+				nl.zoethout.grot.web.PocController.rmOozerPost(User, Address, BindingResult, Model, HttpServletRequest)
+
+re-write
+				nl.zoethout.grot.web.UserController.rmUsers(Model, HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmUser(Model, HttpServletRequest, String)
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/user_read.jsp
+				/src/main/webapp/WEB-INF/jsp/user_read_button.jsp
+
+
+|	// TODO 26 - Users - fieldvalidation - 01 GET added
+|
+|		// Get the username
+|		// Chosen member - getting user entity
+|		// Chosen member - to session attributes
+|		// Chosen member - to model attributes (P19-02)
+|		// Associated address - to model attributes
+|		// Page
+|
+|	S		: add
+|				/src/main/webapp/WEB-INF/jsp/user_test_verified_write.jsp
+|				/src/main/webapp/WEB-INF/jsp/user_test_edit.jsp
+|
+|	// TODO 26 - Users - fieldvalidation - 03 POST added
+|
+|		// Validator
+|		// validate
+|		// pages
+|
+|	S		: add
+|				/src/main/webapp/WEB-INF/jsp/user_test_verified.jsp
+|				/src/main/webapp/WEB-INF/jsp/user_test_read_button.jsp
+
+
+
+
+================================================================================================================================================
+On open connection: Firefox goes to http://securedns.comodo.com when file / page not found
+	I don't want that anymore...
+
+================================================================================================================================================
+Wat is JAVA 8 volgens Frank?
+1. Generics
+2. Lambda
+3. Datetime
+4. Streams (icm Lambda filteren van methoden met annotaties)
+5. interface default en static methodes
+6. (er volgt nog meer)
+
+	// TODO 99 - Constanten naar enumeratie? Wegens geen "protected static final" en kunnen itereren...
+
+selecties op collecties
+default meth. in int.fac.

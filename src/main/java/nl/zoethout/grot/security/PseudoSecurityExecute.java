@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * RequestMapping's 'path' as key to allowed roles given by PseudoSecurity's
  * 'roles'. On runtime gets RequestURI as key. Redirect to homepage on execution
  * denied.
+ * 
+ * @author Gerard Zoethout
  */
+//TODO Check to see re-write as Lambda
 public final class PseudoSecurityExecute {
 	private PseudoSecurityExecute() {
 	}

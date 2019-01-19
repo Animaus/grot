@@ -1,0 +1,506 @@
+package nl.nofas.web.controller;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import nl.nofas.domain.SessionAttributes;
+import nl.nofas.model.Album;
+import nl.nofas.model.Category;
+import nl.nofas.model.Country;
+import nl.nofas.model.Group;
+import nl.nofas.model.User;
+import nl.nofas.model.UserProfile;
+import nl.nofas.service.AlbumService;
+import nl.nofas.service.UserService;
+import nl.nofas.util.DevUtil;
+import nl.nofas.util.FileUtil;
+import nl.nofas.util.UserUtil;
+import nl.nofas.validation.AddressValidator;
+import nl.nofas.validation.UserValidator;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+/*
+ * http://stackoverflow.com/questions/2291049/spring-url-mapping-question
+ */
+
+@Controller
+@RequestMapping("/user")
+public class UserController extends NofasController implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private String strClass = getClass().getName();
+
+	@Autowired
+	UserService userService;
+
+	@Autowired
+	AlbumService albumService;
+
+	// -------------------------------------------------------------------
+	// Request-mappings
+	// -------------------------------------------------------------------
+
+	@RequestMapping(method = RequestMethod.GET)
+	public String rmProfilesShow(Model model, HttpServletRequest request) {
+
+		String strMethod = "rmProfilesShow";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		// DB-Gebruikersgegevens
+		request.getSession().setAttribute(SessionAttributes.USER, null);
+
+		// Do something in your default view. Assuming you have a ViewResolver,
+		// like JspViewResolver or Tiles.
+		if (request.isUserInRole("ROLE_ADMIN")) {
+			DevUtil.nofasInfo(strClass, strMethod, "users_author");
+			return "users_author";
+		} else {
+			DevUtil.nofasInfo(strClass, strMethod, "users_guest");
+			return "users_guest";
+		}
+	}
+
+	@RequestMapping(value = "/profile/{userName}", method = RequestMethod.GET)
+	public String rmUserProfileRead(Model model, HttpServletRequest request,
+			@PathVariable(value = "userName") String userName) {
+
+		String strMethod = "rmUserProfileRead";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+		
+		// Alleen admin of profiel-eigenaar
+		if (!isAuthor(request, userName)) {
+			// Retourpagina
+			// return "users_guest";
+			return "goHome";
+		}
+		
+		// Ingelogde gebruiker opvragen
+		User user = userService.readUser(userName);
+		DevUtil.nofasInfo(strClass, strMethod, "userName=" + userName);
+
+		// DB-Gebruikersgegevens
+		request.getSession().setAttribute(SessionAttributes.USER, user);
+
+		// Toevoegen modelattributen (JSP)
+		model.addAttribute("user", user);
+
+		// Retourpagina
+		return getAuthorPage(request, "user_read", "?");
+	}
+
+//	@RequestMapping(value = "/principal", method = RequestMethod.GET)
+//	public String rmPrincipalReadGet(Model model, HttpServletRequest request) {
+//
+//		String strMethod = "rmPrincipalReadGet";
+//		DevUtil.nofasInfo(strClass, strMethod, "");
+//		
+//		// Ingelogde gebruiker opvragen
+//		String principalName = request.getUserPrincipal().getName();
+//		User principal = userService.readUser(principalName);
+//		DevUtil.nofasInfo(strClass, strMethod, "principalName=" + principalName);
+//
+//		// DB-Gebruikersgegevens
+//		request.getSession().setAttribute(SessionAttributes.USER, principal);
+//
+//		// Toevoegen modelattributen (JSP)
+//		model.addAttribute("user", principal);
+//
+//		// Retourpagina
+//		return getAuthorPage(request, "user_read", "");
+//	}
+
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
+	public String rmProfileNew(Model model, HttpServletRequest request) {
+
+		String strMethod = "rmProfileNew";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		// Nieuwe gebruiker
+		User user = new User();
+
+		// Autorisaties vaststellen
+		editAuthorisation(request, user);
+
+		// Toevoegen modelattributen (JSP)
+		model.addAttribute("user", user);
+		// model.addAttribute("saveMethod", "saveNew");
+
+		// Retourpagina
+		return getAuthorPage(request, "user_new", "?");
+	}
+
+	// @RequestMapping(value = "/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/profile/{userName}/edit", method = RequestMethod.GET)
+	public String rmUserProfileEdit(Model model, HttpServletRequest request) {
+
+		// Methode om vanuit bewerking categoriën terug te keren naar bewerking
+		// gebruiker. Terugkeer uit categoriën gaat via URL.
+
+		String strMethod = "rmUserProfileEdit";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		// Opvragen te wijzigen gebruiker
+		User user = (User) request.getSession().getAttribute(
+				SessionAttributes.USER);
+		String userName = user.getUserName();
+
+		// Alleen admin of profiel-eigenaar
+		if (!isAuthor(request, userName)) {
+			return "users_guest";
+		}
+
+		// Toevoegen modelattributen (JSP)
+		model.addAttribute("user", user);
+
+		// Retourpagina
+		return "user_edit";
+	}
+
+	@RequestMapping(value = "/saveNew", method = RequestMethod.POST)
+	public String rmSaveNew(Model model, HttpServletRequest request,
+			@ModelAttribute("user") User user, BindingResult bindingResult) {
+
+		String strMethod = "rmSaveNew";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		// Autorisaties vaststellen
+		editAuthorisation(request, user);
+
+		// Veldwaarden laten beginnen met HOOFDLETTERS, rest in kleine letters
+		UserUtil.changeCase(user);
+
+		// Activering validatie
+		AddressValidator addressValidator = new AddressValidator();
+		UserValidator userValidator = new UserValidator(userService,
+				addressValidator);
+		userValidator.validate(user, bindingResult);
+
+		// BindingResults will have your errors from binding
+		if (bindingResult.hasErrors()) {
+			// Retourpagina
+			return getAuthorPage(request, "user_new", "?");
+		} else {
+			// Bepalen en zetten gebruikersnaam
+			userService.addUserName(user);
+			// Bepalen en zetten lidmaatschaps-nummer
+			DevUtil.nofasInfo(strClass, strMethod,
+					"Bepalen en zetten lidmaatschaps-nummer");
+			userService.addMemberCode(user);
+			// Opslaan gebruiker
+			saveUser(user);
+			// Retourpagina
+			return getAuthorPage(request, "user_read", "?");
+		}
+	}
+
+	//@RequestMapping(value = "/saveEdit", method = RequestMethod.POST)
+	@RequestMapping(value = "/profile/{userName}/saveEdit", method = RequestMethod.POST)
+	public String rmSaveEdit(Model model, HttpServletRequest request,
+			HttpServletResponse response, @ModelAttribute("user") User user,
+			BindingResult bindingResult) {
+
+		String strMethod = "rmSaveEdit";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		// DB-gebruiker
+		User userVault = (User) request.getSession().getAttribute(
+				SessionAttributes.USER);
+
+		// Alleen admin of profiel-eigenaar
+		String userName = userVault.getUserName();
+		if (!isAuthor(request, userName)) {
+			return "profiles";
+		}
+
+		// JSP-gebruiker
+		user.setUserName(userName);
+		user.setUserId(userVault.getUserId());
+		user.setMemberCode(userVault.getMemberCode());
+
+		// JSP-adres. Hierdoor geen fouten...!
+		user.getAddress().setUser(user);
+		user.getAddress().setUserId(user.getUserId());
+
+		// Autorisaties vaststellen
+		editAuthorisation(request, user);
+
+		// Veldwaarden laten beginnen met HOOFDLETTERS, rest in kleine letters
+		UserUtil.changeCase(user);
+
+		// Activering validatie
+		AddressValidator addressValidator = new AddressValidator();
+		UserValidator userValidator = new UserValidator(userService,
+				addressValidator);
+		userValidator.validate(user, bindingResult);
+
+		// BindingResults will have your errors from binding
+		if (bindingResult.hasErrors()) {
+			// Retourpagina
+			DevUtil.nofasInfo(strClass, strMethod, "user_edit");
+			return "user_edit";
+		} else {
+			// Opslaan gebruiker
+			saveUser(user);
+			// Retourpagina
+			return getAuthorPage(request, "user_read", "?");
+		}
+
+	}
+
+	@RequestMapping(value = "/{userName}", method = RequestMethod.POST)
+	public void rmUserPagePost(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable(value = "userName") String userName) {
+
+		String strMethod = "rmUserPagePost";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+		
+		// Retourpagina
+		gotoUserPage(request, response, userName);
+	}
+
+	@RequestMapping(value = "/{userName}", method = RequestMethod.GET)
+	public String rmUserPageGet(Model model, HttpServletRequest request,
+			@PathVariable(value = "userName") String userName) {
+
+		String strMethod = "rmUserPageGet";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+		DevUtil.nofasInfo(strClass, strMethod, "userName=" + userName);
+
+		// Opvragen te wijzigen gebruiker
+		User user = userService.readUser(userName);
+		// DB-Gebruikersgegevens
+		request.getSession().setAttribute(SessionAttributes.USER, user);
+		// Toevoegen modelattributen (JSP)
+		model.addAttribute("user", user);
+		
+		List<Category> categories = userService.readCategories(user.getUserId());
+		request.getSession().setAttribute(SessionAttributes.CATEGORIES, categories);
+
+		// Albums
+		setAlbums(model, request, user);
+
+		// Verwijderen lege gebruikersmappen
+		if (isAuthor(request, userName)) {
+			@SuppressWarnings("unchecked")
+			List<Album> albumObjects = (List<Album>) request.getSession()
+					.getAttribute(SessionAttributes.ALBUMS);
+			FileUtil.removeEmptyFolders(userName, albumObjects);
+		}
+
+		// Retourpagina met navigatie-knoppen
+		return getAuthorPage(request, "user_page", userName); //
+
+		// Retourpagina zonder navigatie-knoppen
+		// return "user_page_guest";
+	}
+
+	@RequestMapping(value = "/album", method = RequestMethod.POST)
+	public void rmUserAlbum(Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		String strMethod = "rmUserAlbum";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		String albumFolderName = request.getParameter("albumFolderName");
+
+		User user = (User) request.getSession().getAttribute(
+				SessionAttributes.USER);
+
+		// Retourpagina
+		String URL = "/album/" + user.getUserName() + "/" + albumFolderName;
+		gotoURL(request, response, URL);
+	}
+
+	// -------------------------------------------------------------------
+	// Overige code voor request-mappings
+	// -------------------------------------------------------------------
+
+	private void editAuthorisation(HttpServletRequest request, User user) {
+
+		String strMethod = "editAuthorisation";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		Set<Group> groups = user.getGroups();
+
+		if (request.isUserInRole("ROLE_ADMIN")) {
+			String[] groupNames = request.getParameterValues("roles");
+
+			if (groupNames == null) {
+				// Nieuwe gebruiker (1)
+				DevUtil.nofasInfo(strClass, strMethod, "Nieuwe gebruiker (1)");
+				setAuthorisation(user);
+			} else {
+				DevUtil.nofasInfo(strClass, strMethod, "Mutatie rollen");
+				// Opgeslagen rollen verwijderen
+				groups.clear();
+				// Nieuwe rollen toevoegen
+				for (int x = 0; x < groupNames.length; x++) {
+					String groupName = groupNames[x];
+					Group group = userService.readGroup(groupName);
+					groups.add(group);
+				}
+				// Beschikbaarheid account
+				String enabled = request.getParameter("enabled");
+				if (enabled == null) {
+					DevUtil.nofasInfo(strClass, strMethod,
+							"Beschikbaarheid account=Inactief");
+					// Inactief
+					user.setEnabled(false);
+				} else {
+					DevUtil.nofasInfo(strClass, strMethod,
+							"Beschikbaarheid account=Actief");
+					// Actief
+					user.setEnabled(true);
+				}
+			}
+		} else {
+			// Gebruiker
+			if (groups.size() == 0) {
+				// Nieuwe gebruiker (2)
+				DevUtil.nofasInfo(strClass, strMethod, "Nieuwe gebruiker (2)");
+				setAuthorisation(user);
+			} else {
+				DevUtil.nofasInfo(strClass, strMethod, "Bewerken eigen profiel");
+				// Bewerken eigen profiel
+			}
+		}
+	}
+
+	private void setAuthorisation(User user) {
+
+		String strMethod = "setAuthorisation";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		// Nieuwe gebruiker
+		Group group = userService.readGroup("ROLE_USER");
+		user.getGroups().add(group);
+		user.setEnabled(true);
+	}
+
+	private void setAlbums(Model model, HttpServletRequest request, User user) {
+
+		String strMethod = "setAlbums";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		List<Album> albums = new ArrayList<Album>();
+
+		if (user != null) {
+			int userId = user.getUserId();
+			
+			String userName = user.getUserName();
+			boolean isAuthor = isAuthor(request, userName);
+			
+			if (isAuthor) {
+				albums = albumService.readAlbumsAuthor(userId);
+			} else {
+				albums = albumService.readAlbumsGuest(userId);
+			}
+			
+			request.getSession().setAttribute(SessionAttributes.ALBUMS, albums);
+		}
+
+		DevUtil.nofasInfo(strClass, strMethod, "userAlbums=" + albums);
+		model.addAttribute("albums", albums);
+	}
+
+	private void saveUser(User user) {
+		String strMethod = "saveUser";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		// Opslaan gebruiker (ID in app is nog 0)
+		userService.saveUser(user);
+		String userName = user.getUserName();
+
+		// org.hibernate.TransientObjectException: object references an unsaved
+		// transient instance - save the transient instance before flushing:
+		// nl.nofas.user.model.User
+
+		// Opvragen opgeslagen gebruiker (ID is in DB toegewezen)
+		User usr = userService.readUser(userName);
+
+		// Autorisaties toevoegen
+		Set<Group> groups = user.getGroups();
+		usr.setGroups(groups);
+
+		// Opslaan gebruiker (nogmaals)
+		userService.saveUser(usr);
+	}
+
+	// -------------------------------------------------------------------
+	// Modelattributes
+	// -------------------------------------------------------------------
+
+	@ModelAttribute("countries")
+	public List<Country> maReadCountries() {
+		// Landen met landscodes opvragen en toevoegen aan Spring-model
+		return userService.readCountries();
+	}
+
+	@ModelAttribute("profiles")
+	public List<UserProfile> maListProfiles() {
+		return userService.listProfiles();
+	}
+
+	@ModelAttribute("listGroupNames")
+	public List<String> maListGroupNames(HttpServletRequest request) {
+		String strMethod = "maListGroupNames";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		if (!request.isUserInRole("ROLE_ADMIN")) {
+			return null;
+		}
+		List<Group> groups = userService.readGroups();
+		List<String> groupNames = new ArrayList<String>();
+		for (Group group : groups) {
+			String strGroupName = group.getGroupName();
+			groupNames.add(strGroupName);
+		}
+		return groupNames;
+	}
+
+	@ModelAttribute("listGroups")
+	public List<Group> maListGroups(HttpServletRequest request) {
+		String strMethod = "maListGroups";
+		DevUtil.nofasInfo(strClass, strMethod, "");
+
+		if (request.isUserInRole("ROLE_ADMIN")) {
+			return userService.readGroups();
+		} else {
+			return null;
+		}
+	}
+
+	// -------------------------------------------------------------------
+	// Property editors
+	// -------------------------------------------------------------------
+
+	@InitBinder
+	public void ibInitBinder(WebDataBinder binder) {
+		// You can register other Custom Editors with the WebDataBinder, like
+		// CustomNumberEditor for Integers and Longs, or StringTrimmerEditor for
+		// Strings
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(
+				dateFormat, true)); // "true" allows for empty values
+	}
+
+}

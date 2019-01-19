@@ -1,0 +1,78 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%><%@ taglib uri="/WEB-INF/CustomTags" prefix="ct"%><%@taglib uri="http://www.springframework.org/tags/form" prefix = "sft"%><%@ taglib uri="http://www.springframework.org/tags" prefix="sst"%>
+<jsp:include page="header.jsp" />
+<div align="center">
+	<a href="/">${LNK_USR_HOME}</a><c:choose><c:when test='${user== null}'>&nbsp;|&nbsp;<a href="/user/login">${LNK_USR_LOGIN}</a></c:when><c:otherwise>&nbsp;|&nbsp;<a href="/user/logout">${LOGIN_OUT}</a></c:otherwise></c:choose>&nbsp;|&nbsp;<a href="/user">${LNK_USR_MEMBERS}</a>
+</div>
+<div align="center">${ct: today()}</div>
+<div align="center"><c:choose><c:when test='${user== null}'>${LOGIN_NON}</c:when><c:otherwise>${LOGIN_YES} ${user.firstName} ${user.prefix} ${user.lastName}</c:otherwise></c:choose></div>
+
+<p align="center">&nbsp;</p>
+
+<p align="center">${DESCRIPTION}</p>
+
+<p align="center">
+	<a href="start">Proofs of concepts</a>
+</p>
+
+<div align="center">
+	<sft:form method = "POST" action = "user" modelAttribute = "mutable">
+	<button type="submit" class="btn"><sst:message code='save.tag' /></button>
+
+	<table border="1" style="width: 750px;" cellspacing="4" cellpadding="4">
+		<tr>
+			<td valign="top" style="width: 50%;">
+				<table border="1" style="width: 100%;">
+					<tr>
+						<td valign="top" style="height: 40px; width: 35%;"></td>
+						<td valign="top" style="height: 40px; width: 65%;">(${mutable.className})</td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 40px;" colspan="2"><b><sst:message code='person.tag' /></b><br />&nbsp;</td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 40px;"><sft:label path='userName'><sst:message code='userName.label' /></sft:label></td>
+						<td valign="top" style="height: 40px;">${fixedUser.userName}</td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 40px; text-align: right;" colspan="2">&nbsp;</td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 40px;"><sft:label path='firstName'><sst:message code='firstName.label' /></sft:label></td>
+						<td valign="top" style="height: 40px;"><sft:input path='firstName' /></td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 40px; text-align: center;" colspan="2"><sft:errors path='firstName' class='text-error' /></td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 40px;"><sft:label path='lastName'><sst:message code='lastName.label' /></sft:label></td>
+						<td valign="top" style="height: 40px;"><sft:input path='lastName' /></td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 40px; text-align: right;" colspan="2"><sft:errors path='lastName' class='text-error' /></td>
+					</tr>
+				</table>
+			</td>
+			<td valign="top" style="width: 50%;">
+				<table border="1" style="width: 100%;">
+					<tr>
+						<td valign="top" style="height: 40px; width: 35%;"></td>
+						<td valign="top" style="height: 40px; width: 65%;">(${mutable.address.className})</td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 40px;" colspan="2"><b><sst:message code='address.tag' /></b><br />&nbsp;</td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 40px;"><sft:label path='address.streetName'><sst:message code='streetName.label' /></sft:label></td>
+						<td valign="top" style="height: 40px;"><sft:input path='address.streetName' /></td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 40px; text-align: right;" colspan="2"><sft:errors path='address.streetName' class='text-error' /></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	</sft:form>
+</div>
+
+<jsp:include page="footer.jsp" />

@@ -4,6 +4,8 @@ import java.util.List;
 
 import nl.zoethout.grot.domain.Role;
 import nl.zoethout.grot.domain.User;
+import nl.zoethout.grot.domain.Address;
+import nl.zoethout.grot.domain.Member;
 
 public interface UserDao {
 
@@ -12,38 +14,46 @@ public interface UserDao {
 	public void executeSQL(String sql);
 
 	public void saveUser(User user);
+	
+	public void saveAddress(Address address);
 
 	public void updateUser(String userName, String SQLColumn, String SQLValue);
 
+	public User readUser(int userId);
+
 	public User readUser(String userName);
+
+	public Address readAddress(int userId);
+
+	public Member readMember(String userName);
 
 	public void deleteUser(String userName);
 
 	/**
-	 * Opvragen identieke veldwaarden
+	 * Identical fieldvalues
 	 */
 	public List<String> listPropertiesSame(String pojoField, String pojoValue);
 
 	/**
-	 * Opvragen gelijkende veldwaarden
+	 * Similar fieldvalues
 	 */
 	public List<String> listPropertiesLike(String pojoField, String pojoValue);
 
 	/**
-	 * Opvragen specifieke groep
+	 * Specific role
 	 */
-	public Role readRole(String groupName);
+	public Role readRole(String roleName);
 
 	/**
-	 * Opvragen alle groepen
+	 * All roles
 	 */
 	public List<Role> readRoles();
 
-	/**
-	 * Opvragen namen gebruikersgroepen en selectie daarvan koppelen aan gebruiker
-	 */
-	public List<String> listUserRoles(int userId);
-
 	public User loginUser(String userName, String password);
+
+	/**
+	 * List of UserProfiles
+	 */
+	public List<Member> listProfiles();
 
 }

@@ -1,7 +1,10 @@
 package nl.zoethout.grot.domain;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,22 +17,43 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import nl.zoethout.grot.util.TextUtil;
 
 @Entity
 @Table(name = "user", catalog = "db_example")
 public class User {
 
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	private Address address;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_role", catalog = "db_example", joinColumns = {
+			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "role_id", nullable = false, updatable = false) })
+	private Set<Role> roles = new HashSet<Role>();
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
-	private Integer userId;
+	private int userId;
 
-	@Column(name = "name")
-	private String name;
+	@Column(name = "user_name")
+	private String userName;
 
-	@Column(name = "email")
-	private String email;
+	@Column(name = "first_name")
+	private String firstName;
+
+	@Column(name = "last_name")
+	private String lastName;
+
+	@Column(name = "prefix")
+	private String prefix;
+
+	@Column(name = "sex")
+	private String sex;
 
 	@Column(name = "password")
 	private String password;
@@ -43,43 +67,71 @@ public class User {
 	@Column(name = "date_registered")
 	private Date dateRegistered;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "user_role", catalog = "db_example", joinColumns = {
-			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "role_id", nullable = false, updatable = false) })
-	private Set<Role> roles = new HashSet<Role>();
-	// DO NOT: create getter and setter for roles. Ref.: P16-02.
+	// TODO 26 - Users - fieldvalidation - deleted
+//	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	public User() {
 		super();
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public Address getAddress() {
+		return this.address;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public int getUserId() {
+		return this.userId;
+	}
+
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return this.userName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getFirstName() {
+		return this.firstName;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return this.lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getPrefix() {
+		return this.prefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+
+	public String getSex() {
+		return this.sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {
@@ -87,7 +139,7 @@ public class User {
 	}
 
 	public boolean isEnabled() {
-		return enabled;
+		return this.enabled;
 	}
 
 	public void setEnabled(boolean enabled) {
@@ -95,25 +147,83 @@ public class User {
 	}
 
 	public Date getDateBirth() {
-		return dateBirth;
+		return this.dateBirth;
 	}
 
 	public void setDateBirth(Date dateBirth) {
 		this.dateBirth = dateBirth;
 	}
 
+	// TODO 26 - Users - fieldvalidation - added
+	public String getDateBirthDisplay() {
+		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+		return s.format(this.dateBirth);
+	}
+
 	public Date getDateRegistered() {
-		return dateRegistered;
+		return this.dateRegistered;
 	}
 
 	public void setDateRegistered(Date dateRegistered) {
 		this.dateRegistered = dateRegistered;
 	}
 
+	// TODO 26 - Users - fieldvalidation - added
+	public String getDateRegisteredDisplay() {
+		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+		return s.format(this.dateRegistered);
+	}
+
+	public Set<Role> getRoles() {
+		return this.roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	// TODO 26 - Users - fieldvalidation - added
+	public boolean hasRole(String roleName) {
+		boolean result = false;
+		for (Role role : this.roles) {
+			if (role.getRoleName().equals(roleName)) {
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	
+	// TODO 26 - Users - fieldvalidation - added
+	public List<String> getUserRoleNames() {
+		List<String> result = new ArrayList<String>();
+		for (Role role : this.roles) {
+			result.add(role.getRoleName());
+		}
+		return result;
+	}
+
+	public Set<Role> getUserRoles() {
+		return this.roles;
+	}
+
 	@Override
 	public String toString() {
-		return "User [name=" + name + " , email=" + email + " , password=" + password + " , enabled=" + enabled
-				+ " , dateBirth=" + dateBirth + " , dateRegistered=" + dateRegistered + " , roles=" + roles + "]";
+		return "User [userId=" + userId + " , firstName=" + firstName + " , prefix=" + prefix + " , lastName=" + lastName + " , sex=" + sex
+				+ " , password=" + password + " , enabled=" + enabled + " , dateBirth=" + dateBirth
+				+ " , dateRegistered=" + dateRegistered + " , roles=" + roles + "]";
+	}
+
+	// TODO 26 - Users - fieldvalidation - mutable user
+	public String getClassName() {
+		return this.getClass().getCanonicalName();
+	}
+	
+	// TODO 25 - Users - save member with values
+	public void changeCase() {
+		// ProperCase
+		setFirstName(TextUtil.toProperCase(getFirstName()));
+		setLastName(TextUtil.toProperCase(getLastName()));
 	}
 
 }

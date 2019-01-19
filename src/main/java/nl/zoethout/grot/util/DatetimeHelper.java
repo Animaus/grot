@@ -1,17 +1,19 @@
 package nl.zoethout.grot.util;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Date;
 
+@SuppressWarnings("unused")
 public final class DatetimeHelper {
 
 	private static final DatetimeHelper INSTANCE = new DatetimeHelper();
 
-	@SuppressWarnings("unused")
 	private static DatetimeHelper getInstance() {
 		return INSTANCE;
 	}
@@ -197,6 +199,117 @@ public final class DatetimeHelper {
 		namedList.add("december");
 		// resultaat
 		return namedList;
+	}
+
+	private static ArrayList<String> getNamedDaysAbbr(){
+		ArrayList<String> namedList = new ArrayList<String>();
+		namedList.add("ma");
+		namedList.add("di");
+		namedList.add("wo");
+		namedList.add("do");
+		namedList.add("vr");
+		namedList.add("za");
+		namedList.add("zo");
+		return namedList;
+	}
+
+	private static ArrayList<String> getNamedMonthsAbbr(){
+		ArrayList<String> namedList = new ArrayList<String>();
+		namedList.add("jan");
+		namedList.add("feb");
+		namedList.add("mrt");
+		namedList.add("apr");
+		namedList.add("mei");
+		namedList.add("jun");
+		namedList.add("jul");
+		namedList.add("aug");
+		namedList.add("sep");
+		namedList.add("okt");
+		namedList.add("nov");
+		namedList.add("dec");
+		return namedList;
+	}
+
+	// Volledige dag- en maandnamen, bijvoorbeeld: "woensdag 10 juli"
+	
+	public static String getTodayFull(){
+		Date dtDay = new Date();
+		return getNamedDayFull(dtDay);
+	}
+
+	public static String getTodayWeekFull() {
+		Date dtDay = new Date();
+		DateTime dtWeekday = new DateTime();
+		String datedDay = getNamedDayFull(dtDay);
+		datedDay = datedDay + " " + dtWeekday.getYear() + ", week "
+				+ dtWeekday.getWeekOfWeekyear();
+		return datedDay;
+	}
+
+	public static String getNamedDayFull(Date datum){
+		DateTime dtWeekday = new DateTime(datum);
+		
+		String dayString ="";
+		String timeString = getTimeString(dtWeekday);
+		
+		dayString = getNamedDaysFull().get(dtWeekday.getDayOfWeek()-1) + " ";
+		dayString = TextUtil.toProperCase(dayString);
+		
+		dayString = dayString + dtWeekday.getDayOfMonth() + " ";
+		dayString = dayString + getNamedMonthsFull().get(dtWeekday.getMonthOfYear()-1) + " ";
+		
+		dayString = dayString + timeString;
+		
+		return dayString;
+	}
+
+	public static String getFormattedDateFull(Date datum){
+		DateTime dtWeekday = new DateTime(datum);
+		String strYear = TextUtil.addPreZeros(dtWeekday.getYear(),4);
+		String strMonth = getNamedMonthsFull().get(dtWeekday.getMonthOfYear()-1);
+		String strDay = TextUtil.addPreZeros(dtWeekday.getDayOfMonth(),2);
+		String strWeekDay = getNamedDaysFull().get(dtWeekday.getDayOfWeek()-1) + " ";
+		String dateString = strWeekDay + strDay + "-"  + strMonth + "-" + strYear ;
+		return dateString;
+	}
+
+	private static ArrayList<String> getNamedDaysFull(){
+		ArrayList<String> namedList = new ArrayList<String>();
+		namedList.add("maandag");
+		namedList.add("dinsdag");
+		namedList.add("woensdag");
+		namedList.add("donderdag");
+		namedList.add("vrijdag");
+		namedList.add("zaterdag");
+		namedList.add("zondag");
+		return namedList;
+	}
+
+	private static ArrayList<String> getNamedMonthsFull(){
+		ArrayList<String> namedList = new ArrayList<String>();
+		namedList.add("januari");
+		namedList.add("febuari");
+		namedList.add("maart");
+		namedList.add("april");
+		namedList.add("mei");
+		namedList.add("juni");
+		namedList.add("juli");
+		namedList.add("augustus");
+		namedList.add("september");
+		namedList.add("oktober");
+		namedList.add("november");
+		namedList.add("december");
+		return namedList;
+	}
+
+	public static String getTimeString(DateTime dateTime) {
+		if (dateTime == null) {
+			return "";
+		} else {
+			DateTimeFormatter dtFormat = DateTimeFormat
+					.forPattern("HH:mm:ss");
+			return dateTime.toString(dtFormat);
+		}
 	}
 
 }

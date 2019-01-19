@@ -1,19 +1,18 @@
 package nl.zoethout.grot.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import nl.zoethout.grot.domain.Address;
+import nl.zoethout.grot.domain.Member;
 import nl.zoethout.grot.domain.Role;
 import nl.zoethout.grot.domain.User;
 
@@ -40,11 +39,17 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User readUser(String userName) {
+	public void saveAddress(Address address) {
+		em.merge(address);
+		em.getTransaction().begin();
+		em.getTransaction().commit();
+	}
 
-		TypedQuery<User> query = em.createQuery("SELECT usr FROM User usr WHERE usr.userName = :parUserName",
+	@Override
+	public User readUser(int userId) {
+		TypedQuery<User> query = em.createQuery("SELECT usr FROM User usr WHERE usr.userId = :parUserId",
 				User.class);
-		query.setParameter("parUserName", userName);
+		query.setParameter("parUserId", userId);
 
 		try {
 			// User found
@@ -58,6 +63,55 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 
+	}
+
+	@Override
+	public User readUser(String userName) {
+	
+		TypedQuery<User> query = em.createQuery("SELECT usr FROM User usr WHERE usr.userName = :parUserName",
+				User.class);
+		query.setParameter("parUserName", userName);
+	
+		try {
+			// User found
+			User success = query.getSingleResult();
+			return success;
+		} catch (NoResultException nre) {
+			// No user found
+			return null;
+		} catch (IllegalArgumentException iae) {
+			// Unexpected error
+			return null;
+		}
+	
+	}
+
+	@Override
+	public Address readAddress(int userId) {
+	
+		TypedQuery<Address> query = em.createQuery("SELECT address FROM Address address WHERE address.userId = :parUserId",
+				Address.class);
+		query.setParameter("parUserId", userId);
+	
+		try {
+			// User found
+			Address success = query.getSingleResult();
+			return success;
+		} catch (NoResultException nre) {
+			// No Address found
+			return null;
+		} catch (IllegalArgumentException iae) {
+			// Unexpected error
+			return null;
+		}
+	
+	}
+
+	@Override
+	public Member readMember(String userName) {
+		User user = readUser(userName);
+		Member member = new Member(user);
+		return member;
 	}
 
 	@Override
@@ -98,39 +152,6 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void executeSQL(String sql) {
-	}
-
-	@Override
-	public List<String> listUserRoles(int userId) {
-
-		// Groepsnamen opvragen
-		Map<String, String> mapRoleNames = new HashMap<String, String>();
-		List<String> listRoleNames = new ArrayList<String>();
-		List<Role> roles = readRoles();
-		for (Role role : roles) {
-			String roleID = "" + role.getRoleId();
-			if (!mapRoleNames.containsKey(roleID)) {
-				String roleName = role.getRoleName();
-				mapRoleNames.put(roleID, roleName);
-				listRoleNames.add(roleName);
-			}
-		}
-
-		// Lijst met toegewezen groepsnummers op gebruikers-id
-		Query query = em.createNativeQuery("SELECT role_id FROM user_role WHERE user_id = :parUserId");
-		query.setParameter("parUserId", userId);
-
-		// Groepsnamen toevoegen aan de lijst met rollen
-		List<String> userRoles = new ArrayList<String>();
-		try {
-			for (java.lang.Object userRole : query.getResultList()) {
-				userRoles.add(mapRoleNames.get(userRole.toString()));
-			}
-		} catch (NoResultException e) {
-			userRoles = null;
-		}
-
-		return userRoles;
 	}
 
 	@Override
@@ -179,12 +200,13 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	@Override
 	public User loginUser(String userName, String password) {
 
 		TypedQuery<User> query = em.createQuery(
-				"SELECT usr FROM User usr WHERE usr.enabled = true AND usr.name = :parName AND usr.password = :parPassword",
+				"SELECT usr FROM User usr WHERE usr.enabled = true AND usr.userName = :parUserName AND usr.password = :parPassword",
 				User.class);
-		query.setParameter("parName", userName);
+		query.setParameter("parUserName", userName);
 		query.setParameter("parPassword", password);
 
 		try {
@@ -199,6 +221,27 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 
+	}
+
+	@Override
+	public List<Member> listProfiles() {
+
+		List<Member> profiles = new ArrayList<Member>();
+
+		String SQL = "SELECT user FROM User user";
+		TypedQuery<User> query = em.createQuery(SQL, User.class);
+
+		try {
+			List<User> users = query.getResultList();
+			for (User user : users) {
+				Member member = new Member(user);
+				profiles.add(member);
+			}
+		} catch (NoResultException e) {
+			// Oeps...
+		}
+
+		return profiles;
 	}
 
 }

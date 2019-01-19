@@ -1,0 +1,86 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%><%@ taglib prefix="sft" uri="http://www.springframework.org/tags/form"%><%@ taglib prefix="sst" uri="http://www.springframework.org/tags"%><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<jsp:include page="header.jsp" /><body onload='document.userForm.firstName.focus();'>
+<jsp:include page="menu.jsp" />
+
+<p>user_edit.jsp</p>
+	<sft:form method='POST' commandName='user' action='saveEdit' name='userForm'>
+		<div class="thmTitle">
+			<div class="thmTitleButtons">
+				<input value='<sst:message code='save.tag' />' class='btn' type='submit'>
+			</div>	
+			<h2><sst:message code='profile.tag' /></h2>
+		</div>	
+		<br>
+		<div class="thmContentLeft">		
+			<b><sst:message code='person.tag' /></b><br><p>&nbsp;</p>	
+					
+			<sft:label path='firstName'><sst:message code='firstName.label' /></sft:label>
+				<sft:input path='firstName' />
+				<p><sft:errors path='firstName' cssClass='alert alert-error' />&nbsp;</p>				
+			<sft:label path='lastName'><sst:message code='lastName.label' /></sft:label>
+				<sft:input path='lastName' />
+				<p><sft:errors path='lastName' cssClass='alert alert-error' />&nbsp;</p>					
+			<sft:label path='prefix'><sst:message code='prefix.label' /></sft:label>
+				<sft:input path='prefix' /><p>&nbsp;</p>				
+			<sft:label path='sex'><sst:message code='sex.label' /></sft:label>
+				<sft:radiobutton path='sex' value='m' />man <sft:radiobutton path='sex' value='f' />vrouw
+				<p><sft:errors path='sex' cssClass='alert alert-error' />&nbsp;</p><br>					
+			<sft:label path='dateBirth'><sst:message code='dateBirth.label' /></sft:label>
+				<sft:input path='dateBirth' placeholder='Vorm: jjjj-mm-dd' />
+				<p><sft:errors path='dateBirth' cssClass='alert alert-error' />&nbsp;</p>					
+			<sft:label path='mobileNumber'><sst:message code='mobileNumber.label' /></sft:label>
+				<sft:input path='mobileNumber' placeholder='Bijv.: 0612345678' />
+				<p><sft:errors path='mobileNumber' cssClass='alert alert-error' />&nbsp;</p>					
+			<sft:label path='phoneNumber'><sst:message code='phoneNumber.label' /></sft:label>
+				<sft:input path='phoneNumber' placeholder='Bijv.: 0558765432' />
+				<p><sft:errors path='phoneNumber' cssClass='alert alert-error' />&nbsp;</p>
+			<sft:label path='mailAddress'><sst:message code='mailAddress.label' /></sft:label>
+				<sft:input path='mailAddress' placeholder='Bijv.: iemand@domein.nl' />
+				<p><sft:errors path='mailAddress' cssClass='alert alert-error' />&nbsp;</p>
+			<sft:label path='userName'><sst:message code='userName.label' /></sft:label>
+				<sft:input path='userName' disabled='true' placeholder='Automatisch vastgesteld' />
+				<p><sft:errors path='userName' cssClass='alert alert-error' />&nbsp;</p>
+			<label><sst:message code='authorisation.label' /></label>
+				<ul>
+					<c:forEach items='${listGroups}' var='group'><c:set var="checked" value="false" /><c:forEach items="${user.getGroupNames()}" var="groupName"><li><c:if test="${group.groupName==groupName}"><c:set var="checked" value="true" /></c:if></li></c:forEach><c:choose><c:when test="${checked==true}"><input name="roles" type="checkbox" value="${group.groupName}" checked />${group.groupDesc}<br /></c:when><c:otherwise><input name="roles" type="checkbox" value="${group.groupName}" />${group.groupDesc}<br /></c:otherwise></c:choose></c:forEach>
+				</ul>
+		</div>
+
+		<div class="thmContentRight">
+			<b><sst:message code='address.tag' /></b><br><p>&nbsp;</p>
+			
+			<sft:label path='address.streetName'><sst:message code='streetName.label' /></sft:label>
+				<sft:input path='address.streetName' />
+				<p><sft:errors path='address.streetName' cssClass='alert alert-error' />&nbsp;</p>
+			<sft:label path='address.houseNumber'><sst:message code='houseNumber.label' /></sft:label>
+				<sft:input path='address.houseNumber' />
+				<p><sft:errors path='address.houseNumber' cssClass='alert alert-error' />&nbsp;</p>
+			<sft:label path='address.addressCode'><sst:message code='addressCode.label' /></sft:label>
+				<sft:input path='address.addressCode' placeholder='Bijv.: 9999 XX' />
+				<p><sft:errors path='address.addressCode' cssClass='alert alert-error' />&nbsp;</p>
+			<sft:label path='address.city'><sst:message code='city.label' /></sft:label>
+				<sft:input path='address.city'  />
+				<p><sft:errors path='address.city' cssClass='alert alert-error' />&nbsp;</p>
+			<sft:label path='address.country'><sst:message code='country.label' /></sft:label>
+				<sft:select path='address.country' id="land"><c:forEach items='${countries}' var='country'><c:choose><c:when test="${country.countryCode==user.address.country}">
+					<option value='${user.address.country}' selected>${country.countryName}</option></c:when><c:otherwise>
+					<option value='${country.countryCode}'>${country.countryName}</option></c:otherwise></c:choose></c:forEach></sft:select>
+				<p><sft:errors path='address.country' cssClass='alert alert-error' />&nbsp;</p>
+			<div class="thmContentRightUnder">
+				<b><sst:message code='nofa.tag' /></b><br><br><br><br>
+			
+				<sft:label path='alias'><sst:message code='alias.label' /></sft:label>
+					<sft:input path='alias' />
+					<p><sft:errors path='alias' cssClass='alert alert-error' />&nbsp;</p>
+				<sft:label path='memberCode'><sst:message code='memberCode.label' /></sft:label>
+					<sft:input path='memberCode' disabled='true' placeholder='Automatisch vastgesteld' />
+					<p><sft:errors path='memberCode' cssClass='alert alert-error' />&nbsp;</p>
+				<sft:label path='enabled'><sst:message code='enabled.label' /></sft:label>
+					<sft:checkbox path='enabled' value='${enabled}' /> Actief
+			</div>	
+		</div>
+		
+	</sft:form>
+
+</body>
+</html>

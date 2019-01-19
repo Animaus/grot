@@ -27,21 +27,15 @@ public class Role implements Serializable {
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "role_id", unique = true, nullable = false)
 	private Integer roleId;
+	
 	@Column(name = "role_name", nullable = false, length = 10)
 	private String roleName;
+	
 	@Column(name = "role_desc", nullable = false, length = 255)
 	private String roleDesc;
 
 	public Role() {
 		super();
-	}
-
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
 	}
 
 	public Integer getRoleId() {
@@ -66,6 +60,14 @@ public class Role implements Serializable {
 
 	public void setRoleDesc(String roleDesc) {
 		this.roleDesc = roleDesc;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 	@Override

@@ -1,0 +1,76 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%><%@ taglib uri="/WEB-INF/CustomTags" prefix="ct"%><%@taglib uri="http://www.springframework.org/tags/form" prefix = "sft"%><%@ taglib uri="http://www.springframework.org/tags" prefix="sst"%>
+<jsp:include page="header.jsp" />
+<div align="center">
+	<a href="/">${LNK_USR_HOME}</a><c:choose><c:when test='${user== null}'>&nbsp;|&nbsp;<a href="/user/login">${LNK_USR_LOGIN}</a></c:when><c:otherwise>&nbsp;|&nbsp;<a href="/user/logout">${LOGIN_OUT}</a></c:otherwise></c:choose>&nbsp;|&nbsp;<a href="/user">${LNK_USR_MEMBERS}</a>
+</div>
+<div align="center">${ct: today()}</div>
+<div align="center"><c:choose><c:when test='${user== null}'>${LOGIN_NON}</c:when><c:otherwise>${LOGIN_YES} ${user.firstName} ${user.prefix} ${user.lastName}</c:otherwise></c:choose></div>
+
+<p align="center">&nbsp;</p>
+
+<p align="center">${DESCRIPTION}</p>
+
+<p align="center">
+	<a href="start">Proofs of concepts</a>
+</p>
+
+<div align="center">
+	<sft:form method = "GET" action = "user" modelAttribute = "student">
+	<button type="submit" class="btn"><sst:message code='edit.tag' /></button>
+
+	<table border="1" style="width: 750px;" cellspacing="4" cellpadding="4">
+		<tr>
+			<td valign="top" style="height: 30px; width: 50%;">
+				<table border="1" style="width: 100%;">
+					<tr>
+						<td valign="top" style="height: 30px; width: 45%;"></td>
+						<td valign="top" style="height: 30px; width: 55%;"></td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 30px;" colspan="2"><b><sst:message code='person.tag' /></b><br />&nbsp;</td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 30px;">&nbsp;</td>
+					</tr>
+				</table>  
+			</td>
+			<td valign="top" style="height: 30px; width: 50%;">
+				<table border="1" style="width: 100%;">
+					<tr>
+						<td valign="top" style="height: 30px; width: 45%;"></td>
+						<td valign="top" style="height: 30px; width: 55%;"></td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 30px;" colspan="2"><b><sst:message code='address.tag' /></b><br />&nbsp;</td>
+					</tr>
+					<tr>
+						<td valign="top" style="height: 30px;">&nbsp;</td>
+					</tr>
+				</table>  
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<h4>${student.className}</h4>
+				<table>
+					<tr>
+						<td>Name</td>
+						<td>${student.name}</td>
+					</tr>
+					<tr>
+						<td>Age</td>
+						<td>${student.age}</td>
+					</tr>
+					<tr>
+						<td>ID</td>
+						<td>${student.id}</td>
+					</tr>
+				</table>  
+			</td>
+		</tr>
+	</table>
+	</sft:form>
+</div>
+
+<jsp:include page="footer.jsp" />
