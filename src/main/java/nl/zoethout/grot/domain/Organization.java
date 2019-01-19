@@ -5,8 +5,8 @@ import java.util.Vector;
 public class Organization {
 	public String website;
 	
-	public Vector myAdres;
-	public Vector onderhouden;
+	public Vector<Address> address;
+	public Vector<Administrator> onderhouden;
 	
 	public Organization() {
 		super();

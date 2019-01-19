@@ -12,7 +12,7 @@ public class Group {
 	public String compensation;
 	public String transportation;
 	
-	public Vector groupMember;
+	public Vector<UserPreferred> groupMember;
 	public Address address;
 	
 	public Group() {

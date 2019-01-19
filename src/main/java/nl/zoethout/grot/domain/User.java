@@ -1,32 +1,81 @@
 package nl.zoethout.grot.domain;
 
-import java.util.Collection;
-import java.sql.Date;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
-public abstract class User {
-	private Integer id;
+@Entity
+@Table(name = "user", catalog = "db_example")
+public class User {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private Integer userId;
+
+	@Column(name = "name")
+	private String name;
+
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "password")
 	private String password;
-	private boolean loginStatus;
-	private boolean isAdmin;
-	private Date registerDate;
-	private Date lastEdited;
-	private String firstName;
-	private String lastName;
-	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
-	// cascade=CascadeType.ALL)
-	private Collection<Tent> tents;
-	private Address address;
 
-	public Integer getId() {
-		return id;
+	@Column(name = "enabled")
+	private boolean enabled;
+
+	@Column(name = "date_birth")
+	private Date dateBirth;
+
+	@Column(name = "date_registered")
+	private Date dateRegistered;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_role", catalog = "db_example", joinColumns = {
+			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "role_id", nullable = false, updatable = false) })
+	private Set<Role> roles = new HashSet<Role>();
+	// DO NOT: create getter and setter for roles. Ref.: P16-02.
+
+	public User() {
+		super();
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -37,71 +86,34 @@ public abstract class User {
 		this.password = password;
 	}
 
-	public boolean isLoginStatus() {
-		return loginStatus;
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	public void setLoginStatus(boolean loginStatus) {
-		this.loginStatus = loginStatus;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
-	public boolean isAdmin() {
-		return isAdmin;
+	public Date getDateBirth() {
+		return dateBirth;
 	}
 
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setDateBirth(Date dateBirth) {
+		this.dateBirth = dateBirth;
 	}
 
-	public Date getRegisterDate() {
-		return registerDate;
+	public Date getDateRegistered() {
+		return dateRegistered;
 	}
 
-	public void setRegisterDate(Date registerDate) {
-		this.registerDate = registerDate;
+	public void setDateRegistered(Date dateRegistered) {
+		this.dateRegistered = dateRegistered;
 	}
 
-	public Date getLastEdited() {
-		return lastEdited;
+	@Override
+	public String toString() {
+		return "User [name=" + name + " , email=" + email + " , password=" + password + " , enabled=" + enabled
+				+ " , dateBirth=" + dateBirth + " , dateRegistered=" + dateRegistered + " , roles=" + roles + "]";
 	}
 
-	public void setLastEdited(Date lastEdited) {
-		this.lastEdited = lastEdited;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public Collection<Tent> getTents() {
-		return tents;
-	}
-
-	public void setTents(Collection<Tent> tents) {
-		this.tents = tents;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public boolean verifyLogin() {
-		return false;
-	}
 }

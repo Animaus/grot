@@ -3,18 +3,19 @@ package nl.zoethout.grot.domain;
 import java.util.Vector;
 import java.util.Date;
 
-public class GroupMember extends User {
+public class GroupMember extends UserPreferred {
 	private String characterName;
 	private int craft;
-	public String transportation;
-	public String transportationId;
-	public String releaseInfo;
-	public Date eventAvailable;
-	public String eventStay;
-	public String eventTransportation;
 	
-	public Vector myEvenement;
-	public Group myGroep;
+	private String transportation;
+	private String transportationId;
+	private String releaseInfo;
+	private Date eventAvailable;
+	private String eventStay;
+	private String eventTransportation;
+	
+	public Vector<Event> aanmaken;
+	public Group group;
 	
 	public GroupMember() {
 		super();

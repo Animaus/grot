@@ -3,11 +3,12 @@ package nl.zoethout.grot.domain;
 import java.util.Collection;
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+//import javax.persistence.CascadeType;
+//import javax.persistence.FetchType;
+//import javax.persistence.OneToMany;
 
 public abstract class UserPreferred {
+	
 	private Integer id;
 	private String password;
 	private boolean loginStatus;
@@ -16,6 +17,7 @@ public abstract class UserPreferred {
 	private Date lastEdited;
 	private String firstName;
 	private String lastName;
+	
 	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
 	// cascade=CascadeType.ALL)
 	private Collection<Tent> tents;

@@ -1,34 +1,45 @@
+================================================================================================================================================
+INDEX
+================================================================================================================================================
+
 R = Reason
 S = Solution
-V = Versioning
+D = Description
 P = Problem
 
 
-================================================================================================================================================
+------------------------------------------------------------------------------------------------------------------------------------------------
 SOLVED
-================================================================================================================================================
+------------------------------------------------------------------------------------------------------------------------------------------------
 	R		: 01	- Setup a project using Spring-boot and Spring-MVC
-	R		: 02	- Make class-diagram
-
-================================================================================================================================================
-WISHLIST
-================================================================================================================================================
-	R		: 99	- ???
-
-================================================================================================================================================
-TODO
-================================================================================================================================================
-	R		: 03	- Add / update classes for domain and web
-	R		: 04	- Create diagram for SQL-datamodel
-	R		: 05	- Create SQL-datamodel
-	R		: 06	- Create persistence unit
-	R		: 07	- Create basic web-interface
-	R		: 08	- Create login-page
+	R		: 02	- Classes - diagram
+	R		: 04	- SQL-datamodel - diagram
+	R		: 03	- Classes - domain and web
+	R		: 07	- Basic web-interface
 	R		: 09	- Efficient Spring-configuration
-	R		: 10	- Security
-	R		: 11	- Data-connectivity
+	R		: 08	- Login - create page
+	R		: 05	- SQL-datamodel - script and code
+	R		: 11	- Consistent display of pages and texts
+	R		: 13	- Users - more properties and storage
 
+------------------------------------------------------------------------------------------------------------------------------------------------
+FAILED
+------------------------------------------------------------------------------------------------------------------------------------------------
+	R		: 10	- Basic security
 
+------------------------------------------------------------------------------------------------------------------------------------------------
+WISHLIST
+------------------------------------------------------------------------------------------------------------------------------------------------
+	R		: 06	- Create persistence unit
+	R		: 12	- SQL-datamodel - what happens when there's no database or table?
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+TODO
+------------------------------------------------------------------------------------------------------------------------------------------------
+	R		: 14	- Users - display
+	R		: 15	- Users - registration
+	R		: 16	- Login - pseudo-security
+	R		: 17	- errorpage
 
 ================================================================================================================================================
 TASKS PERFORMED
@@ -37,18 +48,35 @@ TASKS PERFORMED
 ------------------------------------------------------------------------------------------------------------------------------------------------
 01.	R		: Setup a project using Spring-boot and Spring-MVC
 
-	S		: Created basic files and code for Hello World : see "install.zip"
+	S		: Created basic files and code for Hello World : see "install*.zip"
+
+	R		: Done...!
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-02.	R		: Make class-diagram
+02.	R		: Classes - diagram
 
+	D		: software installation
 				Argo program shortcut contains hard-coded reference to JAVA 6 and requires JAVA 6 to be installed.
 				After installation of Argo, change program shortcut to refer to JAVA 8 (JDK-jre) and uninstall JAVA 6.
 
+	D		: current version
+				class_diagram_02
+
+	R		: Done...!
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-03.	R		: Add / update classes for domain and web
+04	R		: SQL-datamodel - diagram
+
+	D		: current version
+				sql_datamodel_02
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+03.	R		: Classes - domain and web
 
 	S		: add
 	D		: generated from Argo
@@ -104,38 +132,33 @@ TASKS PERFORMED
 
 	- more annotations to go in user -
 
-
-------------------------------------------------------------------------------------------------------------------------------------------------
-05.	R		: Create SQL-datamodel
-
-	S		: add
-				user, group, user_group, address and organization
+	R		: Done...!
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-07.	R		: Create basic web-interface
+07.	R		: Basic web-interface
 
 	S		: add
 				web-resources from another (working) project
 	S		: re-write
-				/grot/src/main/webapp/WEB-INF/jsp/welcome.jsp
+				/src/main/webapp/WEB-INF/jsp/welcome.jsp
 
 	S		: add
-				/grot/src/main/webapp/WEB-INF/jsp/header.jsp
-				/grot/src/main/webapp/WEB-INF/jsp/footer.jsp
-				/grot/src/main/webapp/WEB-INF/jsp/home.jsp
+				/src/main/webapp/WEB-INF/jsp/header.jsp
+				/src/main/webapp/WEB-INF/jsp/footer.jsp
+				/src/main/webapp/WEB-INF/jsp/home.jsp
 
 	S		: re-write
 				nl.zoethout.grot.web.Welcome.welcome(Map<String, Object>)
 					"welcome" -> "home"
 	D		: effectively disabled "welcome.jsp"
 	S		: re-write
-				/grot/src/main/webapp/WEB-INF/jsp/home.jsp
+				/src/main/webapp/WEB-INF/jsp/home.jsp
 	D		: saved old version as "home.txt"
 
 	*P07-01	: custom text doesn't show
 	S		: add
-				/grot/src/main/resources/link.properties
+				/src/main/resources/link.properties
 				nl.zoethout.grot.web.Welcome.lnk
 				nl.zoethout.grot.web.Welcome.setAttributes()
 				nl.zoethout.grot.web.Welcome.setSiteLink(String)
@@ -146,7 +169,7 @@ TASKS PERFORMED
 
 	P07-02	: taglib is not present, so custom tags are not functioning
 	S		: add
-				/grot/src/main/webapp/WEB-INF/taglib.tld
+				/src/main/webapp/WEB-INF/taglib.tld
 	S		: add dependency
 				<!-- Datetime -->
 				<dependency>
@@ -156,21 +179,31 @@ TASKS PERFORMED
 	S		: add
 				nl.zoethout.grot.util.DatetimeHelper
 	S		: re-write
-				/grot/src/main/webapp/WEB-INF/jsp/home.jsp
+				/src/main/webapp/WEB-INF/jsp/home.jsp
+
+	R		: Done...!
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 09.	R		: Efficient Spring-configuration
 
 	S		: add
-				/grot/src/main/resources/spring/applicationContext.xml
+				/src/main/resources/applicationContext.xml
 	S		: re-write
-				/grot/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml
+				/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml
 	D		: made it import "applicationContext.xml"
+	S		: add
+				/src/main/resources/spring-mvc.xml
+				/src/main/resources/spring-context.xml
+	S		: re-write
+				/src/main/resources/applicationContext.xml
+	D		: made it import "spring-mvc.xml" and "spring-context.xml"
+
+	R		: Done...!
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-08.	R		: Create login-page
+08.	R		: Login - create page
 
 	S		: add
 				nl.zoethout.grot.web.Welcome.attributes
@@ -181,103 +214,179 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.Welcome.setSiteLink(String)
 				nl.zoethout.grot.web.Welcome.setAttributes()
 				nl.zoethout.grot.web.Welcome.welcome(Map<String, Object>)
-				/grot/src/main/webapp/WEB-INF/jsp/login.jsp
-				/grot/src/main/resources/text.properties
+				/src/main/webapp/WEB-INF/jsp/login.jsp
+				/src/main/resources/text.properties
 
 	S		: re-write
-				/grot/src/main/webapp/WEB-INF/jsp/home.jsp
+				/src/main/webapp/WEB-INF/jsp/home.jsp
+
+	R		: Done...!
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-10.	R		: Security
+10	R		: Basic security
 
-	S		: add security
-				/grot/src/main/resources/spring-security.xml
+	D		: after several day of fruitless trying, I gave up.
 
-	D		: after several day of struggle and endless experimenting I failed and gave up...
+	R		: Failed...!
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-11.	R		: Data-connectivity
-
-	S		: add
-				/grot/src/main/resources/spring-mvc.xml
-				/grot/db.sql
-	S		: re-write
-				/grot/pom.xml
-				/grot/src/main/resources/applicationContext.xml
-				/grot/src/main/resources/application.properties
-	S		: delete
-				/grot/src/main/resources/static/main.css
-				/grot/src/main/webapp/WEB-INF/jsp/welcome.jsp
-	S		: re-write
-				/grot/src/main/webapp/WEB-INF/jsp/header.jsp
-	D		: Changed path of stylesheets to absolute. Otherwise not loaded on sublinks like /foo/bar.
-
-	S		: re-write
+05.	R		: SQL-datamodel - script and code
+	
+	S		: renamed
 				nl.zoethout.grot.web.Welcome -> HomeController
 				nl.zoethout.grot.domain.User -> UserPreferred
-	S		: add entities
-				nl.zoethout.grot.domain.Role
+
+	S		: add
+	D		: entities
 				nl.zoethout.grot.domain.User
 				nl.zoethout.grot.domain.UserRole
-	S		: add
+				nl.zoethout.grot.domain.Role
+	D		: SQL model
+				/src/main/resources/db.sql
+	D		: entries for spring.jpa & spring.datasource
+				/src/main/resources/application.properties
+	D		: repositories
 				nl.zoethout.grot.repository.UserRepository
 				nl.zoethout.grot.dao.UserDao
 				nl.zoethout.grot.dao.UserDaoGrot
-				nl.zoethout.grot.web.DemoController
-				/grot/src/main/webapp/WEB-INF/jsp/demo.jsp
-	S		: re-write
-				nl.zoethout.grot.web.HomeController
-
-
-
-
-
-
-
-				<!-- SQL -->
-				<dependency>
-					<groupId>mysql</groupId>
-					<artifactId>mysql-connector-java</artifactId>
-				</dependency>
-
-				<!-- Hibernate -->
-				<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
-				<dependency>
-					<groupId>org.hibernate.validator</groupId>
-					<artifactId>hibernate-validator</artifactId>
-					<version>6.0.10.Final</version>
-					<scope>compile</scope>
-				</dependency>
-				<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
-				<dependency>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-core</artifactId>
-					<version>5.3.1.Final</version>
-				</dependency>
-
-	S		: add
-				/grot/src/main/resources/META-INF/persistence.xml
-	D		: persistence unit
-
-	S		: add
-				nl.zoethout.grot.domain.UserGroup
+	D		: basic check
+				/src/main/webapp/WEB-INF/jsp/basic.jsp
+				nl.zoethout.grot.web.BasicController
 
 	S		: re-write
-				nl.zoethout.grot.domain.User
-				nl.zoethout.grot.domain.Group
-	D		: saved old versions as .txt
+	D		: descriptive message for basic check
+				/src/main/resources/text.properties
 
+	S		: delete
+				/src/main/webapp/WEB-INF/jsp/welcome.jsp
 
-	// http://www.tutorialspoint.com/spring/spring_jdbc_example.htm
+	R		: Done...!
 
-	/**
-	 * JTA-capable EntityManager is usually created by application server and
-	 * obtained from it via JNDI.
-	 */
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-10.	R		: Basic SQL-model and security
+11.	R		: Consistent display of pages and texts
+	
+	S		: added
+				nl.zoethout.grot.web.HomeController.DISPATCHER
+				nl.zoethout.grot.web.BasicController.DISPATCHER
+				nl.zoethout.grot.web.HomeController.DEFAULT_MESSAGE
+				nl.zoethout.grot.web.BasicController.DEFAULT_MESSAGE
+
+	S		: re-write
+				nl.zoethout.grot.web.HomeController.rmWelcome(Map<String, Object>, HttpServletRequest)
+				nl.zoethout.grot.web.BasicController.rmStart(Map<String, Object>)
+				nl.zoethout.grot.web.BasicController.rmDao(Model, HttpServletRequest)
+				nl.zoethout.grot.web.BasicController.rmProperties(Map<String, Object>)
+				/src/main/webapp/WEB-INF/jsp/basic.jsp
+				/src/main/webapp/WEB-INF/jsp/home.jsp
+
+	R		: Done...!
 
 
+------------------------------------------------------------------------------------------------------------------------------------------------
+13.	R		: Users - more properties and storage
+
+	S		: re-write
+	D		: SQL model
+				/src/main/resources/db.sql
+	S		: add
+				nl.zoethout.grot.domain.User.password
+				nl.zoethout.grot.domain.User.dateBirth
+				nl.zoethout.grot.domain.User.dateRegistered
+
+	S		: add
+				nl.zoethout.grot.service.UserService
+				nl.zoethout.grot.service.UserServiceImpl
+
+	S		: renamed
+				/src/main/webapp/WEB-INF/jsp/basic.jsp -> poc.jsp
+				nl.zoethout.grot.web.BasicController -> PocController
+
+	S		: add
+				nl.zoethout.grot.web.PocController.userService
+				nl.zoethout.grot.web.PocController.rmSaveUser()
+
+	S		: add
+				/src/main/resources/poc.properties
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/home.jsp
+				/src/main/webapp/WEB-INF/jsp/poc.jsp
+				nl.zoethout.grot.web.HomeController.setAttributes(HttpServletRequest)
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+16.	R		: Login - pseudo-security
+
+	S		: add
+				nl.zoethout.grot.dao.UserDao.loginUser(String, String)
+				nl.zoethout.grot.dao.UserDaoImpl.loginUser(String, String)
+				nl.zoethout.grot.service.UserService.loginUser(String, String)
+				nl.zoethout.grot.service.UserServiceImpl.loginUser(String, String)
+				nl.zoethout.grot.web.PocController.rmLoginValid(Map<String, Object>)
+				nl.zoethout.grot.web.PocController.rmLoginInvalid(Map<String, Object>)
+	S		: re-write POC
+				/src/main/webapp/WEB-INF/jsp/poc.jsp
+				/src/main/resources/poc.properties
+				nl.zoethout.grot.web.PocController.setAttributes()
+
+	* P16-01	: java.lang.StackOverflowError: null
+	S		: re-write
+				nl.zoethout.grot.domain.Role.toString()
+	D		: deleted call to property "users" in entity.
+				You want a user with associated roles but at the same time you do not want not all connected users to those roles.
+	*P16-01	: solved...!
+
+	* P16-02	: Exception...!
+				From page :
+					SyntaxError: JSON.parse: unterminated string literal at line 1 column 111934 of the JSON data
+				From stacktrace :
+					2018-06-19 14:17:53.186  WARN 16692 --- [nio-9090-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver :
+					Failed to write HTTP message: org.springframework.http.converter.HttpMessageNotWritableException:
+					Could not write JSON: Infinite recursion (StackOverflowError);
+					nested exception is com.fasterxml.jackson.databind.JsonMappingException:
+					Infinite recursion (StackOverflowError) through reference chain:
+					 org.hibernate.collection.internal.PersistentSet[0]
+					 ->nl.zoethout.grot.domain.Role["users"]
+					 ->org.hibernate.collection.internal.PersistentSet[0]
+					 ->nl.zoethout.grot.domain.User["roles"]
+					 ->org.hibernate.collection.internal.PersistentSet[0]
+					 -> etc...
+				Cause	:
+					getter and setter for nl.zoethout.grot.domain.User.roles should not have existed
+	S		: delete
+				nl.zoethout.grot.domain.User.getRoles()
+				nl.zoethout.grot.domain.User.setRoles(Set<Role>)
+	*P16-02	: solved...!
+
+	S		: add
+				nl.zoethout.grot.security.PseudoSecurity
+				nl.zoethout.grot.security.PseudoSecurityExecute
+				nl.zoethout.grot.web.PocController.rmDenied(Map<String, Object>, HttpServletRequest, HttpServletResponse)
+				nl.zoethout.grot.web.PocController.rmGranted(Map<String, Object>, HttpServletRequest, HttpServletResponse)
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/poc.jsp
+
+	S		: moved
+				nl.zoethout.grot.web.HomeController.rmLogin() -> nl.zoethout.grot.web.UserController.rmLogin()
+	S		: re-write
+				/src/main/webapp/WEB-INF/jsp/home.jsp
+				/src/main/webapp/WEB-INF/jsp/poc.jsp
+				/src/main/webapp/WEB-INF/jsp/login.jsp
+	S		: add
+				nl.zoethout.grot.SessionAttributes
+				nl.zoethout.grot.AttributeProvider
+				nl.zoethout.grot.AttributeProviderImpl
+				nl.zoethout.grot.web.UserController.rmCheck(Map<String, Object>, HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLogout(HttpServletRequest, HttpServletResponse)
+				nl.zoethout.grot.web.UserController.DEFAULT_MESSAGE
+				nl.zoethout.grot.domain.WrappedUser.WrappedUser(User, List<String>)
+
+	D		: login
+				page does not display error on login
+				should redirect to home on succesfull login
+				method : nl.zoethout.grot.web.UserController.rmCheck(Map<String, Object>, HttpServletRequest)
+				user entity is too limited : does not have first-, last- and surname

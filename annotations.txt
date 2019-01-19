@@ -1,0 +1,98 @@
+setAttributes=[],
+setText=[],
+rmProperties=[
+	@org.springframework.web.bind.annotation.RequestMapping(
+		path=[],
+		headers=[],
+		method=[GET],
+		name=, produces=[],
+		params=[],
+		value=[properties],
+		consumes=[])
+	)
+],
+rmStart=[
+	@org.springframework.web.bind.annotation.RequestMapping(
+		path=[],
+		headers=[],
+		method=[GET],
+		name=, produces=[],
+		params=[],
+		value=[start],
+		consumes=[])
+	)
+],
+rmDao=[
+	@org.springframework.web.bind.annotation.RequestMapping(
+		path=[],
+		headers=[],
+		method=[GET],
+		name=, produces=[],
+		params=[],
+		value=[/dao],
+		consumes=[])
+	)
+],
+rmRepository=[
+	@org.springframework.web.bind.annotation.RequestMapping(
+		path=[],
+		headers=[],
+		method=[GET],
+		name=, produces=[],
+		params=[],
+		value=[/repository],
+		consumes=[]
+	),
+	@org.springframework.web.bind.annotation.ResponseBody(
+	)
+],
+
+rmSaveUser=[
+	@org.springframework.web.bind.annotation.RequestMapping(
+		path=[],
+		headers=[],
+		method=[],
+		name=, produces=[],
+		params=[],
+		value=[/saveUser],
+		consumes=[]
+	),
+	@org.springframework.web.bind.annotation.ResponseBody(
+	)
+],
+rmLoginValid=[
+	@org.springframework.web.bind.annotation.RequestMapping(
+		path=[],
+		headers=[],
+		method=[],
+		name=, produces=[],
+		params=[],
+		value=[/loginValid],
+		consumes=[])
+	)
+],
+rmLoginInvalid=[
+	@org.springframework.web.bind.annotation.RequestMapping(
+		path=[],
+		headers=[],
+		method=[],
+		name=, produces=[],
+		params=[],
+		value=[/loginInvalid],
+		consumes=[])
+	)
+],
+rmAnnotation=[
+	@org.springframework.web.bind.annotation.RequestMapping(
+		path=[],
+		headers=[],
+		method=[],
+		name=, produces=[],
+		params=[],
+		value=[/annotation],
+		consumes=[]
+	),
+	@nl.zoethout.grot.annotation.ApplicationSecurity(
+		roles=[admin]
+	)
+]

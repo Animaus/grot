@@ -17,8 +17,8 @@ public class Event {
 	public Organization organization;
 	public String releaseInfo;
 	
-	public Vector groupMember;
-	public Vector aanmaken;
+	public Vector<UserPreferred> groupMember;
+	public Vector<Administrator> aanmaken;
 	
 	public Event() {
 		super();
