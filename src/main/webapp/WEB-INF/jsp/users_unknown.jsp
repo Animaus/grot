@@ -14,7 +14,6 @@
 		</tr>
 	</table>
 </div>
-<p align="center"><i>users_unknown.jsp</i></p>
 
 <jsp:include page="design.jsp" />
 <jsp:include page="footer.jsp" />

@@ -1,0 +1,25 @@
+================================================================================================================================================
+On open connection: Firefox goes to http://securedns.comodo.com when file / page not found
+	I don't want that anymore...
+
+================================================================================================================================================
+Wat is JAVA 8 volgens Frank?
+1. (Generics)
+2. Lambda
+3. Datetime
+4. Streams (icm Lambda filteren van methoden met annotaties)
+5. interface default en static methodes
+6. (er volgt nog meer)
+
+	// TODO 99 - Constanten naar enumeratie? Wegens geen "protected static final" en kunnen itereren...
+
+selecties op collecties
+default meth. in int.fac.
+
+		<junit.jupiter.version>5.0.0-M4</junit.jupiter.version>
+		<junit.platform.version>1.0.0-M4</junit.platform.version>
+
+
+    def junitVersion = '5.3.0-M1'
+    testCompile 'org.junit.jupiter:junit-jupiter-engine:' + junitVersion
+    testCompile 'org.junit.jupiter:junit-jupiter-api:' + junitVersion

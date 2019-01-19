@@ -23,7 +23,6 @@
 		</tr></c:forEach>
 	</table>
 </div>
-<p align="center"><i>users_verified.jsp</i></p>
 
 <jsp:include page="design.jsp" />
 <jsp:include page="footer.jsp" />

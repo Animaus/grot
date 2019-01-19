@@ -1,11 +1,17 @@
 package nl.zoethout.grot.web;
 
+import static nl.zoethout.grot.util.PageURL.LOGIN;
+import static nl.zoethout.grot.util.PageURL.REDIRECT_HOME;
+import static nl.zoethout.grot.util.PageURL.USERS_UNKNOWN;
+import static nl.zoethout.grot.util.PageURL.USERS_VERIFIED;
+
 import java.beans.PropertyEditorSupport;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,7 +48,7 @@ public class UserController extends WebController {
 		// Make sure there's no previous login
 		Principal.terminate();
 		provider(req).setSAPrincipal(null);
-		return PAGE_LOGIN;
+		return LOGIN.part();
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -53,10 +59,10 @@ public class UserController extends WebController {
 		if (usr == null) {
 			model.put("username", username);
 			model.put("error", req.getSession().getAttribute("LOGIN_ERR"));
-			return PAGE_LOGIN;
+			return LOGIN.part();
 		} else {
 			userService.setPrincipal(req, usr);
-			return REDIRECT_HOME;
+			return REDIRECT_HOME.part();
 		}
 	}
 
@@ -65,7 +71,7 @@ public class UserController extends WebController {
 		Principal.terminate();
 		provider(req).setSAPrincipal(null);
 		req.getSession().invalidate();
-		return REDIRECT_HOME;
+		return REDIRECT_HOME.part();
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -73,10 +79,10 @@ public class UserController extends WebController {
 		provider(req).setSAFixed(null);
 		List<User> profiles = userService.listProfiles();
 		provider(req).setSAProfiles(profiles);
-		if (checkRole(req, "ROLE_ADMIN")) {
-			return PAGE_USERS_VERIFIED;
+		if (checkRole(req, ADM)) {
+			return USERS_VERIFIED.part();
 		} else {
-			return PAGE_USERS_UNKNOWN;
+			return USERS_UNKNOWN.part();
 		}
 	}
 
@@ -128,11 +134,13 @@ public class UserController extends WebController {
 		user.setUserId(fixedUser.getUserId());
 		user.setUserName(fixedUser.getUserName());
 		user.setRoles(fixedUser.getRoles());
+		user.setDateRegistered(fixedUser.getDateRegistered());
 		Address address = user.getAddress();
 		address.setUserId(fixedUser.getUserId());
 		address.setUserName(fixedUser.getUserName());
-		// Change authorisation
-		editAuthorisation(userService, req, user);
+		if (!checkRole(req, ADM)) {
+			user.setEnabled(fixedUser.isEnabled());
+		}
 		// Change case
 		user.changeCase();
 		address.changeCase();
@@ -149,6 +157,8 @@ public class UserController extends WebController {
 			String page = getAuthorPage(req, "user", username, true);
 			return page;
 		} else {
+			// Change authorisation
+			editAuthorisation(userService, req, user);
 			// save member
 			userService.saveUser(user);
 			userService.saveAddress(address);
@@ -175,15 +185,12 @@ public class UserController extends WebController {
 
 	@ModelAttribute("roles")
 	public Map<String, String> maRoles(HttpServletRequest req) {
-		Map<String, String> result = new LinkedHashMap<String, String>();
 		Principal principal = provider(req).getSAPrincipal();
 		if (principal == null) {
 			return null;
-		} else if (principal.hasRole(ADMIN)) {
-			for (Role role : userService.readRoles()) {
-				result.put(role.getRoleName(), role.getRoleDesc());
-			}
-			return result;
+		} else if (principal.hasRole(ADM)) {
+			return userService.readRoles().stream()
+					.collect(Collectors.toMap(Role::getRoleName, Role::getRoleDesc, merger, LinkedHashMap::new));
 		} else {
 			return null;
 		}

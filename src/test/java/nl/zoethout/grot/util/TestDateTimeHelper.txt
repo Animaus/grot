@@ -1,0 +1,362 @@
+package nl.zoethout.grot.util;
+
+// import java.text.SimpleDateFormat;
+// import java.time.DayOfWeek;
+// import java.time.LocalDate;
+// import java.time.LocalDateTime;
+// import java.time.LocalTime;
+// import java.time.OffsetDateTime;
+// import java.time.ZonedDateTime;
+// import java.util.ArrayList;
+// import java.util.Calendar;
+// import java.util.Date;
+// import java.util.List;
+// import java.util.Locale;
+// import org.joda.time.DateTime;
+
+public class TestDateTimeHelper {
+
+	public static void main(String args[]) {
+		
+	}
+	
+//	private static void testFinalMethods() {
+//		testDayNumber();
+//		testDatedDay();
+//		testWeekDays();
+//		testTimeString();
+//
+//		Date dtCurrent = new Date(System.currentTimeMillis());
+//		System.out.println("getNamedDayFull\t\t= " + getNamedDayFull(dtCurrent));
+//		System.out.println("getTodayFull\t\t= " + getTodayFull());
+//		System.out.println("getTodayWeekFull\t= " + getTodayWeekFull());
+//		System.out.println("getFormattedDateFull\t= " + getFormattedDateFull(dtCurrent));
+//
+//		LocalDateTime now = LocalDateTime.of(1965, 3, 8, 0, 0, 0);
+//		System.out.println("getNamedDayFull\t\t= " + DatetimeHelper.getNamedDayFull(now));
+//		System.out.println("getTodayFull\t\t= " + DatetimeHelper.getTodayFull());
+//		System.out.println("getTodayWeekFull\t= " + DatetimeHelper.getTodayWeekFull());
+//		System.out.println("getFormattedDateFull\t= " + DatetimeHelper.getFormattedDateFull(now));
+//
+//		System.out.println("getToday\t\t= " + DatetimeHelper.getToday());
+//		System.out.println("getTodayWeek\t\t= " + DatetimeHelper.getTodayWeek());
+//
+//		DateTime dtTest = new DateTime(1965, 3, 18, 0, 0, 0);
+//		System.out.println(makeKey(dtTest));
+//		LocalDateTime dtLocal = LocalDateTime.of(1965, 3, 18, 0, 0, 0);
+//		System.out.println(DatetimeHelper.makeKey(dtLocal));
+//	}
+//
+//	private static void testTimeString() {
+//		System.out.print("\n========================\ntestTimeString\n========================\n");
+//
+//		DateTime dtTest = new DateTime(1965, 3, 18, 10, 30, 16);
+//		System.out.println(TestDateTimeHelper.getTimeString(dtTest));
+//		LocalDateTime ldt = LocalDateTime.of(1965, 3, 18, 10, 30, 16);
+//		System.out.println(DatetimeHelper.getTimeString(ldt));
+//	}
+//
+//	private static void testWeekDays() {
+//		System.out.print("\n========================\ntestWeekDays\n========================\n");
+//
+//		TestDateTimeHelper.getWeekDays(2018, 41).stream().forEach(System.out::println);
+//		TestDateTimeHelper.getDatedWeekDays(2018, 41).stream().forEach(System.out::println);
+//		DatetimeHelper.getWeekDays(2018, 41).stream().forEach(System.out::println);
+//		DatetimeHelper.getDatedWeekDays(2018, 41).stream().forEach(System.out::println);
+//	}
+//
+//	private static void testDatedDay() {
+//		System.out.print("\n========================\ntestDatedDay\n========================\n");
+//
+//		// Before J8 - now
+//		DateTime dtTest = DateTime.now();
+//		System.out.println(TestDateTimeHelper.getDatedDay(dtTest));
+//
+//		// Before J8 - birthday
+//		dtTest = new DateTime(1965, 3, 18, 0, 0, 0);
+//		System.out.println(TestDateTimeHelper.getDatedDay(dtTest));
+//
+//		// Before J8 - using formatter
+//		String datedDay = TextUtil.toProperCase(getFormat(dtTest, "EEEE "));
+//		datedDay += getFormat(dtTest, "dd MMMM").toLowerCase();
+//		System.out.println(datedDay);
+//
+//		// Since J8 - now
+//		LocalDateTime dtLocal = LocalDateTime.now();
+//		System.out.println("* " + DatetimeHelper.getDatedDay(dtLocal));
+//
+//		// Since J8 - 2016-1-1
+//		dtLocal = LocalDateTime.of(2016, 01, 01, 0, 0, 0);
+//		System.out.println("* " + DatetimeHelper.getDatedDay(dtLocal));
+//
+//		// Since J8 - 1965-3-18
+//		dtLocal = LocalDateTime.of(1965, 03, 18, 0, 0, 0);
+//		System.out.println("* " + DatetimeHelper.getDatedDay(dtLocal));
+//
+//		System.out.println(DatetimeHelper.getToday());
+//		System.out.println(DatetimeHelper.getTodayWeek());
+//	}
+//
+//	private static void testDayNumber() {
+//		System.out.print("\n========================\ntestDayNumber\n========================\n");
+//
+//		String sep = " = ";
+//
+//		// Before J8 - now
+//		Date dtCurrent = new Date(System.currentTimeMillis());
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", new Locale("en", "UK"));
+//		System.out.print("*" + sdf.format(dtCurrent) + sep);
+//		sdf = new SimpleDateFormat("yyyy-MM-dd", new Locale("en", "UK"));
+//		int nrCurrent = TestDateTimeHelper.getDayNumber(dtCurrent);
+//		System.out.print(nrCurrent + sep);
+//		sdf = new SimpleDateFormat("EEEE", new Locale("en", "UK"));
+//		System.out.println(sdf.format(dtCurrent).toUpperCase());
+//
+//		// Since J8 - now
+//		LocalDateTime dtNew = LocalDateTime.now();
+//		int nrNew = DatetimeHelper.getDayNumber(dtNew);
+//		System.out.println(dtNew + sep + nrNew + sep + dtNew.getDayOfWeek());
+//
+//		// Since J8 - 2016-1-1
+//		LocalDateTime dtLocal = LocalDateTime.of(2016, 01, 01, 0, 0, 0);
+//		int nrLocal = DatetimeHelper.getDayNumber(dtLocal);
+//		System.out.println(dtLocal + sep + nrLocal + sep + dtLocal.getDayOfWeek());
+//
+//		// Since J8 - 1965-3-18
+//		dtLocal = LocalDateTime.of(1965, 03, 18, 0, 0, 0);
+//		nrLocal = DatetimeHelper.getDayNumber(dtLocal);
+//		System.out.println(dtLocal + sep + nrLocal + sep + dtLocal.getDayOfWeek());
+//	}
+//
+//	/**
+//	 * Sleutel naar een weekstaat, combinatie jaar-weeknummer (b.v. 2013-49)
+//	 */
+//	private static String makeKey(DateTime chosenDate) {
+//		int chosenWeek = chosenDate.getWeekOfWeekyear();
+//		int chosenYear = chosenDate.getYear();
+//		String key = chosenYear + "-" + chosenWeek;
+//		return key;
+//	}
+//
+//	private static String getTodayWeekFull() {
+//		Date dtDay = new Date();
+//		DateTime dtWeekday = new DateTime();
+//		String datedDay = getNamedDayFull(dtDay);
+//		datedDay = datedDay + " " + dtWeekday.getYear() + ", week " + dtWeekday.getWeekOfWeekyear();
+//		return datedDay;
+//	}
+//
+//	private static String getTodayFull() {
+//		Date dtDay = new Date();
+//		return getNamedDayFull(dtDay);
+//	}
+//
+//	private static String getNamedDayFull(Date datum) {
+//		DateTime dtWeekday = new DateTime(datum);
+//
+//		String dayString = "";
+//		String timeString = getTimeString(dtWeekday);
+//
+//		dayString = getNamedDaysFull().get(dtWeekday.getDayOfWeek() - 1) + " ";
+//		dayString = TextUtil.toProperCase(dayString);
+//
+//		dayString = dayString + dtWeekday.getDayOfMonth() + " ";
+//		dayString = dayString + getNamedMonthsFull().get(dtWeekday.getMonthOfYear() - 1) + " ";
+//
+//		dayString = dayString + timeString;
+//
+//		return dayString;
+//	}
+//
+//	private static ArrayList<String> getNamedDaysFull() {
+//		ArrayList<String> namedList = new ArrayList<String>();
+//		namedList.add("maandag");
+//		namedList.add("dinsdag");
+//		namedList.add("woensdag");
+//		namedList.add("donderdag");
+//		namedList.add("vrijdag");
+//		namedList.add("zaterdag");
+//		namedList.add("zondag");
+//		return namedList;
+//	}
+//
+//	private static ArrayList<String> getNamedMonthsFull() {
+//		ArrayList<String> namedList = new ArrayList<String>();
+//		namedList.add("januari");
+//		namedList.add("febuari");
+//		namedList.add("maart");
+//		namedList.add("april");
+//		namedList.add("mei");
+//		namedList.add("juni");
+//		namedList.add("juli");
+//		namedList.add("augustus");
+//		namedList.add("september");
+//		namedList.add("oktober");
+//		namedList.add("november");
+//		namedList.add("december");
+//		return namedList;
+//	}
+//
+//	private static String getTimeString(DateTime dateTime) {
+//		if (dateTime == null) {
+//			return "";
+//		} else {
+//			org.joda.time.format.DateTimeFormatter dtFormat = org.joda.time.format.DateTimeFormat
+//					.forPattern("HH:mm:ss");
+//			return dateTime.toString(dtFormat);
+//		}
+//	}
+//
+//	/**
+//	 * Lijst met nederlandstalig geformatteerde datums in een gekozen week
+//	 */
+//	private static List<String> getDatedWeekDays(int chosenYear, int chosenWeek) {
+//		List<DateTime> weekDays = getWeekDays(chosenYear, chosenWeek);
+//		List<String> datedWeekDays = new ArrayList<String>();
+//
+//		for (DateTime weekDay : weekDays) {
+//			datedWeekDays.add(getDatedDay(weekDay));
+//		}
+//
+//		return datedWeekDays;
+//	}
+//
+//	/**
+//	 * Lijst met datums (org.joda.time.DateTime) in een gekozen week
+//	 */
+//	private static List<DateTime> getWeekDays(int chosenYear, int chosenWeek) {
+//		List<DateTime> result = new ArrayList<DateTime>();
+//
+//		// We know week number and year.
+//		// Get calendar, clear it and set week number and year.
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.clear();
+//		calendar.set(Calendar.WEEK_OF_YEAR, chosenWeek);
+//		calendar.set(Calendar.YEAR, chosenYear);
+//
+//		// Now get the first day of week.
+//		DateTime chosenDateTime = new DateTime(calendar.getTime());
+//
+//		while (chosenDateTime.getWeekOfWeekyear() == chosenWeek) {
+//			result.add(chosenDateTime);
+//			chosenDateTime = chosenDateTime.plusDays(1);
+//		}
+//
+//		// Alleen werkdagen tonen
+//		while (result.size() > 5) {
+//			result.remove(result.size() - 1);
+//		}
+//
+//		return result;
+//	}
+//
+//	private static String getFormat(DateTime datetime, String pattern) {
+//		org.joda.time.format.DateTimeFormatter dtFormat2 = org.joda.time.format.DateTimeFormat.forPattern(pattern)
+//				.withLocale(new Locale("nl", "NL"));
+//		return datetime.toString(dtFormat2);
+//	}
+//
+//	private static int getDayNumber(Date testDate) {
+//		DateTime testDateTime = new DateTime(testDate);
+//		return testDateTime.getDayOfWeek();
+//	}
+//
+//	private static String getDatedDay(DateTime dtWeekday) {
+//		String dayString = "";
+//		dayString = dayString + getNamedDays().get(dtWeekday.getDayOfWeek() - 1) + " ";
+//		dayString = dayString + dtWeekday.getDayOfMonth() + " ";
+//		dayString = dayString + getNamedMonths().get(dtWeekday.getMonthOfYear() - 1);
+//		return dayString;
+//	}
+//
+//	private static ArrayList<String> getNamedDays() {
+//		// instantiëring
+//		ArrayList<String> namedList = new ArrayList<String>();
+//		// arraylist met namen van weekdagen
+//		namedList.add("Maandag");
+//		namedList.add("Dinsdag");
+//		namedList.add("Woensdag");
+//		namedList.add("Donderdag");
+//		namedList.add("Vrijdag");
+//		namedList.add("Zaterdag");
+//		namedList.add("Zondag");
+//		// resultaat
+//		return namedList;
+//	}
+//
+//	private static ArrayList<String> getNamedMonths() {
+//		// instantiëring
+//		ArrayList<String> namedList = new ArrayList<String>();
+//		// arraylist met namen van maanden
+//		namedList.add("januari");
+//		namedList.add("februari");
+//		namedList.add("maart");
+//		namedList.add("april");
+//		namedList.add("mei");
+//		namedList.add("juni");
+//		namedList.add("juli");
+//		namedList.add("augustus");
+//		namedList.add("september");
+//		namedList.add("oktober");
+//		namedList.add("november");
+//		namedList.add("december");
+//		// resultaat
+//		return namedList;
+//	}
+//
+//	private static void devBrahman() {
+//		LocalDate localDate = LocalDate.of(2016, 01, 01);
+//		// Getting the day of week for a given date
+//		DayOfWeek dayOfWeek = localDate.getDayOfWeek();
+//		System.out.println(localDate + " was a " + dayOfWeek);
+//
+//		int dow = dayOfWeek.getValue();
+//		System.out.println(localDate + " on day " + dow);
+//
+//		LocalDate nowDate = LocalDate.now();
+//		int dow2 = LocalDate.now().getDayOfWeek().getValue();
+//
+//		// int dow2 = dayOfWeek.getValue();
+//		System.out.println(nowDate + " on day " + dow2);
+//
+//		LocalDate firstWorkingDay;
+//		// Using DayOfWeek to execute dependent business logic
+//		switch (dayOfWeek) {
+//		case FRIDAY:
+//			firstWorkingDay = localDate.plusDays(3);
+//			break;
+//		case SATURDAY:
+//			firstWorkingDay = localDate.plusDays(2);
+//			break;
+//		default:
+//			firstWorkingDay = localDate.plusDays(1);
+//			break;
+//		}
+//		System.out.println("First working day of 2016 was " + firstWorkingDay);
+//	}
+//
+//	private static void devPrint() {
+//		LocalDate vandaag = LocalDate.now();
+//		LocalTime nu = LocalTime.now();
+//		LocalDateTime nuVandaag = LocalDateTime.now();
+//		OffsetDateTime nuInZone = OffsetDateTime.now();
+//		ZonedDateTime nuInZoneNaam = ZonedDateTime.now();
+//
+//		System.out.println(vandaag);
+//		System.out.println(nu);
+//		System.out.println(nuVandaag);
+//		System.out.println(nuInZone);
+//		System.out.println(nuInZoneNaam);
+//	}
+//
+//	private static String getFormattedDateFull(Date datum) {
+//		DateTime dtWeekday = new DateTime(datum);
+//		String strYear = TextUtil.addPreZeros(dtWeekday.getYear(), 4);
+//		String strMonth = getNamedMonthsFull().get(dtWeekday.getMonthOfYear() - 1);
+//		String strDay = TextUtil.addPreZeros(dtWeekday.getDayOfMonth(), 2);
+//		String strWeekDay = getNamedDaysFull().get(dtWeekday.getDayOfWeek() - 1) + " ";
+//		String dateString = strWeekDay + strDay + "-" + strMonth + "-" + strYear;
+//		return dateString;
+//	}
+
+}

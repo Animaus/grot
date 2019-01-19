@@ -1,6 +1,7 @@
 package nl.zoethout.grot.web;
 
 import java.io.IOException;
+import java.util.function.BinaryOperator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,25 +14,12 @@ import nl.zoethout.grot.util.AttributeProvider;
 import nl.zoethout.grot.util.AttributeProviderImpl;
 
 public abstract class WebController {
-
-	// TODO JAVA 8 - Constanten naar enumeratie? Wegens geen "protected static final" en kunnen itereren...
-	protected static final String PAGE_HOME = "home";
-	protected static final String PAGE_LOGIN = "login";	
-	protected static final String PAGE_POC = "poc";
-	protected static final String PAGE_ERROR = "error";
-	protected static final String PAGE_TEST = "test";
-	protected static final String REDIRECT_HOME = "redirect:/";
-	protected static final String REDIRECT_REPOSITORY = "redirect:repository";
+	protected static final String ADM = "ROLE_ADMIN";
+	protected static final String USR = "ROLE_USER";
+	protected final static BinaryOperator<String> merger = (key, val) -> {
+		throw new IllegalStateException(String.format("Duplicate key \"%s\"", key));
+	};
 	
-	protected static final String PAGE_USERS_UNKNOWN = "users_unknown"; // Show all users (when logged out)
-	protected static final String PAGE_USERS_VERIFIED = "users_verified"; // Show all users (when logged in)
-	protected static final String PAGE_USER_UNKNOWN = "user_unknown"; // Show single user (when logged out) - read only
-	protected static final String PAGE_USER_VERIFIED = "user_verified"; // Show single user (when logged in) - read only
-	protected static final String PAGE_USER_VERIFIED_WRITE = "user_verified_write"; // Show single user (when logged in) - write
-	
-	protected static final String ADMIN = "ROLE_ADMIN";
-	protected static final String USER = "ROLE_USER";
-
 	protected void gotoURL(HttpServletRequest req, HttpServletResponse res, String URL) {
 		String context = req.getContextPath();
 		try {
@@ -46,24 +34,19 @@ public abstract class WebController {
 		return provider;
 	}
 
-	protected String getAuthorPage(HttpServletRequest req,
-			String pagename, String username, boolean isEdit) {
-		
+	protected String getAuthorPage(HttpServletRequest req, String pagename, String username, boolean isEdit) {
 		pagename += "_";
-		
 		String write = "";
 		if (isEdit) {
 			write = "_write";
 		}
-		
 		Principal principal = provider(req).getSAPrincipal();
-		
 		if (principal == null) {
 			// Not logged on
 			pagename += "unknown";
 		} else {
 			String principalName = principal.getUserName();
-			if (checkRole(req, "ROLE_ADMIN")) {
+			if (checkRole(req, ADM)) {
 				// Admin
 				pagename += "verified" + write;
 			} else if (principalName.equals(username)) {
@@ -74,7 +57,6 @@ public abstract class WebController {
 				pagename += "unknown";
 			}
 		}
-		
 		return pagename;
 	}
 
@@ -86,7 +68,7 @@ public abstract class WebController {
 		} else if (principal.getUserName().equals(username)) {
 			// Principal is owner
 			return true;
-		} else if(principal.hasRole(ADMIN)) {
+		} else if (principal.hasRole(ADM)) {
 			// Principal is admin
 			return true;
 		} else {
@@ -106,7 +88,7 @@ public abstract class WebController {
 
 	protected void editAuthorisation(UserService userService, HttpServletRequest req, User user) {
 		Principal principal = provider(req).getSAPrincipal();
-		if (principal != null && principal.hasRole(ADMIN)) {
+		if (principal != null && principal.hasRole(ADM)) {
 			// Change allowed
 			String[] roleNames = req.getParameterValues("roles");
 			if (roleNames == null) {
@@ -124,9 +106,8 @@ public abstract class WebController {
 	}
 
 	protected void setAuthorisation(UserService userService, User user) {
-		Role role = userService.readRole("ROLE_USER");
+		Role role = userService.readRole(USR);
 		user.getRoles().add(role);
 		user.setEnabled(true);
 	}
-
 }

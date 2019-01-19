@@ -2,6 +2,11 @@
 <div align="center">
 	<table style="width: 750px;">
 		<tr>
+			<td valign="top" style="height: 40px; text-align: center;" colspan="2">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
 			<td valign="top" style="width: 50%;">
 				<table style="width: 100%;">
 					<tr>

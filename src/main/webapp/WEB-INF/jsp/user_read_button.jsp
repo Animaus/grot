@@ -1,8 +1,12 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sft"%><%@ taglib uri="http://www.springframework.org/tags" prefix="sst"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div align="center">
 	<sft:form method = "GET" action = "${fixedUser.userName}/edit" modelAttribute = "mutable">
-	<button type="submit" class="btn"><sst:message code='edit.tag' /></button>
 	<table style="width: 750px;">
+		<tr>
+			<td valign="top" style="height: 40px; text-align: center;" colspan="2">
+				<button type="submit" class="btn"><sst:message code='edit.tag' /></button>
+			</td>
+		</tr>
 		<tr>
 			<td valign="top" style="width: 50%;">
 				<table style="width: 100%;">

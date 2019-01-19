@@ -34,6 +34,7 @@ SOLVED
 	R		: 25	- Users - save member with values
 	R		: 26	- Users - fieldvalidation
 	R		: 27	- Users - copy fieldvalidation from PocController to UserController
+	R		: 30	- Make code J8 compliant - replace org.joda.time
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 FAILED
@@ -50,6 +51,9 @@ WISHLIST
 TODO
 ------------------------------------------------------------------------------------------------------------------------------------------------
 	R		: 15	- Users - registration
+	R		: 28	- Make code J8 compliant - replace constants with enumeration
+	R		: 29	- Replace statements with lambda
+	R		: 31	- Write tests for Spring-MVC with Mockito and JUnit5
 
 
 ================================================================================================================================================
@@ -1272,22 +1276,172 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.UserController.rmUsers(Model, HttpServletRequest)
 
 
+------------------------------------------------------------------------------------------------------------------------------------------------
+28	R		: Make code J8 compliant - replace constants with enumeration
+
+	S		: write
+				nl.zoethout.grot.util.PageURL
+	S		: re-write
+				nl.zoethout.grot.web.WebController
+				nl.zoethout.grot.web.HomeController.rmHome(Map<String, Object>, HttpServletRequest)
+
+	D		: Keep statement short using static import
+	D		: import static nl.zoethout.grot.util.PageURL.*;
+	S		: re-write
+				nl.zoethout.grot.web.HomeController.rmHome(Map<String, Object>, HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLoginGet(HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLoginPost(Map<String, Object>, HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLogout(HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmUsers(Model, HttpServletRequest)
+				nl.zoethout.grot.web.CustomErrorController.handleError(Map<String, Object>, HttpServletRequest)
 
 
-================================================================================================================================================
-On open connection: Firefox goes to http://securedns.comodo.com when file / page not found
-	I don't want that anymore...
+------------------------------------------------------------------------------------------------------------------------------------------------
+29	R		: Replace statements with lambda
 
-================================================================================================================================================
-Wat is JAVA 8 volgens Frank?
-1. Generics
-2. Lambda
-3. Datetime
-4. Streams (icm Lambda filteren van methoden met annotaties)
-5. interface default en static methodes
-6. (er volgt nog meer)
+	S		: re-write
+				nl.zoethout.grot.domain.UserWrapper.hasRole(String)
+				nl.zoethout.grot.dao.UserDaoImpl.listProperties(String, String, String)
+				nl.zoethout.grot.dao.UserDaoImpl.listProfiles()
+				nl.zoethout.grot.util.CountryCode.nameMap
+				nl.zoethout.grot.util.CountryCode.codeMap
+				nl.zoethout.grot.web.UserController.maRoles(HttpServletRequest)
+	S		: write
+				nl.zoethout.grot.web.WebController.merger
+	S		: delete
+				nl.zoethout.grot.util.CountryCode.{..}
 
-	// TODO 99 - Constanten naar enumeratie? Wegens geen "protected static final" en kunnen itereren...
 
-selecties op collecties
-default meth. in int.fac.
+------------------------------------------------------------------------------------------------------------------------------------------------
+30	R		: Make code J8 compliant - replace org.joda.time
+
+	S		: added
+				nl.zoethout.grot.util.DatetimeHelper.LOCALE
+	S		: write
+				nl.zoethout.grot.util.DatetimeHelper.getDatedDay(LocalDate)
+				nl.zoethout.grot.util.DatetimeHelper.getDatedDay(LocalDateTime)
+				nl.zoethout.grot.util.DatetimeHelper.getFormatter(String)
+	S		: re-write with changed signature
+				nl.zoethout.grot.util.DatetimeHelper.getDayNumber(Date)
+					-> nl.zoethout.grot.util.DatetimeHelper.getDayNumber(LocalDate)
+				nl.zoethout.grot.util.DatetimeHelper.getTimeString(DateTime)
+					-> nl.zoethout.grot.util.DatetimeHelper.getTimeString(LocalDateTime)
+				nl.zoethout.grot.util.DatetimeHelper.makeKey(DateTime)
+					-> nl.zoethout.grot.util.DatetimeHelper.makeKey(LocalDateTime)
+				nl.zoethout.grot.util.DatetimeHelper.getNamedDayFull(Date)
+					-> nl.zoethout.grot.util.DatetimeHelper.getNamedDayFull(LocalDateTime)
+				nl.zoethout.grot.util.DatetimeHelper.getFormattedDateFull(LocalDateTime)
+					-> nl.zoethout.grot.util.DatetimeHelper.getFormattedDateFull(Date)
+	S		: re-write
+				nl.zoethout.grot.util.DatetimeHelper.getToday()
+				nl.zoethout.grot.util.DatetimeHelper.getTodayWeek()
+				nl.zoethout.grot.util.DatetimeHelper.getWeekDays(int, int)
+				nl.zoethout.grot.util.DatetimeHelper.getDatedWeekDays(int, int)
+				nl.zoethout.grot.util.DatetimeHelper.getTodayWeekFull()
+				nl.zoethout.grot.util.DatetimeHelper.getTodayFull()
+	S		: delete
+				nl.zoethout.grot.util.DatetimeHelper.getDatedDay(Date)
+				nl.zoethout.grot.util.DatetimeHelper.getDatedDay(DateTime)
+				nl.zoethout.grot.util.DatetimeHelper.compareDates(Date, Date)
+				nl.zoethout.grot.util.DatetimeHelper.getNamedDays()
+				nl.zoethout.grot.util.DatetimeHelper.getNamedDaysAbbr()
+				nl.zoethout.grot.util.DatetimeHelper.getNamedMonths()
+				nl.zoethout.grot.util.DatetimeHelper.getNamedMonthsAbbr()
+				nl.zoethout.grot.util.DatetimeHelper.getNamedDaysFull()
+				nl.zoethout.grot.util.DatetimeHelper.getNamedMonthsFull()
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+31	R		: Write tests for Spring-MVC with Mockito and JUnit5
+
+	D		: STATUS QUO
+
+			: online documentation URL
+
+				Some online sources, but none specifically for Spring-MVC with Mockito and JUnit5 in the
+				versions I have.
+
+				https://spring.io/guides/gs/testing-web/
+				https://docs.spring.io/spring/docs/5.0.8.RELEASE/spring-framework-reference/
+				https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
+				https://dzone.com/articles/spring-boot-unit-testing-and-mocking-with-mockito
+				https://www.jeejava.com/junit-mockito-donothing-example/
+				https://howtoprogram.xyz/2017/09/12/junit-5-spring-boot-example/
+
+			: code written
+
+				At this time I have some working Unit-tests.
+
+				Project	: grot
+				Code		: nl.zoethout.grot.util.UtilTest
+						  nl.zoethout.grot.domain.DomainTest
+
+			: problems remembered
+
+				1 - I wanted to test a "normal" controller (not a REST-controller), but at some point either
+				    Spring application context or webapplication context failed to load.
+
+				2 - Or no JUnit5-test could be found. This had something to do with annotations, imports and version of JUnit.
+					@Test for JUnit 4 refers to import org.junit.Test;
+					@Test for JUnit 5 refers to import org.junit.jupiter.api.Test;
+
+			: code-samples (may or may not work)
+
+				Project	: controllers-unittest
+				Code		: net.petrikainulainen.spring.testmvc.todo.controller.WebApplicationContextTodoControllerTest
+
+				Project	: initial
+				Code		: hello.AllTogetherJunit5
+
+				Project	: bookstoread
+				Code		: /src/test/java
+				Comment	: from book "Java Unit Testing with JUnit 5", fully functional.
+
+			: code coverage
+
+				Gives insights which test-code to write. Eclemma?
+
+					"org.eclipse.eclemma.internal.core.launching.Agent Server" has encountered a problem.
+					Error while dumping coverage data (code 5013). Unknown block type 0.
+
+			: removed samples
+
+				Removed sample code from project "grot" to project "bookstoread".
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+31	R		: Write tests for Spring-MVC with Mockito and JUnit5
+
+	D		: 1 - names of testclasses should reflect names of classes itself
+	D		: 2 - within testclasses innerclasses should reflect a single method
+	D		: 3 - innerclasses contain various testcases for this single method
+
+	S		: write
+				nl.zoethout.grot.domain.TestPrincipal
+	S		: delete
+				nl.zoethout.grot.domain.DomainTest
+
+	S		: write
+				nl.zoethout.grot.util.TestDatetimeHelper
+				nl.zoethout.grot.util.TestCountryCode
+				nl.zoethout.grot.web.TestHomeController
+	S		: delete
+				nl.zoethout.grot.util.UtilTest
+
+	S		: write
+				nl.zoethout.grot.MyUnitTest
+	S		: re-write
+				nl.zoethout.grot.domain.TestPrincipal
+				nl.zoethout.grot.util.TestDatetimeHelper
+				nl.zoethout.grot.util.TestCountryCode
+				nl.zoethout.grot.web.TestHomeController
+
+	S		: write
+				nl.zoethout.grot.web.TestUserController
+	P31-01	:
+				Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException:
+				No qualifying bean of type 'nl.zoethout.grot.service.UserService' available:
+				expected at least 1 bean which qualifies as autowire candidate.
+				Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}

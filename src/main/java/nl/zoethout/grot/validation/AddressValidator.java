@@ -18,6 +18,24 @@ public class AddressValidator extends MainValidator {
 		super();
 	}
 
+	//TODO 31 - Make testcases for Validator
+	public static void main(String[] args) {
+		AddressValidator av = new AddressValidator();
+		test(av, "abc");
+		test(av, "123");
+		test(av, "abc123");
+		test(av, "a b c");
+		test(av, "1 2 3");
+		test(av, "321 b");
+	}
+	
+	private static void test(AddressValidator av, String val) {
+		System.out.println("isAlphaNumericSpace(" + val + ")\t= " + av.isAlphaNumericSpace(val));
+		System.out.println("isAlphaNumeric(" + val + ")\t\t= " + av.isAlphaNumeric(val));
+		System.out.println("isAlphaSpace(" + val + ")\t\t= " + av.isAlphaSpace(val));
+		System.out.println("");
+	}
+
 	public boolean supports(Class<?> clazz) {
 		return Address.class.equals(clazz);
 	}
@@ -56,7 +74,7 @@ public class AddressValidator extends MainValidator {
 		String streetNumber = address.getStreetNumber();
 		if (streetNumber == null) {
 			errors.rejectValue("streetNumber", strRequired);
-		} else if (!isAlphaNumeric(streetNumber)) {
+		} else if (!isAlphaNumericSpace(streetNumber)) {
 			errors.rejectValue("streetNumber", "streetnumber.invalid");
 		}
 

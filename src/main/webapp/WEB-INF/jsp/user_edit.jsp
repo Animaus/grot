@@ -1,9 +1,12 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sft"%><%@ taglib uri="http://www.springframework.org/tags" prefix="sst"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div align="center">
 	<sft:form method = "POST" action = "save" modelAttribute = "mutable">
-	<button type="submit" class="btn"><sst:message code='save.tag' /></button>
-
 	<table style="width: 750px;">
+		<tr>
+			<td valign="top" style="height: 40px; text-align: center;" colspan="2">
+				<button type="submit" class="btn"><sst:message code='save.tag' /></button>
+			</td>
+		</tr>
 		<tr>
 			<td valign="top" style="width: 50%;">
 				<table style="width: 100%;">
@@ -56,8 +59,8 @@
 					<tr>
 						<td valign="top" style="height: 40px;"></td><td valign="top" style="height: 40px;"><sft:errors path='dateBirth' class='text-error' />					</tr>
 					<tr>
-						<td valign="top" style="height: 40px;"><sft:label path='dateRegistered'><sst:message code='dateRegistered.label' /></sft:label></td>
-						<td valign="top" style="height: 40px;"><sft:input path='dateRegistered' /></td>
+						<td valign="top" style="height: 40px;"><sst:message code='dateRegistered.label' /></td>
+						<td valign="top" style="height: 40px;">${fixedUser.dateRegisteredDisplay}</td>
 					</tr>
 					<tr>
 						<td valign="top" style="height: 40px; text-align: center;" colspan="2">&nbsp;</td>
@@ -79,7 +82,7 @@
 					<tr>
 						<td valign="top" style="height: 40px;"><sft:label path='userRoles'><sst:message code='userRoles.label' /></sft:label></td>
 						<td valign="top" style="height: 40px;"><c:if test="${user.hasRole('ROLE_ADMIN') == false}">
-							${mutable.userRoleNames}</c:if><c:forEach items='${roles.keySet()}' var='roleName'><c:set var="checked" value="false" /><c:forEach items="${mutable.userRoleNames}" var="userRoleName"><c:if test="${roleName==userRoleName}"><c:set var="checked" value="true" /></c:if></c:forEach><c:choose><c:when test="${checked==true}">
+							<c:forEach items='${fixedUser.userRoles}' var='userRole'>${userRole.roleDesc}<br /></c:forEach></c:if><c:forEach items='${roles.keySet()}' var='roleName'><c:set var="checked" value="false" /><c:forEach items="${mutable.userRoleNames}" var="userRoleName"><c:if test="${roleName==userRoleName}"><c:set var="checked" value="true" /></c:if></c:forEach><c:choose><c:when test="${checked==true}">
 							<input name="roles" type="checkbox" value="${roleName}" checked />&nbsp;${roles.get(roleName)}<br /></c:when><c:otherwise>
 							<input name="roles" type="checkbox" value="${roleName}" />&nbsp;${roles.get(roleName)}<br /></c:otherwise></c:choose></c:forEach>
 						</td>
@@ -165,7 +168,7 @@
 					</tr>
 				</table>
 			</td>
-		</tr><c:choose><c:when test="${log==null}"></c:when><c:otherwise>
+		</tr><c:choose><c:when test="${message==null}"></c:when><c:otherwise>
 		<tr>
 			<td valign="top" colspan="2">${log}</td>
 		</tr></c:otherwise></c:choose>

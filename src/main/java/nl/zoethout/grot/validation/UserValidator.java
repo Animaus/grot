@@ -22,7 +22,6 @@ public class UserValidator implements Validator {
 	private UserService userService;
 
 	public UserValidator(UserService userService, Validator addressValidator) {
-		// Activering geneste POJO-validatie
 		if (addressValidator == null) {
 			throw new IllegalArgumentException("The supplied [Validator] is " + "required and must not be null.");
 		}

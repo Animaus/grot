@@ -1,5 +1,7 @@
 package nl.zoethout.grot.web;
 
+import static nl.zoethout.grot.util.PageURL.*;
+
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -24,7 +26,7 @@ public class HomeController extends WebController {
 		AttributeProvider attr = AttributeProviderImpl.getProvider(req);
 		attr.setSAError(null);
 		model.put(DEFAULT_MESSAGE, req.getSession().getAttribute("WELCOME"));
-		return PAGE_HOME;
+		return HOME.part();
 	}
 
 	private void setAttributes(HttpServletRequest req) {

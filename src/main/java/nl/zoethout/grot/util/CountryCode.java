@@ -1,7 +1,9 @@
 package nl.zoethout.grot.util;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public enum CountryCode {
 	AF("Afghanistan"),
@@ -252,60 +254,47 @@ public enum CountryCode {
 	ZM("Zambia"),
 	ZW("Zimbabwe");
 
-	private static final Map<String, CountryCode> nameMap = new HashMap<String, CountryCode>();
-	private static final Map<String, String> codeMap = new HashMap<String, String>();
-	
-    static {
-        for (final CountryCode cc : values()) {
-            nameMap.put(cc.getName(), cc);
-            codeMap.put(cc.toString(), cc.getName());
-        }
-    }
-    
-    /**
-     * Country name
-     */
-    private final String name;
-    
-    private CountryCode(final String name) {
+	private static final Map<String, CountryCode> nameMap = Arrays.asList(values()).stream()
+			.collect(Collectors.toMap(CountryCode::getName, Function.identity()));
+	private static final Map<String, String> codeMap = Arrays.asList(values()).stream()
+			.collect(Collectors.toMap(CountryCode::toString, CountryCode::getName));
+
+	/**
+	 * Country name
+	 */
+	private final String name;
+
+	private CountryCode(final String name) {
 		this.name = name;
 	}
 
-    /**
-     * Get the country name.
-     *
-     * @return The country name.
-     */
-    public String getName() {
+	/**
+	 * Get the country name.
+	 *
+	 * @return The country name.
+	 */
+	public String getName() {
 		return name;
 	}
-    
-    /**
-     * Get the country name.
-     * 
-     * @param code
-     * @return The country name.
-     */
-    public static String getName(String code) {
-    	return codeMap.get(code);
+
+	/**
+	 * Get the country name.
+	 * 
+	 * @param code
+	 * @return The country name.
+	 */
+	public static String getName(String code) {
+		return codeMap.get(code);
 	}
 
-    /**
-     * Get the country code.
-     * 
-     * @param name
-     * @return The country code.
-     */
-    public static String getCode(String name) {
-    	return nameMap.get(name).toString();
-    }
-
-	public static void main(String[] args) {
-		System.out.println(CountryCode.getCode("Zimbabwe"));
-		System.out.println(CountryCode.getName("AD"));
-		for (CountryCode s:CountryCode.values()) {
-			System.out.println(s.getName());
-		}
+	/**
+	 * Get the country code.
+	 * 
+	 * @param name
+	 * @return The country code.
+	 */
+	public static String getCode(String name) {
+		return nameMap.get(name).toString();
 	}
 
 }
