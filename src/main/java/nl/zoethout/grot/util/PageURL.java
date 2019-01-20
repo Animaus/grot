@@ -2,7 +2,8 @@ package nl.zoethout.grot.util;
 
 public enum PageURL {
 	HOME("home"), //
-	LOGIN("login"), //
+	LOGON("logon"), // TODO P31-01 : LOGON
+	LOGIN("login"), // TODO P31-01 : LOGIN DELETE?
 	POC("poc"), //
 	ERROR("error"), //
 	TEST("test"), //

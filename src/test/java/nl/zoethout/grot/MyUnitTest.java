@@ -2,8 +2,10 @@ package nl.zoethout.grot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import nl.zoethout.grot.domain.Role;
@@ -76,6 +78,17 @@ public class MyUnitTest {
 	private static void addRole(Set<Role> roles, String roleDesc, String roleName) {
 		if (roles == null) {
 			roles = new HashSet<Role>();
+		}
+		Role role = new Role();
+		role.setRoleId(roles.size() + 1);
+		role.setRoleDesc(roleDesc);
+		role.setRoleName(roleName);
+		roles.add(role);
+	}
+
+	protected static void addRole(List<Role> roles, String roleDesc, String roleName) {
+		if (roles == null) {
+			roles = new ArrayList<Role>();
 		}
 		Role role = new Role();
 		role.setRoleId(roles.size() + 1);

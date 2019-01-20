@@ -1,11 +1,11 @@
 package nl.zoethout.grot.web;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ResourceBundle;
 
@@ -48,7 +48,7 @@ public class TestHomeController extends MyUnitTest {
 	@DisplayName("GetPage")
 	class GetPage {
 		private static final String MSG = "GROT is een afkorting voor Generieke Re-enactment Organisatie Toepassing.";
-		private static final String URL = "/WEB-INF/jsp/home.jsp";
+		private static final String JSP = "/WEB-INF/jsp/home.jsp";
 
 		GetPage(TestInfo inf) {
 			System.out.println("- " + inf.getDisplayName());
@@ -65,7 +65,7 @@ public class TestHomeController extends MyUnitTest {
 				ResultActions ra = mockMvc.perform(get(url));
 				ra.andExpect(status().isOk());
 				ra.andExpect(model().attribute("message", MSG));
-				ra.andExpect(forwardedUrl(URL));
+				ra.andExpect(forwardedUrl(JSP));
 				checkAttributes(ra);
 			}
 		}

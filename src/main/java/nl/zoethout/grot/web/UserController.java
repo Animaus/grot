@@ -1,6 +1,7 @@
 package nl.zoethout.grot.web;
 
 import static nl.zoethout.grot.util.PageURL.LOGIN;
+import static nl.zoethout.grot.util.PageURL.LOGON;
 import static nl.zoethout.grot.util.PageURL.REDIRECT_HOME;
 import static nl.zoethout.grot.util.PageURL.USERS_UNKNOWN;
 import static nl.zoethout.grot.util.PageURL.USERS_VERIFIED;
@@ -44,11 +45,19 @@ public class UserController extends WebController {
 	private UserService userService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String rmLogonGet(HttpServletRequest req) {
+		// Make sure there's no previous login
+		Principal.terminate();
+		provider(req).setSAPrincipal(null);
+		return LOGON.part(); // TODO P31-01 : rmLogonGet
+	}
+
+//	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String rmLoginGet(HttpServletRequest req) {
 		// Make sure there's no previous login
 		Principal.terminate();
 		provider(req).setSAPrincipal(null);
-		return LOGIN.part();
+		return LOGIN.part(); // TODO P31-01 : rmLoginGet DELETE?
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)

@@ -45,6 +45,13 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
 
+	public UserServiceImpl() {
+	}
+
+	public UserServiceImpl(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
 	@Override
 	public void saveUser(User user) {
 		userDao.saveUser(user);
