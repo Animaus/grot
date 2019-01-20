@@ -1,7 +1,6 @@
 package nl.zoethout.grot.web;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -10,7 +9,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.security.Principal;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,9 +20,10 @@ import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -36,7 +39,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import nl.zoethout.grot.config.WebConfig;
 import nl.zoethout.grot.domain.User;
 import nl.zoethout.grot.mytest.MyTestCases;
 import nl.zoethout.grot.service.UserServiceImpl;
@@ -51,110 +53,18 @@ public class TestLoginController extends MyTestCases {
 	}
 
 	@Nested
-	@DisplayName("Login_new")
-	// Enables loading WebApplicationContext
-	@ExtendWith(SpringExtension.class)
-	// Will load the web application context
-	@WebAppConfiguration
-	// Bootstrap the context that the test will use
-	// @ContextConfiguration(locations = { "classpath:mockBeans.xml",
-	// "classpath:applicationContext.xml" })
-	@ContextConfiguration(classes = { WebConfig.class })
-	@ImportResource({ "classpath:mockBeans.xml" })
-	class Login_new {
-
-		@Autowired
-		WebApplicationContext wac;
-
-		private MockMvc mockMvc;
-		@InjectMocks
-		// TODO 43 - 02 - loginController (after mocking in testContext.xml)
-		private LoginController loginController;
-
-		@Mock
-		// TODO 43 - 01 - userDetailsService (after mocking in testContext.xml)
-		private UserServiceImpl userDetailsService;
-
-		Login_new(final TestInfo inf) {
-			System.out.println("| - " + inf.getDisplayName());
-		}
-
-		@BeforeEach
-		// TODO 43 - 04 - setup
-		void setup() {
-			if (mockMvc == null) {
-				// Initializes objects annotated with @Mock
-				MockitoAnnotations.initMocks(this);
-				// Mocks userDetailsService
-				mockUserDetailsService(userDetailsService);
-				// Initializes MockMvc with Spring configuration
-				mockMvc = MockMvcBuilders //
-						.standaloneSetup(loginController) //
-						// .webAppContextSetup(wac) //
-						// .addFilters(springSecurityFilterChain) //
-						// .apply(springSecurity()) //
-						.build();
-			}
-		}
-
-		@Test
-		@DisplayName("login_exists2")
-		@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
-		void login_exists2(final TestInfo inf) throws Exception {
-			FormLoginRequestBuilder action = formLogin("/login");
-			ResultActions ra = mockMvc.perform( //
-					action //
-							.user("user1") //
-							.password("user1Pass") //
-			);
-			ra.andExpect(status().isFound());
-			ra.andExpect(authenticated().withUsername("user1"));
-		}
-
-		@Test
-		@DisplayName("login_post_exists2")
-		void login_post_exists2(final TestInfo inf) throws Exception {
-			// Prepare web
-			User user = getAdmin();
-			String url = "/login";
-			// MockHttpServletRequest req = new MockHttpServletRequest("POST", url);
-			// req.setParameter("username", user.getUserName());
-			// req.setParameter("password", user.getPassword());
-			// Prepare action
-			// MockHttpServletRequestBuilder action = post(url).with(mockRequest(req));
-			// ResultActions ra = mockMvc.perform(action);
-			// // Check status
-			// ra.andExpect(authenticated().withUsername(user.getUserName()));
-			// ra.andExpect(status().isOk());
-			// ra.andExpect(view().name(LOGIN.part()));
-
-			FormLoginRequestBuilder action = formLogin(url);
-			ResultActions ra = mockMvc.perform( //
-					action //
-							.user(user.getUserName()) //
-							.password(user.getPassword()) //
-			);
-			ra.andExpect(status().isFound());
-			ra.andExpect(authenticated().withUsername(user.getUserName()));
-
-		}
-
-	}
-
-	@Nested
-	@DisplayName("Login")
+	@DisplayName("LoginIntegration")
 	@ContextConfiguration(classes = { TestSecurityConfig.class, TestBeans.class })
 	@WebAppConfiguration // Will load the web application context
 	@ExtendWith(SpringExtension.class) // Enables loading WebApplicationContext
-	// TODO 43 - RedirectionSecurityIntegrationTest
-	public class Login {
+	public class LoginIntegration {
 		@Autowired
 		private WebApplicationContext context;
 		private MockMvc mvc;
 
 		private String strClass = this.getClass().getSimpleName();
 
-		Login(final TestInfo inf) {
+		LoginIntegration(final TestInfo inf) {
 			System.out.println("| - " + inf.getDisplayName());
 		}
 
@@ -166,90 +76,238 @@ public class TestLoginController extends MyTestCases {
 		}
 
 		@Test
-		@DisplayName("login_exists")
-		void login_exists(final TestInfo inf) throws Exception {
-			String strMethod = "login_exists";
+		@DisplayName("guest_formLogin")
+		@Disabled
+		void guest_formLogin(final TestInfo inf) throws Exception {
+			// was: "login_exists";
+			String strMethod = "guest_formLogin";
 			devInfo(strClass, strMethod, "");
-		
-			FormLoginRequestBuilder action = formLogin("/login");
+
+			// URL to test
+			String url = "/login";
+			// Prepare and perform action
+			FormLoginRequestBuilder action = formLogin(url);
 			ResultActions ra = mvc.perform(action);
+			// Check status
 			ra.andExpect(status().isFound());
 		}
 
 		@Test
-		public void givenLogin_whenUnauthenticated_thenGotoLogin() throws Exception {
-			String strMethod = "givenLogin_whenUnauthenticated_thenGotoLogin";
+		@DisplayName("guest_formLogin_loginUser")
+		@Disabled
+		void guest_formLogin_loginUser(final TestInfo inf) throws Exception {
+			// was: "login_post_exists2";
+			String strMethod = "guest_formLogin_loginUser";
+			devInfo(strClass, strMethod, "");
+		
+			// URL to test
+			String url = "/login";
+			// User to test with
+			User user = getUser();
+			// Prepare and perform action
+			FormLoginRequestBuilder action = formLogin(url);
+			ResultActions ra = mvc.perform( //
+					action //
+							.user(user.getUserName()) //
+							.password(user.getPassword()) //
+			);
+			// Check status
+			ra.andExpect(status().isFound());
+			// Check authentication
+			ra.andExpect(authenticated().withUsername(user.getUserName()));
+		}
+
+		@Test
+		@DisplayName("guest_formLogin_withMockUser")
+		@WithMockUser(username = "arc0j00", password = "123456", roles = "USER")
+		@Disabled
+		void guest_formLogin_withMockUser(final TestInfo inf) throws Exception {
+			String strMethod = "guest_formLogin_loginUser";
 			devInfo(strClass, strMethod, "");
 
+			// URL to test
 			String url = "/login";
+			// Prepare and perform action
+			FormLoginRequestBuilder action = formLogin(url);
+			ResultActions ra = mvc.perform( //
+					action //
+							.user("arc0j00") //
+							.password("123456") //
+			);
+			// Check status
+			ra.andExpect(status().isFound());
+			// Check authentication
+			ra.andExpect(authenticated().withUsername("arc0j00"));
+		}
 
+		@Test
+		@DisplayName("guest_getLogin")
+		void guest_getLogin() throws Exception {
+			// was: "givenLogin_whenUnauthenticated_thenGotoLogin";
+			String strMethod = "guest_getLogin";
+			devInfo(strClass, strMethod, "");
+
+			// URL to test
+			String url = "/login";
+			// Prepare and perform action
 			MockHttpServletRequestBuilder action = get(url);
 			ResultActions ra = mvc.perform(action);
-
+			// Check status
 			ra.andExpect(status().isOk()); //
 		}
 
 		@Test
-		public void givenSecured_whenUnauthenticated_thenGotoLogin() throws Exception {
-			String strMethod = "givenSecured_whenUnauthenticated_thenGotoLogin";
+		@DisplayName("guest_arc0j00_gotoLogin")
+		void guest_arc0j00_gotoLogin() throws Exception {
+			// was: "givenSecured_whenUnauthenticated_thenGotoLogin";
+			String strMethod = "guest_arc0j00_gotoLogin";
 			devInfo(strClass, strMethod, "");
 
+			// URL to test
 			String url = "/user/arc0j00";
 			String redirect = "**/login";
-
+			// Prepare and perform action
 			MockHttpServletRequestBuilder action = get(url);
 			ResultActions ra = mvc.perform(action);
-
+			// Check status
 			ra.andExpect(status().is3xxRedirection());
+			// Check redirection
 			ra.andExpect(redirectedUrlPattern(redirect));
 		}
 
 		@Test
-		public void givenSecured_whenAuthenticated_thenSuccess() throws Exception {
-			String strMethod = "givenSecured_whenAuthenticated_thenSuccess";
+		@DisplayName("guest_arc0j00_loginUser")
+		void guest_arc0j00_loginUser() throws Exception {
+			// was: givenSecured_whenLogin_thenRedirect
+			String strMethod = "guest_arc0j00_loginUser";
 			devInfo(strClass, strMethod, "");
-
-			UserDetails userDetails = getUserDetails(getUser());
+		
+			// URL to test
 			String url = "/user/arc0j00";
-
-			MockHttpServletRequestBuilder action = get(url).with(user(userDetails));
-			ResultActions ra = mvc.perform(action);
-
-			ra.andExpect(status().isOk());
+			String redirect = "/login*";
+			// User to test with
+			User user = getUser();
+			UserDetails userDetails = getUserDetails(user);
+		
+			// First action: get URL
+			MockHttpServletRequestBuilder action1 = get(url);
+			// Perform action 1
+			ResultActions ra1 = mvc.perform(action1);
+			// Check outcome of action 1
+			ra1.andExpect(status().is3xxRedirection());
+			// Get session of action 1
+			MvcResult result1 = ra1.andReturn();
+			MockHttpSession session1 = (MockHttpSession) result1.getRequest().getSession();
+		
+			// Get URI for action 2
+			String loginFQPN = result1.getResponse().getRedirectedUrl();
+			// Second action: post URI
+			MockHttpServletRequestBuilder action2 = post(loginFQPN);
+			// Set credentials for action 2
+			action2.param("username", userDetails.getUsername());
+			action2.param("password", userDetails.getPassword());
+			// Set HTTP session to use for action 2
+			action2.session(session1);
+			// Perform action 2
+			ResultActions ra2 = mvc.perform(action2);
+			// Check outcome of action 2
+			ra2.andExpect(status().is3xxRedirection());
+			ra2.andExpect(redirectedUrlPattern(redirect));
+		
+			// Set HTTP session to use for action 3
+			MockHttpServletRequestBuilder action3 = action1.session(session1);
+			// Perform action 3
+			ResultActions ra3 = mvc.perform(action3);
+			// Check outcome of action 3
+			ra3.andExpect(status().isOk());
 		}
 
 		@Test
-		public void givenSecured_whenLogin_thenRedirect() throws Exception {
-			String strMethod = "givenSecured_whenLogin_thenRedirect";
+		@DisplayName("user_arc0j00_success")
+		void user_arc0j00_success() throws Exception {
+			// was: "givenSecured_whenAuthenticated_thenSuccess";
+			String strMethod = "user_arc0j00_success";
 			devInfo(strClass, strMethod, "");
 
-			UserDetails userDetails = getUserDetails(getUser());
-
+			// URL to test
 			String url = "/user/arc0j00";
-			String redirect = "/login*";
-
-			MockHttpServletRequestBuilder action1 = get(url);
-			ResultActions ra1 = mvc.perform(action1);
-
-			ra1.andExpect(status().is3xxRedirection());
-
-			MvcResult result1 = ra1.andReturn();
-			MockHttpSession session = (MockHttpSession) result1.getRequest().getSession();
-			String loginUrl = result1.getResponse().getRedirectedUrl();
-
-			MockHttpServletRequestBuilder action2 = post(loginUrl);
-			action2.param("username", userDetails.getUsername());
-			action2.param("password", userDetails.getPassword());
-			action2.session(session);
-
-			ResultActions ra2 = mvc.perform(action2);
-			ra2.andExpect(status().is3xxRedirection());
-			ra2.andExpect(redirectedUrlPattern(redirect));
-
-			MockHttpServletRequestBuilder action3 = action1.session(session);
-			ResultActions ra3 = mvc.perform(action3);
-			ra3.andExpect(status().isOk());
+			// User to test with
+			User user = getUser();
+			UserDetails userDetails = getUserDetails(user);
+			// Prepare and perform action
+			MockHttpServletRequestBuilder action = get(url).with(user(userDetails));
+			ResultActions ra = mvc.perform(action);
+			// Check status
+			ra.andExpect(status().isOk());
 		}
+	}
+
+	@Nested
+	@DisplayName("LoginUnit")
+	@ContextConfiguration(classes = { TestSecurityConfig.class, TestBeans.class })
+	public class LoginUnit {
+		private String strClass = this.getClass().getSimpleName();
+
+		private MockMvc mvc;
+
+		@Mock
+		private UserServiceImpl userService;
+
+		@InjectMocks
+		private LoginController loginController;
+
+		LoginUnit(final TestInfo inf) {
+			System.out.println("| - " + inf.getDisplayName());
+		}
+
+		@BeforeEach
+		void setup() {
+			String strMethod = "setup";
+			devInfo(strClass, strMethod, "");
+			if (mvc == null) {
+				// Initializes objects annotated with @Mock
+				MockitoAnnotations.initMocks(this);
+				// Initializes MockMvc without loading full Spring configuration
+				mvc = MockMvcBuilders.standaloneSetup(loginController).build();
+				// Tells mocked service how to respond
+				mockUserService(userService);
+			}
+		}
+
+		/**
+		 * Since Spring methods for testing login do not have a valid
+		 * java.security.Principal, we have to mock it here.
+		 * 
+		 * @author Gerard Zoethout
+		 * @throws Exception
+		 */
+		@Test
+		@DisplayName("user_loginSuccess")
+		void user_loginSuccess() throws Exception {
+			String strMethod = "user_loginSuccess";
+			devInfo(strClass, strMethod, "");
+
+			// URL to test
+			String url = "/loginSuccess";
+			String redirect = "/*";
+			// User to test with
+			User user = getUser();
+			// Mock principal
+			Principal principal = Mockito.mock(Principal.class);
+			// Tells mocked principal how to respond
+			Mockito.when(principal.getName()).thenReturn(user.getUserName());
+			// Prepare request
+			MockHttpServletRequest req = new MockHttpServletRequest("GET", url);
+			req.setUserPrincipal(principal);
+			// Prepare and perform action
+			MockHttpServletRequestBuilder action = get(url).with(mockRequest(req));
+			ResultActions ra = mvc.perform(action);
+			// Check status
+			ra.andExpect(status().isFound());
+			// Check redirection
+			ra.andExpect(redirectedUrlPattern(redirect));
+		}
+
 	}
 
 }

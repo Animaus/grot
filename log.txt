@@ -2214,4 +2214,98 @@ TASKS PERFORMED
 	S		: add
 				nl.zoethout.grot.web.TestLoginController.Login.login_exists(TestInfo)
 
-	Challenge	: get method nl.zoethout.grot.web.LoginController.loginSuccess(HttpServletRequest) to do it's duty
+	S		: rename & make default access to all testcases
+				nl.zoethout.grot.web.TestLoginController.Login
+				-> nl.zoethout.grot.web.TestLoginController.LoginIntegration
+				nl.zoethout.grot.web.TestLoginController.login_exists
+				-> nl.zoethout.grot.web.TestLoginController.LoginIntegration.guest_formLogin(TestInfo)
+				nl.zoethout.grot.web.TestLoginController.givenLogin_whenUnauthenticated_thenGotoLogin
+				-> nl.zoethout.grot.web.TestLoginController.LoginIntegration.guest_getLogin()
+				nl.zoethout.grot.web.TestLoginController.givenSecured_whenUnauthenticated_thenGotoLogin
+				-> nl.zoethout.grot.web.TestLoginController.LoginIntegration.guest_arc0j00_gotoLogin()
+				nl.zoethout.grot.web.TestLoginController.givenSecured_whenLogin_thenRedirect
+				-> nl.zoethout.grot.web.TestLoginController.LoginIntegration.guest_arc0j00_loginUser()
+				nl.zoethout.grot.web.TestLoginController.givenSecured_whenAuthenticated_thenSuccess
+				-> nl.zoethout.grot.web.TestLoginController.LoginIntegration.user_arc0j00_success()
+
+	S		: add and disabled
+				nl.zoethout.grot.web.TestLoginController.LoginIntegration.guest_formLogin_loginUser(TestInfo)
+				nl.zoethout.grot.web.TestLoginController.LoginIntegration.guest_formLogin_withMockUser(TestInfo)
+
+	Challenge	: make method nl.zoethout.grot.web.LoginController.loginSuccess(HttpServletRequest) testable
+
+	S		: add
+				nl.zoethout.grot.web.TestLoginController.LoginUnit
+				D	: standalone setup
+				nl.zoethout.grot.web.TestLoginController.LoginUnit.setup()
+				D	: Seems like Spring methods for testing login do not use java.security.Principal, so we have to mock it.
+				D	: The java.security.Principal lives in the request, which needs to be RequestPostProcessor
+				D	: See also nl.zoethout.grot.web.TestUserController.assertRun(User, String, String) for usage of this technique.
+				nl.zoethout.grot.web.TestLoginController.LoginUnit.user_loginSuccess()
+
+	S		: delete
+				nl.zoethout.grot.web.TestLoginController.Login_new
+
+	D		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+46	R		: Re-write unit-tests for HomeController
+
+	S		: refactor
+				nl.zoethout.grot.web.TestHomeControllerIntegration.Home
+				-> nl.zoethout.grot.web.TestHomeControllerIntegration.HomeIntegration
+	S		: move
+				nl.zoethout.grot.web.TestHomeControllerIntegration.mockMvc
+				-> nl.zoethout.grot.web.TestHomeControllerIntegration.HomeIntegration.mockMvc
+				nl.zoethout.grot.web.TestHomeControllerIntegration.setup()
+				-> nl.zoethout.grot.web.TestHomeControllerIntegration.HomeIntegration.setup()
+				nl.zoethout.grot.web.TestHomeControllerIntegration.wac
+				-> nl.zoethout.grot.web.TestHomeControllerIntegration.HomeIntegration.wac
+
+	*P46-01	: java.lang.IllegalStateException: Failed to load ApplicationContext
+			Caused by: org.springframework.beans.factory.support.BeanDefinitionOverrideException: Invalid bean definition with name
+			 'failureHandler' defined in class path resource [nl/zoethout/grot/config/SecurityConfig.class]: Cannot register bean definition
+			 [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true;
+			 primary=false; factoryBeanName=securityConfig; factoryMethodName=failureHandler; initMethodName=null; destroyMethodName=(inferred);
+			 defined in class path resource [nl/zoethout/grot/config/SecurityConfig.class]] for bean 'failureHandler': There is already
+			 [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true;
+			 primary=false; factoryBeanName=testSecurityConfig; factoryMethodName=failureHandler; initMethodName=null;
+			 destroyMethodName=(inferred); defined in class path resource [nl/zoethout/grot/testconfig/TestSecurityConfig.class]] bound.
+	S		: re-write
+				D	: annotations from encapsulating class to inner class
+					@WebMvcTest(HomeController.class)
+					->
+					@ContextConfiguration(classes = { TestSecurityConfig.class, TestBeans.class })
+					@WebAppConfiguration // Will load the web application context
+	*P46-02	: java.lang.AssertionError: View name expected:<home> but was:<jspHome>
+			at nl.zoethout.grot.web.TestHomeControllerIntegration$HomeIntegration.rmHome(TestHomeControllerIntegration.java:70)
+	S		: re-write
+				nl.zoethout.grot.web.TestHomeControllerIntegration.HomeIntegration.VIEW_NAME
+					"home" -> "jspHome"
+	*P46-02	: solved...!
+	*P46-01	: solved...!
+
+	S		: add
+				nl.zoethout.grot.web.TestHomeControllerIntegration.Home
+				nl.zoethout.grot.web.TestHomeControllerIntegration.Home.mockMvc
+				nl.zoethout.grot.web.TestHomeControllerIntegration.Home.homeController
+				nl.zoethout.grot.web.TestHomeControllerIntegration.Home.setup()
+	S		: rename
+				nl.zoethout.grot.web.TestHomeControllerIntegration.Home
+				-> nl.zoethout.grot.web.TestHomeControllerIntegration.HomeUnit
+
+	S		: delete
+				nl.zoethout.grot.web.TestHomeController
+	S		: rename
+				nl.zoethout.grot.web.TestHomeControllerIntegration
+				-> nl.zoethout.grot.web.TestHomeController
+
+	D		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+35	R		: Code improvement
+
+	S		: delete
+				nl.zoethout.grot.web.TestUserControllerIntegration

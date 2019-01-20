@@ -23,7 +23,6 @@ public class LoginController extends WebController {
 	public String login(final HttpServletRequest req) {
 		Principal.terminate();
 		provider(req).setSAPrincipal(null);
-		devInfo(strClass, "login", "Principal terminated and nullified...");
 		return LOGIN.part();
 	}
 
@@ -33,7 +32,6 @@ public class LoginController extends WebController {
 		String username = principal.getName();
 		User usr = userService.readUser(username);
 		userService.setPrincipal(req, usr);
-		devInfo(strClass, "loginSuccess", "User read from UserPrincipal...");
 		return REDIRECT_HOME.part();
 	}
 

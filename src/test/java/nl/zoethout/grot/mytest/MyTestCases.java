@@ -77,7 +77,7 @@ public class MyTestCases implements MyTestUsers {
 
 	/**
 	 * Checks the contents of the sessionattributes
-	 * 
+	 * @author Gerard Zoethout
 	 * @param ra
 	 * @throws Exception
 	 */
@@ -97,7 +97,7 @@ public class MyTestCases implements MyTestUsers {
 		ra.andExpect(request().sessionAttribute("LNK_USR_LOGIN", bundle.getString("LNK_USR_LOGIN")));
 		ra.andExpect(request().sessionAttribute("LNK_USR_MEMBERS", bundle.getString("LNK_USR_MEMBERS")));
 	}
-	
+
 	// TODO 43 - 03a - mockUserDetailsService
 	protected void mockUserDetailsService(final UserServiceImpl userDetailsService) {
 		when(userDetailsService.loadUserByUsername("front00")).thenReturn(getUserDetails(getAdmin()));
@@ -124,6 +124,12 @@ public class MyTestCases implements MyTestUsers {
 		return result;
 	}
 
+	/**
+	 * @author Gerard Zoethout
+	 * @param userService
+	 * @see https://stackoverflow.com/questions/2276271/how-to-make-mock-to-void-methods-with-mockito
+	 * @see https://stackoverflow.com/questions/28836778/usages-of-dothrow-doanswer-donothing-and-doreturn-in-mockito
+	 */
 	protected void mockUserService(final UserServiceImpl userService) {
 		when(userService.readRoles()).thenReturn(getRoles());
 		when(userService.listProfiles()).thenReturn(listProfiles());
@@ -133,13 +139,16 @@ public class MyTestCases implements MyTestUsers {
 		when(userService.readUser("front00")).thenReturn(getAdmin());
 		when(userService.readUser("arc0j00")).thenReturn(getUser());
 		when(userService.readUser("hawks00")).thenReturn(getDisabled());
-		// https://stackoverflow.com/questions/2276271/how-to-make-mock-to-void-methods-with-mockito
-		// https://stackoverflow.com/questions/28836778/usages-of-dothrow-doanswer-donothing-and-doreturn-in-mockito
 		// Code in line below found in "tutorials-master"
 		doCallRealMethod().when(userService).setPrincipal(any(HttpServletRequest.class), any(User.class));
 	}
 
-	// https://stackoverflow.com/questions/30757044/autowired-httpservletrequest-in-spring-test-integration-tests
+	/**
+	 * @author Gerard Zoethout
+	 * @param mockHttpServletRequest
+	 * @return RequestPostProcessor
+	 * @see https://stackoverflow.com/questions/30757044/autowired-httpservletrequest-in-spring-test-integration-tests
+	 */
 	protected RequestPostProcessor mockRequest(final MockHttpServletRequest mockHttpServletRequest) {
 		return new RequestPostProcessor() {
 			@Override
@@ -162,8 +171,9 @@ public class MyTestCases implements MyTestUsers {
 	}
 
 	/**
+	 * @author Gerard Zoethout
 	 * @param req
-	 * @param user For guest login user=null
+	 * @param user
 	 * @throws Exception
 	 */
 	protected void mockLogin(final MockHttpServletRequest req, final User user) throws Exception {
