@@ -2090,3 +2090,62 @@ TASKS PERFORMED
 				</dependency>
 
 	D		: Development continued in project "spring-security-mvc-login".
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+35	R		: Code improvement
+
+	S		: delete
+				nl.zoethout.grot.repository.UserRepository
+				nl.zoethout.grot.web.PocController.userRepository
+				nl.zoethout.grot.web.PocController.rmRepository()
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+43	R		: Write unit-tests for LoginController
+
+	S		: add
+				D	: copied from nl.zoethout.grot.config.SecurityConfig
+				nl.zoethout.grot.testconfig.TestSecurityConfig
+				nl.zoethout.grot.testconfig.TestSecurityConfig.delegatingPasswordEncoder()
+	S		: delete
+				nl.zoethout.grot.testconfig.TestSecurityConfig.userDetailsService
+				nl.zoethout.grot.testconfig.TestSecurityConfig.configure(AuthenticationManagerBuilder)
+				nl.zoethout.grot.testconfig.TestSecurityConfig.getPasswordEncoder()
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+35	R		: Code improvement
+
+	S		: move
+				nl.zoethout.grot.MyUnitTest
+				-> nl.zoethout.grot.mytest.MyTestCases
+	S		: add
+				nl.zoethout.grot.mytest.MyTestUsers
+				nl.zoethout.grot.mytest.MyTestUsers.getAdmin()
+				nl.zoethout.grot.mytest.MyTestUsers.getUser()
+				nl.zoethout.grot.mytest.MyTestUsers.getDisabled()
+				nl.zoethout.grot.mytest.MyTestUsers.getDate(String)
+				nl.zoethout.grot.mytest.MyTestUsers.addRole(Set<Role>, String, String)
+	S		: re-write
+				D	: implements MyTestUsers
+				nl.zoethout.grot.mytest.MyTestCases
+	S		: delete
+				nl.zoethout.grot.mytest.MyTestCases.getAdmin()
+				nl.zoethout.grot.mytest.MyTestCases.getUser()
+				nl.zoethout.grot.mytest.MyTestCases.getDisabled()
+				nl.zoethout.grot.mytest.MyTestCases.getDate(String)
+				nl.zoethout.grot.mytest.MyTestCases.addRole(Set<Role>, String, String)
+
+	S		: add
+				nl.zoethout.grot.mytest.MyTest
+				nl.zoethout.grot.mytest.MyTest.testInfo(String, String, String)
+	S		: re-write
+				D	: implements MyTest
+				nl.zoethout.grot.mytest.MyTestUsers
+	S		: delete
+				nl.zoethout.grot.web.TestLoginController.testInfo(String, String, String)
+				nl.zoethout.grot.testconfig.MyTestConfig
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------

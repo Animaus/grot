@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.JstlView;
 // equivalent to <mvc:annotation-driven />
 @EnableWebMvc
 // equivalent to <context:component-scan base-package="nl.nofas.*" /> ???
-@ComponentScan(basePackages = { "nl.zoethout.grot" })
+@ComponentScan(basePackages = { "nl.zoethout.grot.web" })
 public class WebConfig implements WebMvcConfigurer {
 
 	@Override

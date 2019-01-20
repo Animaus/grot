@@ -1,0 +1,45 @@
+| 01a ------------------------------------------------------------------------
+| public interface UserRepository extends JpaRepository<User, Integer> {
+| 	Optional<User> findByUserName(String userName);
+| }
+
+
+02a ------------------------------------------------------------------------
+public interface UserDao {}
+
+
+02b ------------------------------------------------------------------------
+@Repository("userDao")
+public class UserDaoImpl implements UserDao {}
+
+
+03a ------------------------------------------------------------------------
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@Override
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		Optional<User> optionalUser = userRepository.findByUserName(userName);
+		optionalUser.orElseThrow(() -> new UsernameNotFoundException("User " + userName + " not found..."));
+		return optionalUser.map(CustomUserDetails::new).get();
+	}
+
+}
+
+
+03a ------------------------------------------------------------------------
+public class CustomUserDetails extends User implements UserDetails {
+
+	public CustomUserDetails(final User user) { super(user); }
+
+	getAuthorities()
+	getPassword()
+	getUsername()
+	isAccountNonExpired()
+	isAccountNonLocked()
+	isCredentialsNonExpired()
+	isEnabled()
+}

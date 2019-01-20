@@ -17,13 +17,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import nl.zoethout.grot.MyUnitTest;
 import nl.zoethout.grot.config.WebConfig;
+import nl.zoethout.grot.mytest.MyTestCases;
 
 @DisplayName("TestHomeController")
 @ContextConfiguration(classes = { WebConfig.class })
 //TODO 46 - This is a workaround...!
-public class TestHomeController extends MyUnitTest {
+public class TestHomeController extends MyTestCases {
 
 	private MockMvc mockMvc;
 

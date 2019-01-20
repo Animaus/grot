@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
-import nl.zoethout.grot.MyUnitTest;
+import nl.zoethout.grot.mytest.MyTestCases;
 
 @DisplayName("TestPrincipal")
-public class TestPrincipal extends MyUnitTest {
+public class TestPrincipal extends MyTestCases {
 	private Principal p;
 
 	private TestPrincipal(final TestInfo inf) {

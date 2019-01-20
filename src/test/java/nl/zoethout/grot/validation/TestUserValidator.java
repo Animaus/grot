@@ -17,12 +17,12 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
-import nl.zoethout.grot.MyUnitTest;
 import nl.zoethout.grot.domain.Address;
 import nl.zoethout.grot.domain.User;
+import nl.zoethout.grot.mytest.MyTestCases;
 import nl.zoethout.grot.service.UserServiceImpl;
 
-public class TestUserValidator extends MyUnitTest {
+public class TestUserValidator extends MyTestCases {
 	@Mock
 	private UserServiceImpl userService;
 	private AddressValidator addressValidator;

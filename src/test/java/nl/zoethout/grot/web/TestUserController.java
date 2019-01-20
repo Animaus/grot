@@ -34,10 +34,10 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import nl.zoethout.grot.MyUnitTest;
 import nl.zoethout.grot.config.WebConfig;
 import nl.zoethout.grot.domain.Address;
 import nl.zoethout.grot.domain.User;
+import nl.zoethout.grot.mytest.MyTestCases;
 import nl.zoethout.grot.service.UserServiceImpl;
 
 @DisplayName("TestUserController")
@@ -47,7 +47,7 @@ import nl.zoethout.grot.service.UserServiceImpl;
 //@ContextConfiguration(locations = { "classpath:mockBeans.xml", "classpath:applicationContext.xml" })
 @ContextConfiguration(classes = { WebConfig.class })
 //@ImportResource({"classpath:mockBeans.xml"})
-public class TestUserController extends MyUnitTest {
+public class TestUserController extends MyTestCases {
 
 	private static final String MUTABLE = "mutable";
 	private static final String URL_USER = "/user";

@@ -38,13 +38,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import nl.zoethout.grot.MyUnitTest;
+import nl.zoethout.grot.mytest.MyTestCases;
 import nl.zoethout.grot.web.HomeController;
 
 @DisplayName("TestSpringSnippets")
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(HomeController.class)
-public class TestSpringSnippets extends MyUnitTest {
+public class TestSpringSnippets extends MyTestCases {
 	private MockMvc mockMvc;
 	@Autowired
 	WebApplicationContext wac;

@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
-import nl.zoethout.grot.MyUnitTest;
+import nl.zoethout.grot.mytest.MyTestCases;
 
 @DisplayName("TestDatetimeHelper")
-public class TestDatetimeHelper extends MyUnitTest {
+public class TestDatetimeHelper extends MyTestCases {
 	TestDatetimeHelper(TestInfo inf) {
 		printLine(inf.getDisplayName());
 	}

@@ -6,10 +6,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
-import nl.zoethout.grot.MyUnitTest;
+import nl.zoethout.grot.mytest.MyTestCases;
 
 @DisplayName("TestCountryCode")
-public class TestCountryCode extends MyUnitTest {
+public class TestCountryCode extends MyTestCases {
 	TestCountryCode(TestInfo inf) {
 		System.out.println(inf.getDisplayName());
 		prefix = "\t";

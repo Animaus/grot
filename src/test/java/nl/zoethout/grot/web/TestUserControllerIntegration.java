@@ -24,9 +24,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import nl.zoethout.grot.MyUnitTest;
 import nl.zoethout.grot.domain.Principal;
 import nl.zoethout.grot.domain.User;
+import nl.zoethout.grot.mytest.MyTestCases;
 import nl.zoethout.grot.service.UserServiceImpl;
 
 @DisplayName("TestUserControllerIntegrationTest")
@@ -37,7 +37,7 @@ import nl.zoethout.grot.service.UserServiceImpl;
 //Bootstrap the context that the test will use
 //@ContextConfiguration(classes = {WebConfig.class})
 //@ContextConfiguration(locations = { "classpath:mockBeans.xml", "classpath:applicationContext.xml" })
-public class TestUserControllerIntegration extends MyUnitTest {
+public class TestUserControllerIntegration extends MyTestCases {
 
 	private static final String URL_REDIRECT = "redirect:/";
 	private static final String URL_LOGIN = "/login";

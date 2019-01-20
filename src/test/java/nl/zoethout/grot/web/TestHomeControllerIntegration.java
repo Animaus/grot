@@ -19,13 +19,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import nl.zoethout.grot.MyUnitTest;
+import nl.zoethout.grot.mytest.MyTestCases;
 
 @DisplayName("TestHomeController")
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(HomeController.class)
 // TODO 46 - This does not work...!
-public class TestHomeControllerIntegration extends MyUnitTest {
+public class TestHomeControllerIntegration extends MyTestCases {
 
 	private MockMvc mockMvc;
 	
