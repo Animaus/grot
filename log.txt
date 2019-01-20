@@ -1,10 +1,11 @@
+
 ================================================================================================================================================
 INDEX
 ================================================================================================================================================
 
 R = Reason
 S = Solution
-D = Description
+C = Comment
 P = Problem
 
 
@@ -78,8 +79,12 @@ TODO
 TASKS PERFORMED
 ================================================================================================================================================
 
-
 ------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 180606_1633
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
 01.	R		: Setup a project using Spring-boot and Spring-MVC
 
 	S		: Created basic files and code for Hello World : see "install*.zip"
@@ -87,33 +92,33 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 02.	R		: Classes - diagram
 
-	D		: software installation
+	C		: software installation
 				Argo program shortcut contains hard-coded reference to JAVA 6 and requires JAVA 6 to be installed.
 				After installation of Argo, change program shortcut to refer to JAVA 8 (JDK-jre) and uninstall JAVA 6.
 
-	D		: current version
+	C		: current version
 				class_diagram_02
 
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
-04	R		: SQL-datamodel - diagram
+................................................................................................................................................
+4	R		: SQL-datamodel - diagram
 
-	D		: current version
+	C		: current version
 				sql_datamodel_02
 
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 03.	R		: Classes - domain and web
 
 	S		: add
-	D		: generated from Argo
+	C		: generated from Argo
 				nl.zoethout.grot.domain.Adres.java
 				nl.zoethout.grot.domain.Beheerder.java
 				nl.zoethout.grot.domain.Evenement.java
@@ -148,7 +153,7 @@ TASKS PERFORMED
 					<artifactId>persistence-api</artifactId>
 					<version>1.0.2</version>
 				</dependency>
-	D		: works fine for now, but unsure if this is the best solution
+	C		: works fine for now, but unsure if this is the best solution
 	*P03-01	: solved...!
 
 	S		: add javax annotations
@@ -170,6 +175,12 @@ TASKS PERFORMED
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 180608_1917
+Since previous	:   2 d, 02:44
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
 07.	R		: Basic web-interface
 
 	S		: add
@@ -184,11 +195,11 @@ TASKS PERFORMED
 
 	S		: re-write
 				nl.zoethout.grot.web.Welcome.welcome(Map<String, Object>)
-					"welcome" -> "home"
-	D		: effectively disabled "welcome.jsp"
+					welcome" -> "home
+	C		: effectively disabled "welcome.jsp"
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/home.jsp
-	D		: saved old version as "home.txt"
+	C		: saved old version as "home.txt"
 
 	*P07-01	: custom text doesn't show
 	S		: add
@@ -218,25 +229,25 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 09.	R		: Efficient Spring-configuration
 
 	S		: add
 				/src/main/resources/applicationContext.xml
 	S		: re-write
 				/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml
-	D		: made it import "applicationContext.xml"
+	C		: made it import "applicationContext.xml"
 	S		: add
 				/src/main/resources/spring-mvc.xml
 				/src/main/resources/spring-context.xml
 	S		: re-write
 				/src/main/resources/applicationContext.xml
-	D		: made it import "spring-mvc.xml" and "spring-context.xml"
+	C		: made it import "spring-mvc.xml" and "spring-context.xml"
 
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 08.	R		: Login - create page
 
 	S		: add
@@ -257,40 +268,46 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 10	R		: Basic Spring security
 
-	D		: after several day of fruitless trying, I gave up.
+	C		: after several day of fruitless trying, I gave up.
 
 	R		: Failed...!
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 180619_2053
+Since previous	:  11 d, 01:36
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
 05.	R		: SQL-datamodel - script and code
-	
+
 	S		: renamed
 				nl.zoethout.grot.web.Welcome -> HomeController
 				nl.zoethout.grot.domain.User -> UserPreferred
 
 	S		: add
-	D		: entities
+	C		: entities
 				nl.zoethout.grot.domain.User
 				nl.zoethout.grot.domain.UserRole
 				nl.zoethout.grot.domain.Role
-	D		: SQL model
+	C		: SQL model
 				/src/main/resources/db_example.sql
-	D		: entries for spring.jpa & spring.datasource
+	C		: entries for spring.jpa & spring.datasource
 				/src/main/resources/application.properties
-	D		: repositories
+	C		: repositories
 				nl.zoethout.grot.repository.UserRepository
 				nl.zoethout.grot.dao.UserDao
 				nl.zoethout.grot.dao.UserDaoGrot
-	D		: basic check
+	C		: basic check
 				/src/main/webapp/WEB-INF/jsp/basic.jsp
 				nl.zoethout.grot.web.BasicController
 
 	S		: re-write
-	D		: descriptive message for basic check
+	C		: descriptive message for basic check
 				/src/main/resources/text.properties
 
 	S		: delete
@@ -299,9 +316,9 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 11.	R		: Consistent display of pages and texts
-	
+
 	S		: added
 				nl.zoethout.grot.web.HomeController.DISPATCHER
 				nl.zoethout.grot.web.BasicController.DISPATCHER
@@ -319,11 +336,11 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 13.	R		: Users - more properties and storage
 
 	S		: re-write
-	D		: SQL model
+	C		: SQL model
 				/src/main/resources/db_example.sql
 	S		: add
 				nl.zoethout.grot.domain.User.password
@@ -352,7 +369,7 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 16.	R		: Login and pseudo-security
 
 	S		: add
@@ -370,7 +387,7 @@ TASKS PERFORMED
 	* P16-01	: java.lang.StackOverflowError: null
 	S		: re-write
 				nl.zoethout.grot.domain.Role.toString()
-	D		: deleted call to property "users" in entity.
+	C		: deleted call to property "users" in entity.
 				You want a user with associated roles but at the same time you do not want not all users connected to those roles.
 	*P16-01	: solved...!
 
@@ -419,11 +436,21 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.UserController.DEFAULT_MESSAGE
 				nl.zoethout.grot.domain.WrappedUser.WrappedUser(User, List<String>)
 
-	D		: login
+	C		: login
 				page does not display error on login
 				should redirect to home on succesfull login
 				method : nl.zoethout.grot.web.UserController.rmCheck(Map<String, Object>, HttpServletRequest)
 				user entity is too limited : does not have prefix, sex, first- and lastname
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 180710_1552
+Since previous	:  20 d, 18:59
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
+16.	R		: Login and pseudo-security
 
 	S		: re-write
 				nl.zoethout.grot.web.HomeController.rmWelcome(Map<String, Object>, HttpServletRequest)
@@ -440,7 +467,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.domain.User.lastName
 				nl.zoethout.grot.domain.User.prefix
 				nl.zoethout.grot.domain.User.sex
-	D		: and matching getters / setters on nl.zoethout.grot.domain.User and nl.zoethout.grot.domain.WrappedUser
+	C		: and matching getters / setters on nl.zoethout.grot.domain.User and nl.zoethout.grot.domain.WrappedUser
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/home.jsp
 				/src/main/webapp/WEB-INF/jsp/poc.jsp
@@ -448,7 +475,7 @@ TASKS PERFORMED
 
 	S		: rename
 				nl.zoethout.grot.web.HomeController.rmWelcome(Map<String, Object>, HttpServletRequest)	-> rmHome
-				nl.zoethout.grot.web.UserController.rmCheck(HttpServletRequest)					-> rmLoginGet
+				nl.zoethout.grot.web.UserController.rmCheck(HttpServletRequest)
 	S		: add
 				nl.zoethout.grot.AttributeProvider.getSAPrincipal()
 				nl.zoethout.grot.AttributeProvider.setSAPrincipal(Principal)
@@ -464,12 +491,12 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 14.	R		: Custom errorpage
 
 	S		: re-write
 				/src/main/resources/application.properties
-	D		: entries to disable whitelabel errorpage
+	C		: entries to disable whitelabel errorpage
 				| # ERRORPAGE - as of SpringBootVersion >= 1.3
 				| server.error.whitelabel.enabled=false
 				| server.error.include-stacktrace=always
@@ -481,17 +508,17 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 17.	R		: Users - show a list of users
 
 	S		: renamed
 				nl.zoethout.grot.domain.WrappedUser -> Principal
 	S		: add
 				nl.zoethout.grot.domain.Member
-	D		: initially Principal, but removed removed singleton behaviour to be able to put different instances in one list.
+	C		: initially Principal, but removed removed singleton behaviour to be able to put different instances in one list.
 
 
-	D		: CLEAN CODE
+	C		: CLEAN CODE
 
 	S		: add
 				nl.zoethout.grot.web.WebController.getAttr(HttpServletRequest)
@@ -514,7 +541,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.UserController.rmLoginPost(Map<String, Object>, HttpServletRequest)
 
 
-	D		: ADD A MENU-ITEM FOR USERS / MEMBERS
+	C		: ADD A MENU-ITEM FOR USERS / MEMBERS
 
 	S		: re-write
 				/src/main/resources/link.properties
@@ -528,7 +555,7 @@ TASKS PERFORMED
 				/src/main/webapp/WEB-INF/jsp/users_menu.jsp
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 18.	R		: Users - make the list of users admin-dependant
 
 	S		: add to interface
@@ -554,7 +581,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.WebController.PAGE_USERS_VERIFIED
 
 
-	D		: CLEAN CODE
+	C		: CLEAN CODE
 
 	S		: moved from root to util
 				nl.zoethout.grot.SessionAttributes		-> nl.zoethout.grot.util.SessionAttributes
@@ -563,12 +590,12 @@ TASKS PERFORMED
 				nl.zoethout.grot.HttpError			-> nl.zoethout.grot.util.HttpError
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 19.	R		: Users - show a single user with all it's fields
 
-	D		: wrote some functionality, then got to writing forms to display and edit users
-	D		: already made a distinction on pages for admin, profile-owner, other user
-	D		: reference to make fields and labels for single user
+	C		: wrote some functionality, then got to writing forms to display and edit users
+	C		: already made a distinction on pages for admin, profile-owner, other user
+	C		: reference to make fields and labels for single user
 				| spring_12
 				| : user_read_guest.jsp
 				| : user_read_author.jsp
@@ -600,29 +627,29 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, String)
 
 	* P19-01	: /WEB-INF/jsp/user_unknown.jsp (line: [9], column: [3]) Unable to find setter method for attribute: [commandName]
-	D		: https://stackoverflow.com/questions/46989072/org-apache-jasper-jasperexception-web-inf-views-home-jsp-line-25-column
+	C		: https://stackoverflow.com/questions/46989072/org-apache-jasper-jasperexception-web-inf-views-home-jsp-line-25-column
 				After version 5, commandName was removed, you should use modelAttribute, instead.
 	S		: re-write
 				\src\main\webapp\WEB-INF\jsp\user_unknown.jsp
-	D		: commandName -> modelAttribute
+	C		: commandName -> modelAttribute
 	* P19-01	: solved...!
 
 	* P19-02	: Request processing failed; nested exception is java.lang.IllegalStateException:
 			  Neither BindingResult nor plain target object for bean name 'member' available as request attribute
-	D		: Words "request attribute" and "modelAttribute" made me think to add the member entity as an attribute to the model.
+	C		: Words "request attribute" and "modelAttribute" made me think to add the member entity as an attribute to the model.
 	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
 				nl.zoethout.grot.web.UserController.rmUser(Model, HttpServletRequest, String)
 	* P19-02	: solved...!
 
-	D		: static display of data to guest does work now.
+	C		: static display of data to guest does work now.
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 20.	R		: Users - get hibernate annotations to work on sql-model
 
-	D		: after many trial and error succeeded in adapting SQL-model (version db_example_180625_1406.sql)
-	D		: what I did sub-optimally I don't know, even downloaded pretty good example
+	C		: after many trial and error succeeded in adapting SQL-model (version db_example_180625_1406.sql)
+	C		: what I did sub-optimally I don't know, even downloaded pretty good example
 				https://www.journaldev.com/2916/hibernate-one-to-one-mapping-example-annotation
 				HibernateOneToOneMapping.zip
 
@@ -652,7 +679,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.dao.UserDaoImpl.readAddress(int)
 				nl.zoethout.grot.service.UserService.readAddress(int)
 				nl.zoethout.grot.service.UserServiceImpl.readAddress(int)
-	D		: (appears not to be used???)
+	C		: (appears not to be used???)
 
 	S		: re-write
 				nl.zoethout.grot.domain.User
@@ -718,10 +745,10 @@ TASKS PERFORMED
 				nl.zoethout.grot.domain.Member
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 21.	R		: Users - show a single user with fields of address on page(s)
 
-	D		: WARNING - WARNING - WARNING
+	C		: WARNING - WARNING - WARNING
 				make a flawless fieldmapping between .jsp , .properties and respective entities
 				make utterly sure the number of fields and spelling of fields are an exact match
 				(for instance: no "mail" instead of "email", no missing fields on one end)
@@ -742,10 +769,10 @@ TASKS PERFORMED
 				/src/main/webapp/WEB-INF/jsp/user_verified.jsp
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 22.	R		: Users - save member with address (backend)
 
-	D		: BACKEND
+	C		: BACKEND
 
 	S		: add
 				nl.zoethout.grot.dao.UserDao.saveAddress(Address)
@@ -763,8 +790,8 @@ TASKS PERFORMED
 	S		: rename
 				nl.zoethout.grot.web.WebController.getAttr(HttpServletRequest) -> provider(HttpServletRequest)
 
-	D		: CLEAN CODE
-	D		: value no longer from field, but composite entity instead. Type from List<String> to Set<Role>.
+	C		: CLEAN CODE
+	C		: value no longer from field, but composite entity instead. Type from List<String> to Set<Role>.
 
 	S		: rename & re-write
 				nl.zoethout.grot.domain.Member.roles -> userRoles
@@ -801,12 +828,12 @@ TASKS PERFORMED
 				nl.zoethout.grot.dao.UserDaoImpl.listProfiles()
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 23.	R		: Users - save member with address (frontend)
 
 	* P23-01	: controller does not get request attributes
-	D		: 1 - both method in controller and form action in page use GET instead of POST
-	D		: 2 - fields on page are not in form-scope
+	C		: 1 - both method in controller and form action in page use GET instead of POST
+	C		: 2 - fields on page are not in form-scope
 	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 				/src/main/webapp/WEB-INF/jsp/user_unknown.jsp
@@ -826,7 +853,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 24.	R		: Users - save member with roles
 
 	S		: add
@@ -839,12 +866,12 @@ TASKS PERFORMED
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
 
-	D		: CLEAN CODE
+	C		: CLEAN CODE
 
 	S		: add
 				nl.zoethout.grot.domain.UserWrapper
 	S		: re-write
-	D		: extends UserWrapper
+	C		: extends UserWrapper
 				nl.zoethout.grot.domain.Principal
 				nl.zoethout.grot.domain.Member
 	S		: delete (from Principal)
@@ -904,19 +931,19 @@ TASKS PERFORMED
 	S		: add
 				nl.zoethout.grot.domain.User.getRoles()
 				nl.zoethout.grot.domain.User.setRoles(Set<Role>)
-	D		: reversal of P16-02
+	C		: reversal of P16-02
 
-	D		: edit page does not show roles when no admin
+	C		: edit page does not show roles when no admin
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
 
 19:25 4-7-2018
 	S		: re-write
-	D		: after save routing to read-mode page
+	C		: after save routing to read-mode page
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 26.	R		: Users - fieldvalidation
 
 				https://www.tutorialspoint.com/springmvc/springmvc_hibernate_validator.htm
@@ -928,67 +955,67 @@ TASKS PERFORMED
 				/src/main/resources/messages.properties
 				/src/main/resources/messages_nl.properties
 
-	D		: Kept being bothered by a NullpointerException when WrapClass "nl.zoethout.grot.domain.Member" was used as "<editUser>" on page.
+	C		: Kept being bothered by a NullpointerException when WrapClass "nl.zoethout.grot.domain.Member" was used as "<editUser>" on page.
 				Obviously, some component of "nl.zoethout.grot.domain.Member" was not loaded
-	D		: Decided to use just "nl.zoethout.grot.domain.User" on page, with just one field: "firstName"
+	C		: Decided to use just "nl.zoethout.grot.domain.User" on page, with just one field: "firstName"
 
 	S		: add
-	D		: copied from "Member"
+	C		: copied from "Member"
 				nl.zoethout.grot.domain.User.getDateBirthDisplay()
 				nl.zoethout.grot.domain.User.getDateRegisteredDisplay()
 				nl.zoethout.grot.domain.User.getUserRoleNames()
-	D		: copied from "UserWrapper"
+	C		: copied from "UserWrapper"
 				nl.zoethout.grot.domain.User.hasRole(String)
 	S		: delete
 				nl.zoethout.grot.domain.User.sdf
 
-	D		: Copied working validation example to desired methods (GET / POST)
+	C		: Copied working validation example to desired methods (GET / POST)
 	S		: add
 				nl.zoethout.grot.web.PocController.rmStudentGet(Map<String, Object>) -> rmUserGet(Map<String, Object>)
 				/src/main/webapp/WEB-INF/jsp/validation/student.jsp -> user_writable.jsp
 				nl.zoethout.grot.web.PocController.rmStudentPost(Student, BindingResult, Model) -> rmUserPost(Student, BindingResult, Model)
 				/src/main/webapp/WEB-INF/jsp/validation/result.jsp -> user_readable.jsp
-	D		: action points to wrong method
+	C		: action points to wrong method
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
-	D		: changed navigation
-	D		: changed table definition
+	C		: changed navigation
+	C		: changed table definition
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
-	D		: moved form definition outside table
+	C		: moved form definition outside table
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
-	D		: added form definition outside table
+	C		: added form definition outside table
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
-	D		: added button below form definition
-	D		: added taglib "www.springframework.org/tags"
+	C		: added button below form definition
+	C		: added taglib "www.springframework.org/tags"
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
-	D		: removed old button
+	C		: removed old button
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 
-	D		: removed "modelAttribute" from form definition
+	C		: removed "modelAttribute" from form definition
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 	* P26-01	: Exception...!
 				Request processing failed;
 				 nested exception is java.lang.IllegalStateException:
 				 Neither BindingResult nor plain target object for bean name 'command' available as request attribute
-	D		: added "modelAttribute" to form definition
+	C		: added "modelAttribute" to form definition
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 	* P26-01	: Solved...!
 
-	D		: chosen member - username
-	D		: chosen member - reading
-	D		: chosen member - session
-	D		: chosen member - model (P19-02 / mutable user)
-	D		: changed signature
+	C		: chosen member - username
+	C		: chosen member - reading
+	C		: chosen member - session
+	C		: chosen member - model (P19-02 / mutable user)
+	C		: changed signature
 	S		: re-write
 				nl.zoethout.grot.web.PocController.rmUserGet(Map<String, Object>)
 				-> rmUserGet(Model, HttpServletRequest)
 
-	D		: add immutable user to sessionattributes
+	C		: add immutable user to sessionattributes
 	S		: add
 				nl.zoethout.grot.util.SessionAttributes.FIXED
 				nl.zoethout.grot.util.AttributeProvider.getSAFixed()
@@ -997,16 +1024,16 @@ TASKS PERFORMED
 				nl.zoethout.grot.util.AttributeProvider.Impl.setSAFixed(User)
 				nl.zoethout.grot.web.PocController.rmUserGet(Model, HttpServletRequest)
 
-	D		: added tables for user and address
+	C		: added tables for user and address
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 
-	D		: saved version 26-01
+	C		: saved version 26-01
 				nl.zoethout.grot.web.PocController -> PocController_26-01
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp -> user_readable_26-01.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp -> user_writable_26-01.jsp
 
-	D		: changed model attribute from "student" to "mutable"
+	C		: changed model attribute from "student" to "mutable"
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 	* P26-02	: Exception...!
 				org.springframework.beans.NotReadablePropertyException:
@@ -1024,33 +1051,33 @@ TASKS PERFORMED
 				nl.zoethout.grot.domain.Address.getCountryName()
 	* P26-03	: Solved...!
 
-	D		: moved fields to table for user
-	D		: added field for chosen member - session
+	C		: moved fields to table for user
+	C		: added field for chosen member - session
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 	S		: add
 				nl.zoethout.grot.domain.Address.getClassName()
 
-	D		: validate just one field (firstName)
+	C		: validate just one field (firstName)
 	S		: add
 				nl.zoethout.grot.validation.UserValidator
 				nl.zoethout.grot.web.PocController.rmUserPost(User, BindingResult, Model)
 
-	D		: show validated user in read-mode
+	C		: show validated user in read-mode
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
-	D		: lost model-attribute "mutable" (no field values shown)
-	D		: found notation to show address and it's values
+	C		: lost model-attribute "mutable" (no field values shown)
+	C		: found notation to show address and it's values
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 
-	D		: saved version 26-02
+	C		: saved version 26-02
 				nl.zoethout.grot.web.PocController -> PocController_26-02
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp -> user_readable_26-02.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp -> user_writable_26-02.jsp
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 25.	R		: Users - save member with values
 
 	S		: add
@@ -1058,25 +1085,25 @@ TASKS PERFORMED
 	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 
-	D		: added more fields to mutable
+	C		: added more fields to mutable
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
-	D		: conversion error on date fields
-	D		: disabled editing date fields
+	C		: conversion error on date fields
+	C		: disabled editing date fields
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 
-	D		: no dates or roles shown
-	D		: changed signature
+	C		: no dates or roles shown
+	C		: changed signature
 	S		: re-write
 				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult)
 				-> rmUserPost(Model, User, BindingResult, HttpServletRequest)
 
-	D		: move methods to abstract parent class
+	C		: move methods to abstract parent class
 	S		: re-write
-	D		: changed signature
+	C		: changed signature
 				nl.zoethout.grot.web.UserController.editAuthorisation(HttpServletRequest, Member)
 				-> editAuthorisation(UserService, HttpServletRequest, Member)
 				nl.zoethout.grot.web.UserController.setAuthorisation(User)
@@ -1092,14 +1119,14 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.UserController.editAuthorisation(UserService, HttpServletRequest, Member)
 				nl.zoethout.grot.web.UserController.setAuthorisation(UserService, User)
 	S		: re-write
-	D		: changed signature
+	C		: changed signature
 				nl.zoethout.grot.web.WebController.editAuthorisation(UserService, HttpServletRequest, Member)
 				-> editAuthorisation(UserService, HttpServletRequest, User)
 	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
 
-	D		: change case
+	C		: change case
 	S		: add
 				nl.zoethout.grot.domain.User.changeCase()
 				nl.zoethout.grot.domain.Address.changeCase()
@@ -1108,14 +1135,14 @@ TASKS PERFORMED
 
 	* P25-01	: Exception...!
 				javax.el.ELException: Error reading [dateBirthDisplay] on type [nl.zoethout.grot.domain.User]
-	D		: field is not on model entity
+	C		: field is not on model entity
 	S		: re-write
 				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
 	* P25-01	: Solved...!
 
 	* P25-02	: Exception...!
 				org.springframework.orm.jpa.JpaSystemException
-	D		: added some more fields that needed value before saving
+	C		: added some more fields that needed value before saving
 	S		: re-write
 				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
 	* P25-02	: Solved...!
@@ -1128,7 +1155,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.PocController.initBinder(WebDataBinder)
 	* P25-03	: Solved...!
 
-	D		: added support for input and display of "Role" and "Country"
+	C		: added support for input and display of "Role" and "Country"
 	S		: add
 				nl.zoethout.grot.web.PocController.maCountries(HttpServletRequest)
 	S		: re-write
@@ -1136,16 +1163,16 @@ TASKS PERFORMED
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 
-	D		: more validations
+	C		: more validations
 	S		: re-write
 				nl.zoethout.grot.validation.AddressValidator
 				nl.zoethout.grot.validation.UserValidator
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 27	R		: Users - copy fieldvalidation from PocController to UserController
 
-	D		: Start with pages. (Essentially: eradicate "Member". May decide to remove "Member" everywhere.)
+	C		: Start with pages. (Essentially: eradicate "Member". May decide to remove "Member" everywhere.)
 
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 			->
@@ -1157,7 +1184,7 @@ TASKS PERFORMED
 				/src/main/webapp/WEB-INF/jsp/user_test_verified.jsp
 				/src/main/webapp/WEB-INF/jsp/user_test_read_button.jsp
 
-	D		: Challenge: URL from PocController is different to UserController. Latter is what I want.
+	C		: Challenge: URL from PocController is different to UserController. Latter is what I want.
 
 				GET	: nl.zoethout.grot.web.PocController.rmUserGet(Model, HttpServletRequest)
 				GET	: nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
@@ -1166,15 +1193,15 @@ TASKS PERFORMED
 				POST	: nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 
 	S		: re-write
-	D		: disabled requestmapping (commented out)
+	C		: disabled requestmapping (commented out)
 				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 	S		: add
-	D		: copy from nl.zoethout.grot.web.PocController
+	C		: copy from nl.zoethout.grot.web.PocController
 				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest)
 				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
 	S		: re-write
-	D		: added correct requestmapping
+	C		: added correct requestmapping
 				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest)
 				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
 
@@ -1182,80 +1209,80 @@ TASKS PERFORMED
 				org.apache.jasper.el.JspELException: /WEB-INF/jsp/user_writable.jsp(97,38) '${roles.keySet()}'
 				 Method not found: class java.util.LinkedHashSet.keySet()
 	S		: re-write
-	D		: renamed / commented out annotation
+	C		: renamed / commented out annotation
 				nl.zoethout.grot.web.UserController.maRoles(HttpServletRequest) -> maRoles_24
 	S		: add
-	D		: copy from nl.zoethout.grot.web.PocController
+	C		: copy from nl.zoethout.grot.web.PocController
 				nl.zoethout.grot.web.UserController.maRoles(HttpServletRequest)
 	* P27-01	: Solved...!
 
 	S		: re-write
-	D		: changed signature to edit chosen member
+	C		: changed signature to edit chosen member
 				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest) ->
 				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest, String)
-	D		: strange format of dates
-	D		: URL to "Proofs of concepts"
+	C		: strange format of dates
+	C		: URL to "Proofs of concepts"
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
-	D		: (copy of "user_writable.jsp")
-	D		: no field "enabled" or "countryname"
+	C		: (copy of "user_writable.jsp")
+	C		: no field "enabled" or "countryname"
 	S		: add
-	D		: copy from nl.zoethout.grot.web.PocController
+	C		: copy from nl.zoethout.grot.web.PocController
 				nl.zoethout.grot.web.UserController.maCountries(HttpServletRequest)
-	D		: Tworks...! With submit-button missing... :-(
+	C		: Tworks...! With submit-button missing... :-(
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
-	D		: Tworks...! Submit-button shows, but doesn't work... :-(
+	C		: Tworks...! Submit-button shows, but doesn't work... :-(
 
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
-	D		:
+	C		:
 				<sft:form method = "POST" action = "user" modelAttribute = "mutable">
 			->
 				<sft:form method = "POST" action = "save" modelAttribute = "mutable">
-	D		: Tworks...! With Exception on date fields... :-(
+	C		: Tworks...! With Exception on date fields... :-(
 
 	S		: add
-	D		: copy from nl.zoethout.grot.web.PocController
+	C		: copy from nl.zoethout.grot.web.PocController
 				nl.zoethout.grot.web.UserController.initBinder(WebDataBinder)
 				nl.zoethout.grot.web.UserController.RoleEditor
-	D		: https://www.logicbig.com/tutorials/spring-framework/spring-core/property-editors.html
-	D		: Tworks...! But no routing to read... :-(
+	C		: https://www.logicbig.com/tutorials/spring-framework/spring-core/property-editors.html
+	C		: Tworks...! But no routing to read... :-(
 
-	D		: temporary logging to "test"
+	C		: temporary logging to "test"
 				getCode : city.length
 				getDefaultMessage : null
 				getObjectName : mutable
 				Field error in object 'mutable' on field 'address.city': rejected value [Test];
 				 codes [city.length.mutable.address.city,city.length.address.city,city.length.city,city.length.java.lang.String,city.length];
 				 arguments []; default message [null]
-	D		: (Conclusion = validation fails on field "city")
+	C		: (Conclusion = validation fails on field "city")
 
 	S		: re-write
-	D		: changed signature to route to appropriate page
+	C		: changed signature to route to appropriate page
 				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
 					->
 				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest, String)
-	D		: Tworks...! Correct routing on validation fail... :-)
+	C		: Tworks...! Correct routing on validation fail... :-)
 
-	D		: on validation succeed route to read member
+	C		: on validation succeed route to read member
 	S		: add
 				nl.zoethout.grot.web.UserController.logging(Model, BindingResult, String)
 	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest, String)
 				/src/main/webapp/WEB-INF/jsp/user_read_button.jsp
-	D		: (copy of "user_readable.jsp")
-	D		: Tworks...! Correct routing to generic page on validation succes... :-)
+	C		: (copy of "user_readable.jsp")
+	C		: Tworks...! Correct routing to generic page on validation succes... :-)
 
-	D		: saving to database from interface
+	C		: saving to database from interface
 	* P27-02	: Exception...!
 				Request processing failed;
 				 nested exception is java.lang.IllegalStateException:
 				 Neither BindingResult nor plain target object for bean name 'mutable' available as request attribute
-	D		: (but changed ARE correctly saved to DB, so problem could be in page)
-	D		: save routes to read userPage, which method put model-attribute "member" instead of "mutable"
+	C		: (but changed ARE correctly saved to DB, so problem could be in page)
+	C		: save routes to read userPage, which method put model-attribute "member" instead of "mutable"
 
-	D		: fase-out SAMember
+	C		: fase-out SAMember
 	S		: delete
 				nl.zoethout.grot.util.AttributeProvider.getSAMember()
 				nl.zoethout.grot.util.AttributeProvider.setSAMember(Member)
@@ -1267,7 +1294,7 @@ TASKS PERFORMED
 				/src/main/webapp/WEB-INF/jsp/user_read.jsp
 				/src/main/webapp/WEB-INF/jsp/user_read_button.jsp
 
-	D		: CLEAN CODE
+	C		: CLEAN CODE
 	S		: delete
 				nl.zoethout.grot.web.PocController.rmMemberGet(Model, HttpServletRequest)
 				nl.zoethout.grot.web.PocController.rmMemberPost(Member, BindingResult, Model, HttpServletRequest)
@@ -1277,7 +1304,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
 				nl.zoethout.grot.web.UserController.maRoles_24(HttpServletRequest)
 
-	D		: fase-out Member
+	C		: fase-out Member
 	S		: moved
 				nl.zoethout.grot.domain.Member -> nl.zoethout.grot.web.PocController.Member
 	S		: delete
@@ -1296,6 +1323,12 @@ TASKS PERFORMED
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 181124_1611
+Since previous	: 134 d, 00:19
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
 28	R		: Make code J8 compliant - replace constants with enumeration
 
 	S		: write
@@ -1304,8 +1337,8 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.WebController
 				nl.zoethout.grot.web.HomeController.rmHome(Map<String, Object>, HttpServletRequest)
 
-	D		: Keep statement short using static import
-	D		: import static nl.zoethout.grot.util.PageURL.*;
+	C		: Keep statement short using static import
+	C		: import static nl.zoethout.grot.util.PageURL.*;
 	S		: re-write
 				nl.zoethout.grot.web.HomeController.rmHome(Map<String, Object>, HttpServletRequest)
 				nl.zoethout.grot.web.UserController.rmLoginGet(HttpServletRequest)
@@ -1315,7 +1348,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.CustomErrorController.handleError(Map<String, Object>, HttpServletRequest)
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 29	R		: Replace statements with lambda
 
 	S		: re-write
@@ -1331,7 +1364,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.util.CountryCode.{..}
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 30	R		: Make code J8 compliant - replace org.joda.time
 
 	S		: added
@@ -1372,10 +1405,10 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 31	R		: Write tests for Spring-MVC with Mockito and JUnit5
 
-	D		: STATUS QUO
+	C		: STATUS QUO
 
 			: online documentation URL
 
@@ -1430,7 +1463,7 @@ TASKS PERFORMED
 				Removed sample code from project "grot" to project "bookstoread".
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 31	R		: Write tests for Spring-MVC with Mockito and JUnit5
 
 	D		: 1 - names of testclasses should reflect names of classes itself
@@ -1461,6 +1494,11 @@ TASKS PERFORMED
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
+Version	: 181125_0016
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
 32	R		: Write unit-tests for UserController
 
 	S		: write
@@ -1498,8 +1536,19 @@ TASKS PERFORMED
 					https://memorynotfound.com/unit-test-spring-mvc-rest-service-junit-mockito/
 					unit-test-spring-mvc-rest-service-mockito-junit-example.zip
 					https://www.baeldung.com/integration-testing-in-spring
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Version	: 181125_1902
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
+32	R		: Write unit-tests for UserController
+
 	S		: write
 				nl.zoethout.grot.web.TestUserControllerIntegrationTest.Login.rmLoginGet(TestInfo)
+
 
 	D		: annotations (for further study)
 				This:
@@ -1521,6 +1570,16 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.TestUserControllerUnittest.mockedRequest(MockHttpServletRequest)
 				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginPost_Admin(TestInfo)
 				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginPost_Admin_WrongPWD(TestInfo)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Version	: 181126_1800
+Since previous	:   2 d, 01:49
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
+32	R		: Write unit-tests for UserController
 
 	S		: moved
 				nl.zoethout.grot.web.TestUserControllerUnittest.mockedRequest(MockHttpServletRequest)
@@ -1551,7 +1610,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUsers_Admin(TestInfo)
 				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUsers_User(TestInfo)
 
-	D		: mocking void methods
+	C		: mocking void methods
 				https://stackoverflow.com/questions/2276271/how-to-make-mock-to-void-methods-with-mockito
 				https://stackoverflow.com/questions/28836778/usages-of-dothrow-doanswer-donothing-and-doreturn-in-mockito
 				Code found in "tutorials-master"
@@ -1572,21 +1631,41 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUserGet_User_arc0j00(TestInfo)
 				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUserGet_Guest_arc0j00(TestInfo)
 
-	D		: DEBUG logs in console
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 181127_1916
+Since previous	:   1 d, 01:16
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
+32	R		: Write unit-tests for UserController
+
+	C		: DEBUG logs in console
 				https://www.mkyong.com/spring-boot/spring-boot-test-how-to-stop-debug-logs/
 					Run the Spring Boot tests and find out the console is full of DEBUG logs, try to control the
 					logging level in the application.yml, but the unit tests just ignore the settings.
 	S		: write
 				src/test/resources/logback-test.xml
 
-	D		: prevent unauthorised saving
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 181202_1500
+Since previous	:   4 d, 19:44
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
+32	R		: Write unit-tests for UserController
+
+	C		: prevent unauthorised saving
 	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest, String)
 
-	D		: model lives on the request-scope / getting handlers on webcomponents
+	C		: model lives on the request-scope / getting handlers on webcomponents
 				Something I re-discovered after hours while writing unit-tests in "nl.zoethout.grot.web.TestUserControllerUnittest"
 
-	D		: did some extensive and unplanned writing and refactoring, result summed up below
+	C		: did some extensive and unplanned writing and refactoring, result summed up below
 	S		: added fields
 				nl.zoethout.grot.web.TestUserControllerUnittest.URL_USER
 				nl.zoethout.grot.web.TestUserControllerUnittest.URL_USER_LOGIN
@@ -1646,7 +1725,7 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 33	R		: Oversight parent testclass
 
 	S		: fields
@@ -1676,23 +1755,23 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 34	R		: Write unit-tests for UserService
 
-	D		: wrote skeleton methods for testcases, reflecting actual methods
-	D		: decided not to write tests for UserService since all methods have delegated calls to UserDao.
+	C		: wrote skeleton methods for testcases, reflecting actual methods
+	C		: decided not to write tests for UserService since all methods have delegated calls to UserDao.
 
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 35	R		: Code improvement
 
 	S		: delete
 				nl.zoethout.grot.web.Api
 				nl.zoethout.grot.web.HelloController
 
-	D		: no more globals (req/attr)
+	C		: no more globals (req/attr)
 	S		: delete
 				nl.zoethout.grot.MyUnitTest.setProvider()
 				nl.zoethout.grot.MyUnitTest.attr
@@ -1708,7 +1787,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPostError.assertEdit(User, String, int, String, ResultMatcher)
 				nl.zoethout.grot.web.TestUserControllerUnittest.assertRun(User, String, String)
 
-	D		: declared all arguments as final where applicable
+	C		: declared all arguments as final where applicable
 				nl.zoethout.grot.web.WebController
 				nl.zoethout.grot.MyUnitTest
 				nl.zoethout.grot.dao.UserDaoImpl
@@ -1724,10 +1803,10 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 36	R		: Write unit-tests for AddressValidator and UserValidator
 
-	D		: Code improvement
+	C		: Code improvement
 	S		: rename
 				nl.zoethout.grot.MyUnitTest.assertUserService(UserServiceImpl)
 				-> nl.zoethout.grot.MyUnitTest.whenUserService(UserServiceImpl)
@@ -1735,7 +1814,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.TestUserControllerIntegrationTest.setup()
 				nl.zoethout.grot.web.TestUserControllerUnittest.setup()
 
-	D		: Code improvement
+	C		: Code improvement
 	S		: delete
 				nl.zoethout.grot.validation.UserValidator.userService
 	S		: re-write
@@ -1788,7 +1867,7 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 35	R		: Code improvement
 
 	S		: delete
@@ -1805,16 +1884,22 @@ TASKS PERFORMED
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 181216_1836
+Since previous	:  14 d, 03:36
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
 37	R		: Spring-security
 
-	D		: https://www.javainuse.com/spring/boot_form_security
+	C		: https://www.javainuse.com/spring/boot_form_security
 	S		: add dependencies
 				<dependency>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-security</artifactId>
 				</dependency>
 
-	D		: configuration
+	C		: configuration
 				In the configuration we specify which urls are to be intercepted, and are to be accessed by which users and having which
 				roles. Next we create users along with passwords and specify them a role.
 				Challenge: users and roles from database (deviation from description).
@@ -1831,7 +1916,7 @@ TASKS PERFORMED
 	S		: add
 				nl.zoethout.grot.web.LoginController.login(HttpServletRequest)
 	S		: re-write
-				D	: make it extend UserDetailsService
+				C	: make it extend UserDetailsService
 				nl.zoethout.grot.service.UserService
 	S		: add
 				nl.zoethout.grot.service.UserServiceImpl.loadUserByUsername(String)
@@ -1849,7 +1934,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.LoginController.login(HttpServletRequest)
 	*P37-01	: solved...!
 
-	D		: On secured user redirect to /login (with empty user-data)
+	C		: On secured user redirect to /login (with empty user-data)
 	S		: re-write
 				nl.zoethout.grot.config.SecurityConfig.configure(HttpSecurity)
 
@@ -1873,11 +1958,11 @@ TASKS PERFORMED
 				nl.zoethout.grot.service.UserServiceImpl.loadUserByUsername(String)
 	*P37-02	: solved...!
 
-	D		: https://www.thomasvitale.com/https-spring-boot-ssl-certificate/
+	C		: https://www.thomasvitale.com/https-spring-boot-ssl-certificate/
 				Adapting application.properties suffices telling Spring Security to require requests over HTTPS.
 	S		: re-write
 				/grot/src/main/resources/application.properties
-	D		: secure connection with firefox
+	C		: secure connection with firefox
 				Firefox notifies the connection is not secure.
 				Click "Geavanceerd".
 				Click "Uitzondering toevoegen".
@@ -1888,7 +1973,7 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 38	R		: Sorted roles in User
 
 	S		: add readRoleNames()
@@ -1915,20 +2000,20 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 39	R		: Processing successful login
 
-	D		: no style for page
+	C		: no style for page
 	S		: re-write
 				/grot/src/main/webapp/WEB-INF/jsp/login.jsp
 
 	S		: add
 				nl.zoethout.grot.web.LoginController.loginSuccess(HttpServletRequest)
-	D		: https://www.baeldung.com/spring-security-login
+	C		: https://www.baeldung.com/spring-security-login
 	S		: re-write
-				D	: change target url after successful login
+				C	: change target url after successful login
 				nl.zoethout.grot.config.SecurityConfig.configure(HttpSecurity)
-				D	: bugfix
+				C	: bugfix
 				nl.zoethout.grot.service.UserServiceImpl.loadUserByUsername(String)
 	S		: re-write
 				nl.zoethout.grot.util.PageURL.LOGIN
@@ -1936,16 +2021,16 @@ TASKS PERFORMED
 	S		: delete
 				/grot/src/main/webapp/WEB-INF/jsp/logon.jsp
 
-	D		: do not write class AuthenticationSuccessHandler...!
+	C		: do not write class AuthenticationSuccessHandler...!
 				because there's no java.security.Principal in onAuthenticationSuccess
 
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 40	R		: Processing unsuccessful login
 
-	D		: https://www.baeldung.com/spring-security-custom-authentication-failure-handler
+	C		: https://www.baeldung.com/spring-security-custom-authentication-failure-handler
 	S		: re-write
 				nl.zoethout.grot.config.SecurityConfig.configure(HttpSecurity)
 	S		: add
@@ -1956,16 +2041,16 @@ TASKS PERFORMED
 				nl.zoethout.grot.util.AttributeProvider.setSAUsername(String)
 				nl.zoethout.grot.util.AttributeProviderImpl.setSAUsername(String)
 
-	D		: do not write method loginFailure...!
+	C		: do not write method loginFailure...!
 				because there's no requestparameter "username"...
 
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 41	R		: Processing logout
 
-	D		: https://stackoverflow.com/questions/28619207/spring-security-custom-logout-filter
+	C		: https://stackoverflow.com/questions/28619207/spring-security-custom-logout-filter
 	S		: add
 				nl.zoethout.grot.security.CustomLogoutSuccessHandler
 				nl.zoethout.grot.config.SecurityConfig.logoutSuccessHandler()
@@ -1975,7 +2060,7 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 35	R		: Code improvement
 
 	S		: delete
@@ -1985,10 +2070,16 @@ TASKS PERFORMED
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 181220_1557
+Since previous	:   3 d, 21:21
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
 42	R		: Write unit-tests for HomeController
 
 	* P42-01
-	D		: APPLICATION FAILED TO START
+	C		: APPLICATION FAILED TO START
 				Description	: A component required a bean named 'entityManagerFactory' that could not be found.
 				Action	: Consider defining a bean named 'entityManagerFactory' in your configuration.
 				  Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userRepository':
@@ -1997,7 +2088,7 @@ TASKS PERFORMED
 				  Error creating bean with name '(inner bean)#ef60710': Cannot resolve reference to bean 'entityManagerFactory' while
 				  setting constructor argument; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException:
 				  No bean named 'entityManagerFactory' available
-	D		: https://stackoverflow.com/questions/53524827/springboot-webmvctest-and-mockbean-not-working-as-expected
+	C		: https://stackoverflow.com/questions/53524827/springboot-webmvctest-and-mockbean-not-working-as-expected
 			  The problem's caused by your use of @EnableJpaRepositories on your application's main class. By placing it on the main
 			  class, you're indicating that JPA repositories must always be enabled, irrespective of which particular slice of functionality
 			  you're trying to test.
@@ -2005,9 +2096,9 @@ TASKS PERFORMED
 			  - Move @EnableJpaRepositores and @EntityScan onto a separate JPA-specific configuration class
 			  - Remove @EnableJpaRepositories and @EntityScan and rely on the auto-configured defaults. For this to work, your repositories
 			    and entities will have to be in a sub-package of your main class's package.
-	D		: https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-testing-spring-boot-applications-detecting-config
-	D		: https://stackoverflow.com/questions/45350546/entitymanagerfactory-not-found-in-springboot
-	D		: Remembering Unit-tests DID run before creating class nl.zoethout.grot.config.SecurityConfig, I there checked for @EnableJpaRepositories.
+	C		: https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-testing-spring-boot-applications-detecting-config
+	C		: https://stackoverflow.com/questions/45350546/entitymanagerfactory-not-found-in-springboot
+	C		: Remembering Unit-tests DID run before creating class nl.zoethout.grot.config.SecurityConfig, I there checked for @EnableJpaRepositories.
 			  There it was! I removed the annotation and ran the test again: it worked...! Then I ran the application and it worked as well...!
 	S		: re-write
 				nl.zoethout.grot.config.SecurityConfig
@@ -2016,11 +2107,11 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 45	R		: Spring from XML to Java-based config
 
-	D		: http://www.robinhowlett.com/blog/2013/02/13/spring-app-migration-from-xml-to-java-based-config/
-	D		: https://www.baeldung.com/spring-delegating-filter-proxy
+	C		: http://www.robinhowlett.com/blog/2013/02/13/spring-app-migration-from-xml-to-java-based-config/
+	C		: https://www.baeldung.com/spring-delegating-filter-proxy
 
 	S		: add
 				nl.zoethout.grot.config.WebConfig
@@ -2048,11 +2139,11 @@ TASKS PERFORMED
 	R		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 46	R		: Re-write unit-tests for HomeController
 
-	D		: Since migration from XML to Java-based config, I can't get the integration test to work.
-	D		: As a workaround, I emulated the approach of nl.zoethout.grot.web.TestUserController, though I do not need nor want
+	C		: Since migration from XML to Java-based config, I can't get the integration test to work.
+	C		: As a workaround, I emulated the approach of nl.zoethout.grot.web.TestUserController, though I do not need nor want
 			  InjectMocks on my controller.
 
 	S		: rename
@@ -2079,7 +2170,7 @@ TASKS PERFORMED
 	*P46-01	: solved...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 35	R		: Code improvement
 
 	S		: delete
@@ -2088,7 +2179,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.PocController.rmRepository()
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 43	R		: Write unit-tests for LoginController
 
 	S		: add
@@ -2098,7 +2189,17 @@ TASKS PERFORMED
 					<scope>test</scope>
 				</dependency>
 
-	D		: Development continued in project "spring-security-mvc-login".
+	C		: Development continued in project "spring-security-mvc-login".
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 181229_2015
+Since previous	:   9 d, 04:18
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
+43	R		: Write unit-tests for LoginController
 
 	S		: add
 				nl.zoethout.grot.mytest.MyTestUsers
@@ -2108,7 +2209,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.mytest.MyTestUsers.getDate(String)
 				nl.zoethout.grot.mytest.MyTestUsers.addRole(Set<Role>, String, String)
 	S		: re-write
-				D	: implements MyTestUsers
+				C	: implements MyTestUsers
 				nl.zoethout.grot.mytest.MyTestCases
 	S		: delete
 				nl.zoethout.grot.mytest.MyTestCases.getAdmin()
@@ -2121,8 +2222,18 @@ TASKS PERFORMED
 				nl.zoethout.grot.mytest.MyTest
 				nl.zoethout.grot.mytest.MyTest.testInfo(String, String, String)
 	S		: re-write
-				D	: extends MyTest
+				C	: extends MyTest
 				nl.zoethout.grot.mytest.MyTestUsers
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 181229_2246
+Since previous	:   0 d, 02:31
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
+43	R		: Write unit-tests for LoginController
 
 	S		: move
 				nl.zoethout.grot.web.TestLoginController.setup()
@@ -2139,8 +2250,8 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.TestLoginController.Login_new.Login_new(TestLoginController, TestInfo)
 
 	S		: add
-				D	: from /spring-security-mvc-login
-				D	: org.baeldung.TestAll.RedirectionSecurityIntegrationTest
+				C	: from /spring-security-mvc-login
+				C	: org.baeldung.TestAll.RedirectionSecurityIntegrationTest
 				nl.zoethout.grot.web.TestLoginController.RedirectionSecurityIntegrationTest
 	S		: add
 				nl.zoethout.grot.web.TestLoginController.RedirectionSecurityIntegrationTest.URL_LOGIN_REDIR
@@ -2173,7 +2284,7 @@ TASKS PERFORMED
 			Caused by: org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to
 			 determine a suitable driver class
 	S		: re-write
-				D	: moved annotations from encapsulating class to nl.zoethout.grot.web.TestLoginController.Login_new
+				C	: moved annotations from encapsulating class to nl.zoethout.grot.web.TestLoginController.Login_new
 				nl.zoethout.grot.web.TestLoginController
 	*P43-01	: solved...!
 
@@ -2182,10 +2293,20 @@ TASKS PERFORMED
 				nl.zoethout.grot.mytest.MyTestController.admin(HttpServletRequest, HttpServletResponse)
 				nl.zoethout.grot.mytest.MyTestController.user(HttpServletRequest, HttpServletResponse)
 
-	D		: proceed at "43 - formLogin - DIZZUM...!"
+	C		: proceed at "43 - formLogin - DIZZUM...!"
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 181230_1252
+Since previous	:   0 d, 14:06
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
+43	R		: Write unit-tests for LoginController
 
 	S		: re-write
-				D	: configure login
+				C	: configure login
 						http.formLogin().successHandler(new SavedRequestAwareAuthenticationSuccessHandler());
 						-> http.formLogin().loginPage("/login").defaultSuccessUrl("/loginSuccess", true).failureHandler(failureHandler());
 				nl.zoethout.grot.testconfig.TestSecurityConfig.configure(HttpSecurity)
@@ -2194,7 +2315,7 @@ TASKS PERFORMED
 				at nl.zoethout.grot.web.TestLoginController$RedirectionSecurityIntegrationTest.givenLogin_whenUnauthenticated_thenGotoLogin
 				(TestLoginController.java:190)
 	S		: re-write
-				D	: @ComponentScan(basePackages = { "nl.zoethout.grot.mytest" })
+				C	: @ComponentScan(basePackages = { "nl.zoethout.grot.mytest" })
 					  -> @ComponentScan(basePackages = { "nl.zoethout.grot.mytest","nl.zoethout.grot.web" })
 				nl.zoethout.grot.testconfig.TestBeans
 	*P43-02	: solved...!
@@ -2203,7 +2324,7 @@ TASKS PERFORMED
 				at nl.zoethout.grot.web.TestLoginController$RedirectionSecurityIntegrationTest.givenSecured_whenLogin_thenRedirect
 				(TestLoginController.java:248)
 	S		: re-write
-				D	: String redirect = "**/user/**";
+				C	: String redirect = "**/user/**";
 					  -> String redirect = "/login*";
 				nl.zoethout.grot.web.TestLoginController.RedirectionSecurityIntegrationTest.givenSecured_whenLogin_thenRedirect()
 	*P43-03	: solved...!
@@ -2213,6 +2334,16 @@ TASKS PERFORMED
 				-> nl.zoethout.grot.web.TestLoginController.Login
 	S		: add
 				nl.zoethout.grot.web.TestLoginController.Login.login_exists(TestInfo)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 190103_1515
+Since previous	:   3 d, 02:23
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
+43	R		: Write unit-tests for LoginController
 
 	S		: rename & make default access to all testcases
 				nl.zoethout.grot.web.TestLoginController.Login
@@ -2236,20 +2367,20 @@ TASKS PERFORMED
 
 	S		: add
 				nl.zoethout.grot.web.TestLoginController.LoginUnit
-				D	: standalone setup
+				C	: standalone setup
 				nl.zoethout.grot.web.TestLoginController.LoginUnit.setup()
-				D	: Seems like Spring methods for testing login do not use java.security.Principal, so we have to mock it.
-				D	: The java.security.Principal lives in the request, which needs to be RequestPostProcessor
-				D	: See also nl.zoethout.grot.web.TestUserController.assertRun(User, String, String) for usage of this technique.
+				C	: Seems like Spring methods for testing login do not use java.security.Principal, so we have to mock it.
+				C	: The java.security.Principal lives in the request, which needs to be RequestPostProcessor
+				C	: See also nl.zoethout.grot.web.TestUserController.assertRun(User, String, String) for usage of this technique.
 				nl.zoethout.grot.web.TestLoginController.LoginUnit.user_loginSuccess()
 
 	S		: delete
 				nl.zoethout.grot.web.TestLoginController.Login_new
 
-	D		: Done...!
+	C		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 46	R		: Re-write unit-tests for HomeController
 
 	S		: refactor
@@ -2273,7 +2404,7 @@ TASKS PERFORMED
 			 primary=false; factoryBeanName=testSecurityConfig; factoryMethodName=failureHandler; initMethodName=null;
 			 destroyMethodName=(inferred); defined in class path resource [nl/zoethout/grot/testconfig/TestSecurityConfig.class]] bound.
 	S		: re-write
-				D	: annotations from encapsulating class to inner class
+				C	: annotations from encapsulating class to inner class
 					@WebMvcTest(HomeController.class)
 					->
 					@ContextConfiguration(classes = { TestSecurityConfig.class, TestBeans.class })
@@ -2282,7 +2413,7 @@ TASKS PERFORMED
 			at nl.zoethout.grot.web.TestHomeControllerIntegration$HomeIntegration.rmHome(TestHomeControllerIntegration.java:70)
 	S		: re-write
 				nl.zoethout.grot.web.TestHomeControllerIntegration.HomeIntegration.VIEW_NAME
-					"home" -> "jspHome"
+					home" -> "jspHome
 	*P46-02	: solved...!
 	*P46-01	: solved...!
 
@@ -2301,11 +2432,28 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.TestHomeControllerIntegration
 				-> nl.zoethout.grot.web.TestHomeController
 
-	D		: Done...!
+	C		: Done...!
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+................................................................................................................................................
 35	R		: Code improvement
 
 	S		: delete
 				nl.zoethout.grot.web.TestUserControllerIntegration
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+Version		: 1901xx_xxxx
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+................................................................................................................................................
+Version on Github	: 180710_1552
+
+meaning following versions:
+	grot_180606_1633.zip
+	grot_180608_1917.zip
+	grot_180616_1123.zip
+	grot_180619_2053.zip
+
+To get these versions into Git, I best checkout to "Initial commit" and build the sourcetree upon that.
