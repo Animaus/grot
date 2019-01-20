@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.4.RELEASE</version>
+		<version>2.1.1.RELEASE</version>
 	</parent>
 
 	<properties>
@@ -48,7 +48,7 @@
 			<version>${mockito.version}</version><!--$NO-MVN-MAN-VER$ -->
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
@@ -162,15 +162,14 @@
 		</dependency>
 
 		<!-- Spring-security -->
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
-			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
-			<artifactId>spring-security-test</artifactId> <scope>test</scope> </dependency> -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
-			<version>5.0.6.RELEASE</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 
 	</dependencies>

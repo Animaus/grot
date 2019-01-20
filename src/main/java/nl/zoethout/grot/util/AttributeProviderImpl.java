@@ -62,4 +62,9 @@ public class AttributeProviderImpl implements AttributeProvider {
 	public void setSAFixed(User user) {
 		ses.setAttribute(SessionAttributes.FIXED, user);
 	}
+
+	@Override
+	public void setSAUsername(String username) {
+		ses.setAttribute(SessionAttributes.USERNAME, username);
+	}
 }

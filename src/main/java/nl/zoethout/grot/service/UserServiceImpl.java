@@ -1,10 +1,17 @@
 package nl.zoethout.grot.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +51,6 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Autowired
 	private UserDao userDao;
-
 	public UserServiceImpl() {
 	}
 
@@ -83,8 +89,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Role readRole(int userId) {
+		return userDao.readRole(userId);
+	}
+
+	@Override
 	public List<Role> readRoles() {
 		return userDao.readRoles();
+	}
+
+	@Override
+	public Set<Role> readRoles(int userId) {
+		return userDao.readRoles(userId);
+	}
+
+	@Override
+	public List<String> readRoleNames() {
+		return userDao.readRoleNames();
+	}
+
+	@Override
+	public List<String> readRoleNames(int userId) {
+		return userDao.readRoleNames(userId);
 	}
 
 	@Override
@@ -111,4 +137,41 @@ public class UserServiceImpl implements UserService {
 	private List<String> listPropertiesLike(final String pojoField, final String pojoValue) {
 		return userDao.listPropertiesLike(pojoField, pojoValue);
 	}
+
+	@Override
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		User user = userDao.readUser(userName);
+		if (user == null) {
+			user = new User();
+			user.setUserName(userName);
+			user.setPassword("");
+			user.setEnabled(false);
+		}
+		return getUserDetails(user);
+	}
+
+	/**
+	 * Converts <u>nl.zoethout.grot.domain.User</u> to
+	 * <u>org.springframework.security.core.userdetails.User</u>
+	 * 
+	 * @param user
+	 * @param authorities
+	 * @return
+	 */
+	private UserDetails getUserDetails(User user) {
+		List<GrantedAuthority> authorities = getGrantedAuthorities(user);
+		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+				user.isEnabled(), true, true, true, authorities);
+	}
+
+	private List<GrantedAuthority> getGrantedAuthorities(User user) {
+		List<String> userRoles = readRoleNames(user.getUserId());
+		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+		for (String userRole : userRoles) {
+			authorities.add(new SimpleGrantedAuthority(userRole));
+		}
+		List<GrantedAuthority> result = new ArrayList<GrantedAuthority>(authorities);
+		return result;
+	}
+
 }

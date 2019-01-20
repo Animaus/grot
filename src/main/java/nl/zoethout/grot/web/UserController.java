@@ -1,7 +1,5 @@
 package nl.zoethout.grot.web;
 
-import static nl.zoethout.grot.util.PageURL.LOGIN;
-import static nl.zoethout.grot.util.PageURL.REDIRECT_HOME;
 import static nl.zoethout.grot.util.PageURL.REDIRECT_USER;
 import static nl.zoethout.grot.util.PageURL.USERS_UNKNOWN;
 import static nl.zoethout.grot.util.PageURL.USERS_VERIFIED;
@@ -44,37 +42,6 @@ public class UserController extends WebController {
 
 	@Autowired
 	private UserService userService;
-
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String rmLoginGet(final HttpServletRequest req) {
-		// Make sure there's no previous login
-		Principal.terminate();
-		provider(req).setSAPrincipal(null);
-		return LOGIN.part();
-	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String rmLoginPost(Map<String, Object> model, final HttpServletRequest req) {
-		String username = req.getParameter("username");
-		String password = req.getParameter("password");
-		User usr = userService.loginUser(username, password);
-		if (usr == null) {
-			model.put("username", username);
-			model.put("error", req.getSession().getAttribute("LOGIN_ERR"));
-			return LOGIN.part();
-		} else {
-			userService.setPrincipal(req, usr);
-			return REDIRECT_HOME.part();
-		}
-	}
-
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String rmLogout(final HttpServletRequest req) {
-		Principal.terminate();
-		provider(req).setSAPrincipal(null);
-		req.getSession().invalidate();
-		return REDIRECT_HOME.part();
-	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String rmUsers(Model model, final HttpServletRequest req) {

@@ -12,4 +12,5 @@ public interface AttributeProvider {
 	public void setSAProfiles(List<User> profiles);
 	public User getSAFixed();
 	public void setSAFixed(User user);
+	public void setSAUsername(String username);
 }

@@ -1,14 +1,17 @@
 package nl.zoethout.grot.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import nl.zoethout.grot.domain.Address;
 import nl.zoethout.grot.domain.Role;
 import nl.zoethout.grot.domain.User;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 	public void saveUser(User user);
 
 	public void saveAddress(Address address);
@@ -19,15 +22,17 @@ public interface UserService {
 
 	public Address readAddress(int userId);
 
-	/**
-	 * Opvragen specifieke groep
-	 */
 	public Role readRole(String roleName);
 
-	/**
-	 * Opvragen alle groepen
-	 */
+	public Role readRole(int userId);
+
 	public List<Role> readRoles();
+
+	public Set<Role> readRoles(int userId);
+
+	public List<String> readRoleNames();
+
+	public List<String> readRoleNames(int userId);
 
 	public User loginUser(String userName, String password);
 

@@ -40,17 +40,25 @@ SOLVED
 	R		: 33	- Oversight parent testclass
 	R		: 34	- Write unit-tests for UserService
 	R		: 36	- Write unit-tests for AddressValidator and UserValidator
+	R		: 38	- Sorted roles in User
+	R		: 37	- Spring-security
+	R		: 39	- Processing successful login
+	R		: 40	- Processing unsuccessful login
+	R		: 41	- Processing logout
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 FAILED
 ------------------------------------------------------------------------------------------------------------------------------------------------
 	R		: 10	- Basic Spring security
 
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 WISHLIST
 ------------------------------------------------------------------------------------------------------------------------------------------------
 	R		: 06	- Create persistence unit
 	R		: 12	- SQL-datamodel - what happens when there's no database or table?
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 TODO
@@ -59,12 +67,14 @@ TODO
 	R		: 28	- Make code J8 compliant - replace constants with enumeration
 	R		: 29	- Replace statements with lambda
 	R		: 35	- Code improvement
-	R		: 37	- ???
+	R		: 42	- Write unit-tests for LoginController
+	R		: 43	- Re-write unit-tests for UserController
 
 
 ================================================================================================================================================
 TASKS PERFORMED
 ================================================================================================================================================
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 01.	R		: Setup a project using Spring-boot and Spring-MVC
@@ -1790,5 +1800,180 @@ TASKS PERFORMED
 
 	R		: Done...!
 
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
-37	R		: ???
+37	R		: Spring-security
+
+	D		: https://www.javainuse.com/spring/boot_form_security
+	S		: add dependencies
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-security</artifactId>
+				</dependency>
+
+	D		: configuration
+				In the configuration we specify which urls are to be intercepted, and are to be accessed by which users and having which
+				roles. Next we create users along with passwords and specify them a role.
+				Challenge: users and roles from database (deviation from description).
+	S		: add
+				nl.zoethout.grot.config.SecurityConfig
+
+	S		: disabled
+				nl.zoethout.grot.web.UserController.rmLoginGet(HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLoginPost(Map<String, Object>, HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLogout(HttpServletRequest)
+	S		: add
+				/grot/src/main/webapp/WEB-INF/jsp/menu.jsp
+				/grot/src/main/webapp/WEB-INF/jsp/login.jsp
+	S		: add
+				nl.zoethout.grot.web.LoginController.login(HttpServletRequest)
+	S		: re-write
+				D	: make it extend UserDetailsService
+				nl.zoethout.grot.service.UserService
+	S		: add
+				nl.zoethout.grot.service.UserServiceImpl.loadUserByUsername(String)
+
+	D		: http-error
+				Date 		2018-12-14 10:43:28.847+0100 (CET)
+				Status 	404
+				Message 	Not Found
+				URI 		/login
+				Referrer 	https://discovery.animaus.dds.nl:9090/login
+				Exception 	N/A
+	S		: re-write
+				/grot/src/main/webapp/WEB-INF/jsp/users_menu.jsp
+				/grot/src/main/webapp/WEB-INF/jsp/home.jsp
+				nl.zoethout.grot.web.LoginController.login(HttpServletRequest)
+
+	D		: On secured user redirect to /login (with empty user-data)
+	S		: re-write
+				nl.zoethout.grot.config.SecurityConfig.configure(HttpSecurity)
+
+	D		: exception after entering user/pwd
+				org.springframework.security.authentication.InternalAuthenticationServiceException:
+				 UserDetailsService returned null, which is an interface contract violation
+	S		: add
+				nl.zoethout.grot.dao.UserDaoImpl.readUser(String)
+				nl.zoethout.grot.dao.UserDao.readUser(String)
+				nl.zoethout.grot.service.UserServiceImpl.readUser(String)
+				nl.zoethout.grot.service.UserService.readUser(String)
+	S		: add readRoleNames(int)
+				nl.zoethout.grot.dao.UserDaoImpl.readRoleNames(int)
+				nl.zoethout.grot.dao.UserDao.readRoleNames(int)
+				nl.zoethout.grot.service.UserServiceImpl.readRoleNames(int)
+				nl.zoethout.grot.service.UserService.readRoleNames(int)
+	S		: add
+				nl.zoethout.grot.service.UserServiceImpl.getUserDetails(User)
+				nl.zoethout.grot.service.UserServiceImpl.getGrantedAuthorities(User)
+	S		: re-write
+				nl.zoethout.grot.service.UserServiceImpl.loadUserByUsername(String)
+
+	D		: https://www.thomasvitale.com/https-spring-boot-ssl-certificate/
+				Adapting application.properties suffices telling Spring Security to require requests over HTTPS.
+	S		: re-write
+				/grot/src/main/resources/application.properties
+	D		: secure connection with firefox
+				Firefox notifies the connection is not secure.
+				Click "Geavanceerd".
+				Click "Uitzondering toevoegen".
+				When checkbox "Deze uitzondering voor altijd opslaan" is greyed-out:
+				 Firefox > Extra > Opties > Privacy & Beveiliging > Geschiedenis
+				 -> "Geschiedenis onthouden"
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+38	R		: Sorted roles in User
+
+	S		: add readRoleNames()
+				nl.zoethout.grot.dao.UserDaoImpl.readRoleNames()
+				nl.zoethout.grot.dao.UserDao.readRoleNames()
+				nl.zoethout.grot.service.UserServiceImpl.readRoleNames()
+				nl.zoethout.grot.service.UserService.readRoleNames()
+	S		: add readRole(int)
+				nl.zoethout.grot.service.UserServiceImpl.readRole(int)
+				nl.zoethout.grot.service.UserService.readRole(int)
+				nl.zoethout.grot.dao.UserDaoImpl.readRole(int)
+				nl.zoethout.grot.dao.UserDao.readRole(int)
+	S		: add readRoles(int)
+				nl.zoethout.grot.service.UserServiceImpl.readRoles(int)
+				nl.zoethout.grot.service.UserService.readRoles(int)
+				nl.zoethout.grot.dao.UserDaoImpl.readRoles(int)
+				nl.zoethout.grot.dao.UserDao.readRoles(int)
+	S		: add
+				nl.zoethout.grot.domain.Role.compareTo(Role)
+	S		: re-write
+				nl.zoethout.grot.dao.UserDaoImpl.readUser(int)
+				nl.zoethout.grot.dao.UserDaoImpl.readUser(String)
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+39	R		: Processing successful login
+
+	D		: no style for page
+	S		: re-write
+				/grot/src/main/webapp/WEB-INF/jsp/login.jsp
+
+	S		: add
+				nl.zoethout.grot.web.LoginController.loginSuccess(HttpServletRequest)
+	D		: https://www.baeldung.com/spring-security-login
+	S		: re-write
+				D	: change target url after successful login
+				nl.zoethout.grot.config.SecurityConfig.configure(HttpSecurity)
+				D	: bugfix
+				nl.zoethout.grot.service.UserServiceImpl.loadUserByUsername(String)
+	S		: re-write
+				nl.zoethout.grot.util.PageURL.LOGIN
+				logon -> login
+	S		: delete
+				/grot/src/main/webapp/WEB-INF/jsp/logon.jsp
+
+	D		: do not write class AuthenticationSuccessHandler...!
+				because there's no java.security.Principal in onAuthenticationSuccess
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+40	R		: Processing unsuccessful login
+
+	D		: https://www.baeldung.com/spring-security-custom-authentication-failure-handler
+	S		: re-write
+				nl.zoethout.grot.config.SecurityConfig.configure(HttpSecurity)
+	S		: add
+				nl.zoethout.grot.security.Handler
+				nl.zoethout.grot.security.CustomAuthenticationFailureHandler
+				nl.zoethout.grot.config.SecurityConfig.failureHandler()
+				nl.zoethout.grot.util.SessionAttributes.USERNAME
+				nl.zoethout.grot.util.AttributeProvider.setSAUsername(String)
+				nl.zoethout.grot.util.AttributeProviderImpl.setSAUsername(String)
+
+	D		: do not write method loginFailure...!
+				because there's no requestparameter "username"...
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+41	R		: Processing logout
+
+	D		: https://stackoverflow.com/questions/28619207/spring-security-custom-logout-filter
+	S		: add
+				nl.zoethout.grot.security.CustomLogoutSuccessHandler
+				nl.zoethout.grot.config.SecurityConfig.logoutSuccessHandler()
+	S		: re-write
+				nl.zoethout.grot.config.SecurityConfig.configure(HttpSecurity)
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+35	R		: Code improvement
+
+	S		: delete
+				nl.zoethout.grot.web.UserController.rmLoginGet(HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLoginPost(Map<String, Object>, HttpServletRequest)
+				nl.zoethout.grot.web.UserController.rmLogout(HttpServletRequest)

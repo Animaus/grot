@@ -14,12 +14,13 @@ import nl.zoethout.grot.util.AttributeProvider;
 import nl.zoethout.grot.util.AttributeProviderImpl;
 
 public abstract class WebController {
+	protected String strClass = getClass().getName();
 	protected static final String ADM = "ROLE_ADMIN";
 	protected static final String USR = "ROLE_USER";
 	protected final static BinaryOperator<String> merger = (key, val) -> {
 		throw new IllegalStateException(String.format("Duplicate key \"%s\"", key));
 	};
-	
+
 	protected void gotoURL(final HttpServletRequest req, final HttpServletResponse res, final String URL) {
 		String context = req.getContextPath();
 		try {
@@ -34,7 +35,8 @@ public abstract class WebController {
 		return provider;
 	}
 
-	protected String getAuthorPage(final HttpServletRequest req, final String pagename, final String username, final boolean isEdit) {
+	protected String getAuthorPage(final HttpServletRequest req, final String pagename, final String username,
+			final boolean isEdit) {
 		String result = pagename;
 		result += "_";
 		String write = "";
@@ -111,4 +113,9 @@ public abstract class WebController {
 		user.getRoles().add(role);
 		user.setEnabled(true);
 	}
+
+	protected static void devInfo(String strClass, String strMethod, String strMessage) {
+		System.out.println("TEST: (" + strClass + "-" + strMethod + ") " + strMessage);
+	}
+	
 }

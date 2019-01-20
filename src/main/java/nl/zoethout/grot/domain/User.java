@@ -71,6 +71,21 @@ public class User {
 		super();
 	}
 
+	public User(User user) {
+		this.address = user.getAddress();
+		this.roles = user.getRoles();
+		this.userId = user.getUserId();
+		this.userName = user.getUserName();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.prefix = user.getPrefix();
+		this.sex = user.getSex();
+		this.password = user.getPassword();
+		this.enabled = user.isEnabled();
+		this.dateBirth = user.getDateBirth();
+		this.dateRegistered = user.getDateRegistered();
+	}
+
 	public Address getAddress() {
 		return this.address;
 	}
