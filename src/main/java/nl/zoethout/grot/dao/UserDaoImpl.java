@@ -45,7 +45,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User readUser(int userId) {
+	public User readUser(final int userId) {
 		TypedQuery<User> query = em.createQuery("SELECT usr FROM User usr WHERE usr.userId = :parUserId",
 				User.class);
 		query.setParameter("parUserId", userId);
@@ -65,7 +65,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User readUser(String userName) {
+	public User readUser(final String userName) {
 	
 		TypedQuery<User> query = em.createQuery("SELECT usr FROM User usr WHERE usr.userName = :parUserName",
 				User.class);
@@ -86,7 +86,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public Address readAddress(int userId) {
+	public Address readAddress(final int userId) {
 	
 		TypedQuery<Address> query = em.createQuery("SELECT address FROM Address address WHERE address.userId = :parUserId",
 				Address.class);
@@ -107,7 +107,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public Role readRole(String roleName) {
+	public Role readRole(final String roleName) {
 
 		// Doet een query in de database
 		TypedQuery<Role> query = em.createQuery("SELECT role FROM Role role WHERE role.roleName = :parRoleName",
@@ -143,33 +143,33 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void executeSQL(String sql) {
+	public void executeSQL(final String sql) {
 	}
 
 	@Override
-	public void updateUser(String userName, String SQLColumn, String SQLValue) {
+	public void updateUser(final String userName, final String SQLColumn, final String SQLValue) {
 		return;
 	}
 
 	@Override
-	public void deleteUser(String userName) {
+	public void deleteUser(final String userName) {
 	}
 
 	@Override
-	public List<String> listPropertiesSame(String pojoField, String pojoValue) {
+	public List<String> listPropertiesSame(final String pojoField, final String pojoValue) {
 		String SQL = "select user." + pojoField + " from User user where user." + pojoField + " = :parPojoValue";
 		List<String> result = listProperties(SQL, pojoValue, "");
 		return result;
 	}
 
 	@Override
-	public List<String> listPropertiesLike(String pojoField, String pojoValue) {
+	public List<String> listPropertiesLike(final String pojoField, final String pojoValue) {
 		String SQL = "select user." + pojoField + " from User user where user." + pojoField + " like :parPojoValue";
 		List<String> result = listProperties(SQL, pojoValue, "%");
 		return result;
 	}
 
-	private List<String> listProperties(String SQL, String pojoValue, String strPercent) {
+	private List<String> listProperties(final String SQL, final String pojoValue, final String strPercent) {
 
 		TypedQuery<String> query = em.createQuery(SQL, String.class);
 		query.setParameter("parPojoValue", pojoValue + strPercent);
@@ -193,7 +193,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User loginUser(String userName, String password) {
+	public User loginUser(final String userName, final String password) {
 
 		TypedQuery<User> query = em.createQuery(
 				"SELECT usr FROM User usr WHERE usr.enabled = true AND usr.userName = :parUserName AND usr.password = :parPassword",

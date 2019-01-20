@@ -34,11 +34,15 @@ public class MyUnitTest {
 	protected static final String ADM = "ROLE_ADMIN";
 	protected static final String USR = "ROLE_USER";
 	protected String prefix = "";
-	protected AttributeProvider attr;
-	protected MockHttpServletRequest req;
 
-	protected void println(Object str) {
+	protected void printLine(final Object str) {
 		System.out.println(prefix + str);
+	}
+
+	protected void printFeedback(final ResultActions ra) throws Exception {
+		printLine("==============================");
+		ra.andDo(print());
+		printLine("==============================");
 	}
 
 	protected User getAdmin() {
@@ -143,7 +147,28 @@ public class MyUnitTest {
 		return usr;
 	}
 
-	private void addRole(Set<Role> roles, String roleDesc, String roleName) {
+	private Date getDate(final String strDate) {
+		Date date = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			date = sdf.parse(strDate);
+		} catch (ParseException e) {
+		}
+		return date;
+	}
+
+	protected List<Role> getRoles() {
+		List<Role> roles = new LinkedList<Role>();
+		addRole(roles, "admin", "Administrators");
+		addRole(roles, "user", "Regular users");
+		addRole(roles, "employee", "Employee");
+		addRole(roles, "student", "Student");
+		addRole(roles, "ROLE_USER", "Gebruiker");
+		addRole(roles, "ROLE_ADMIN", "Beheerder");
+		return roles;
+	}
+
+	private void addRole(Set<Role> roles, final String roleDesc, final String roleName) {
 		if (roles == null) {
 			roles = new HashSet<Role>();
 		}
@@ -154,7 +179,7 @@ public class MyUnitTest {
 		roles.add(role);
 	}
 
-	protected void addRole(List<Role> roles, String roleDesc, String roleName) {
+	protected void addRole(List<Role> roles, final String roleDesc, final String roleName) {
 		if (roles == null) {
 			roles = new ArrayList<Role>();
 		}
@@ -165,14 +190,12 @@ public class MyUnitTest {
 		roles.add(role);
 	}
 
-	private Date getDate(String strDate) {
-		Date date = null;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			date = sdf.parse(strDate);
-		} catch (ParseException e) {
-		}
-		return date;
+	protected List<User> listProfiles() {
+		List<User> profiles = new ArrayList<User>();
+		profiles.add(getAdmin());
+		profiles.add(getUser());
+		profiles.add(getDisabled());
+		return profiles;
 	}
 
 	/**
@@ -181,7 +204,7 @@ public class MyUnitTest {
 	 * @param ra
 	 * @throws Exception
 	 */
-	protected void checkAttributes(ResultActions ra) throws Exception {
+	protected void assertAttributes(final ResultActions ra) throws Exception {
 		ResourceBundle bundle = ResourceBundle.getBundle("text");
 		ra.andExpect(request().sessionAttribute("WELCOME", bundle.getString("WELCOME")));
 		ra.andExpect(request().sessionAttribute("LOGIN_MSG", bundle.getString("LOGIN_MSG")));
@@ -198,26 +221,7 @@ public class MyUnitTest {
 		ra.andExpect(request().sessionAttribute("LNK_USR_MEMBERS", bundle.getString("LNK_USR_MEMBERS")));
 	}
 
-	protected List<User> listProfiles() {
-		List<User> profiles = new ArrayList<User>();
-		profiles.add(getAdmin());
-		profiles.add(getUser());
-		profiles.add(getDisabled());
-		return profiles;
-	}
-
-	protected List<Role> getRoles() {
-		List<Role> roles = new LinkedList<Role>();
-		addRole(roles, "admin", "Administrators");
-		addRole(roles, "user", "Regular users");
-		addRole(roles, "employee", "Employee");
-		addRole(roles, "student", "Student");
-		addRole(roles, "ROLE_USER", "Gebruiker");
-		addRole(roles, "ROLE_ADMIN", "Beheerder");
-		return roles;
-	}
-
-	protected void initUserService(UserServiceImpl userService) {
+	protected void mockUserService(final UserServiceImpl userService) {
 		when(userService.readRoles()).thenReturn(getRoles());
 		when(userService.listProfiles()).thenReturn(listProfiles());
 		when(userService.loginUser("front00", "123456")).thenReturn(getAdmin());
@@ -233,7 +237,7 @@ public class MyUnitTest {
 	}
 
 	// https://stackoverflow.com/questions/30757044/autowired-httpservletrequest-in-spring-test-integration-tests
-	protected static RequestPostProcessor mockedRequest(final MockHttpServletRequest mockHttpServletRequest) {
+	protected RequestPostProcessor mockRequest(final MockHttpServletRequest mockHttpServletRequest) {
 		return new RequestPostProcessor() {
 			@Override
 			public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
@@ -242,40 +246,28 @@ public class MyUnitTest {
 		};
 	}
 
-	protected void feedback(ResultActions ra) throws Exception {
-		println("==============================");
-		ra.andDo(print());
-		println("==============================");
+	// See: nl.zoethout.grot.web.WebController.provider(HttpServletRequest)
+	protected AttributeProvider provider(final MockHttpServletRequest req) {
+		AttributeProvider provider = AttributeProviderImpl.getProvider(req);
+		return provider;
 	}
 
-	protected void setProvider() throws Exception {
-		if (req == null) {
-			throw new Exception("No request available...! Hint: try login AFTER instantiating request.");
-		} else {
-			attr = AttributeProviderImpl.getProvider(req);
-		}
+	protected void logout(final MockHttpServletRequest req) throws Exception {
+		Principal.terminate();
+		provider(req).setSAPrincipal(null);
+		req.getSession().invalidate();
 	}
 
-	protected void logout() throws Exception {
-		try {
-			Principal.terminate();
-			attr.setSAPrincipal(null);
-			req.getSession().invalidate();
-		} catch(NullPointerException e) {
-		}
-		setProvider();
-	}
-
-	protected void login(User user) throws Exception {
-		logout();
-		if (req != null) {
-			if (user != null) {
-				Principal principal = Principal.getUser(user);
-				attr.setSAPrincipal(principal);
-			}
-			setProvider();
-		} else {
-			throw new Exception("No request available...! Hint: try login AFTER instantiating request.");
+	/**
+	 * @param req
+	 * @param user For guest login user=null
+	 * @throws Exception
+	 */
+	protected void login(final MockHttpServletRequest req, final User user) throws Exception {
+		logout(req);
+		if (user != null) {
+			Principal principal = Principal.getUser(user);
+			provider(req).setSAPrincipal(principal);
 		}
 	}
 

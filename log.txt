@@ -35,6 +35,11 @@ SOLVED
 	R		: 26	- Users - fieldvalidation
 	R		: 27	- Users - copy fieldvalidation from PocController to UserController
 	R		: 30	- Make code J8 compliant - replace org.joda.time
+	R		: 31	- Write tests for Spring-MVC with Mockito and JUnit5
+	R		: 32	- Write unit-tests for UserController
+	R		: 33	- Oversight parent testclass
+	R		: 34	- Write unit-tests for UserService
+	R		: 36	- Write unit-tests for AddressValidator and UserValidator
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 FAILED
@@ -53,7 +58,8 @@ TODO
 	R		: 15	- Users - registration
 	R		: 28	- Make code J8 compliant - replace constants with enumeration
 	R		: 29	- Replace statements with lambda
-	R		: 31	- Write tests for Spring-MVC with Mockito and JUnit5
+	R		: 35	- Code improvement
+	R		: 37	- ???
 
 
 ================================================================================================================================================
@@ -1438,9 +1444,15 @@ TASKS PERFORMED
 				nl.zoethout.grot.util.TestCountryCode
 				nl.zoethout.grot.web.TestHomeController
 
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+32	R		: Write unit-tests for UserController
+
 	S		: write
 				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginGet(TestInfo)
-	P31-01	:
+	*P32-01	:
 				Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException:
 				Error creating bean with name 'userController': Unsatisfied dependency expressed through field 'userService';
 				nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException:
@@ -1453,9 +1465,9 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.TestUserControllerUnittest
 					added
 					@ContextConfiguration(locations = { "classpath:testContext.xml", "classpath:applicationContext.xml" })
-	*P31-01	: solved...!
+	*P32-01	: solved...!
 
-	P31-02	:
+	*P32-02	:
 				javax.servlet.ServletException: Circular view path [login]:
 				would dispatch back to the current handler URL [/user/login] again.
 				Check your ViewResolver setup!
@@ -1466,7 +1478,7 @@ TASKS PERFORMED
 	S		: rename
 				/grot/src/main/webapp/WEB-INF/jsp/login.jsp
 				-> /grot/src/main/webapp/WEB-INF/jsp/logon.jsp
-	*P31-02	: solved...!
+	*P32-02	: solved...!
 
 	D		: wishlist
 				So, I have an unit-test for the controller, but I also want an integration-test.
@@ -1553,3 +1565,230 @@ TASKS PERFORMED
 					logging level in the application.yml, but the unit tests just ignore the settings.
 	S		: write
 				src/test/resources/logback-test.xml
+
+	D		: prevent unauthorised saving
+	S		: re-write
+				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest, String)
+
+	D		: model lives on the request-scope / getting handlers on webcomponents
+				Something I re-discovered after hours while writing unit-tests in "nl.zoethout.grot.web.TestUserControllerUnittest"
+
+	D		: did some extensive and unplanned writing and refactoring, result summed up below
+	S		: added fields
+				nl.zoethout.grot.web.TestUserControllerUnittest.URL_USER
+				nl.zoethout.grot.web.TestUserControllerUnittest.URL_USER_LOGIN
+				nl.zoethout.grot.web.TestUserControllerUnittest.mockMvc
+				nl.zoethout.grot.web.TestUserControllerUnittest.userService
+				nl.zoethout.grot.web.TestUserControllerUnittest.userController
+				nl.zoethout.grot.web.TestUserControllerUnittest.urlMethod
+				nl.zoethout.grot.web.TestUserControllerUnittest.httpMethod
+	S		: write constructors
+				nl.zoethout.grot.web.TestUserControllerUnittest.TestUserControllerUnittest(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Login.Login(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Usrs.Usrs(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Usr.Usr(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrGet.UsrGet(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPost.UsrPost(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPostError.UsrPostError(TestInfo)
+	S		: write global methods
+				nl.zoethout.grot.web.TestUserControllerUnittest.setup()
+				nl.zoethout.grot.web.TestUserControllerUnittest.assertRun(User, String, String)
+				nl.zoethout.grot.web.TestUserControllerUnittest.assertUser(String, ResultActions)
+				nl.zoethout.grot.web.TestUserControllerUnittest.getUrl(String)
+				nl.zoethout.grot.web.TestUserControllerUnittest.getPage(String)
+				nl.zoethout.grot.web.TestUserControllerUnittest.printParameters(User, String, int, String)
+				nl.zoethout.grot.web.TestUserControllerUnittest.setMutable(User)
+	S		: write testcases
+				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginGet(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginPost_Admin_GoodPWD(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginPost_Admin_WrongPWD(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Usrs.rmUsers_Admin(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Usrs.rmUsers_User(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Usrs.rmUsers_Guest(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Usr.rmUser_Admin_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Usr.rmUser_Admin_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Usr.rmUser_User_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Usr.rmUser_User_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Usr.rmUser_Guest_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrGet.rmUserGet_Admin_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrGet.rmUserGet_Admin_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrGet.rmUserGet_User_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrGet.rmUserGet_User_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrGet.rmUserGet_Guest_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPost.assertEdit(User, String, int)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPost.rmUserPost_Admin_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPost.rmUserPost_Admin_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPost.rmUserPost_User_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPost.rmUserPost_User_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPost.rmUserPost_Guest_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPostError.assertEdit(User, String, int, String, ResultMatcher)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPostError.rmUserPost_Admin_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPostError.rmUserPost_Admin_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPostError.rmUserPost_User_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPostError.rmUserPost_User_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPostError.rmUserPost_Guest_arc0j00(TestInfo)
+	S		: added
+				nl.zoethout.grot.util.PageURL.REDIRECT_USER
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+33	R		: Oversight parent testclass
+
+	S		: fields
+				nl.zoethout.grot.MyUnitTest.ADM
+				nl.zoethout.grot.MyUnitTest.USR
+				nl.zoethout.grot.MyUnitTest.prefix
+				nl.zoethout.grot.MyUnitTest.attr
+				nl.zoethout.grot.MyUnitTest.req
+	S		: methods
+				nl.zoethout.grot.MyUnitTest.printLine(Object)
+				nl.zoethout.grot.MyUnitTest.printFeedback(ResultActions)
+				nl.zoethout.grot.MyUnitTest.getAdmin()
+				nl.zoethout.grot.MyUnitTest.getUser()
+				nl.zoethout.grot.MyUnitTest.getDisabled()
+				nl.zoethout.grot.MyUnitTest.getDate(String)
+				nl.zoethout.grot.MyUnitTest.getRoles()
+				nl.zoethout.grot.MyUnitTest.addRole(Set<Role>, String, String)
+				nl.zoethout.grot.MyUnitTest.addRole(List<Role>, String, String)
+				nl.zoethout.grot.MyUnitTest.listProfiles()
+				nl.zoethout.grot.MyUnitTest.assertAttributes(ResultActions)
+				nl.zoethout.grot.MyUnitTest.assertUserService(UserServiceImpl)
+				nl.zoethout.grot.MyUnitTest.mockRequest(MockHttpServletRequest)
+				nl.zoethout.grot.MyUnitTest.setProvider()
+				nl.zoethout.grot.MyUnitTest.logout()
+				nl.zoethout.grot.MyUnitTest.login(User)
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+34	R		: Write unit-tests for UserService
+
+	D		: wrote skeleton methods for testcases, reflecting actual methods
+	D		: decided not to write tests for UserService since all methods have delegated calls to UserDao.
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+35	R		: Code improvement
+
+	S		: delete
+				nl.zoethout.grot.web.Api
+				nl.zoethout.grot.web.HelloController
+
+	D		: no more globals (req/attr)
+	S		: delete
+				nl.zoethout.grot.MyUnitTest.setProvider()
+				nl.zoethout.grot.MyUnitTest.attr
+				nl.zoethout.grot.MyUnitTest.req
+
+	S		: write
+				nl.zoethout.grot.MyUnitTest.provider(MockHttpServletRequest)
+	S		: re-write
+				nl.zoethout.grot.MyUnitTest.logout(MockHttpServletRequest)
+				nl.zoethout.grot.MyUnitTest.login(MockHttpServletRequest, User)
+				nl.zoethout.grot.web.TestUserControllerUnittest.assertUser(MockHttpServletRequest, String, ResultActions)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPost.assertEdit(User, String, int)
+				nl.zoethout.grot.web.TestUserControllerUnittest.UsrPostError.assertEdit(User, String, int, String, ResultMatcher)
+				nl.zoethout.grot.web.TestUserControllerUnittest.assertRun(User, String, String)
+
+	D		: declared all arguments as final where applicable
+				nl.zoethout.grot.web.WebController
+				nl.zoethout.grot.MyUnitTest
+				nl.zoethout.grot.dao.UserDaoImpl
+				nl.zoethout.grot.service.UserServiceImpl
+				nl.zoethout.grot.web.UserController
+				nl.zoethout.grot.web.HomeController
+				nl.zoethout.grot.web.TestUserControllerUnittest
+				nl.zoethout.grot.domain.TestPrincipal
+				nl.zoethout.grot.domain.Principal
+				nl.zoethout.grot.util.CountryCode
+				nl.zoethout.grot.util.TestCountryCode
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+36	R		: Write unit-tests for AddressValidator and UserValidator
+
+	D		: Code improvement
+	S		: rename
+				nl.zoethout.grot.MyUnitTest.assertUserService(UserServiceImpl)
+				-> nl.zoethout.grot.MyUnitTest.whenUserService(UserServiceImpl)
+	S		: re-write
+				nl.zoethout.grot.web.TestUserControllerIntegrationTest.setup()
+				nl.zoethout.grot.web.TestUserControllerUnittest.setup()
+
+	D		: Code improvement
+	S		: delete
+				nl.zoethout.grot.validation.UserValidator.userService
+	S		: re-write
+				nl.zoethout.grot.validation.UserValidator.UserValidator(UserService, Validator)
+				-> nl.zoethout.grot.validation.UserValidator.UserValidator(Validator)
+	S		: re-write
+				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest, String)
+				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
+
+	S		: add fields
+				nl.zoethout.grot.validation.TestUserValidator.userService
+				nl.zoethout.grot.validation.TestUserValidator.addressValidator
+				nl.zoethout.grot.validation.TestUserValidator.userValidator
+				nl.zoethout.grot.validation.TestUserValidator.user
+				nl.zoethout.grot.validation.TestUserValidator.address
+				nl.zoethout.grot.validation.TestUserValidator.errorCode
+	S		: write constructors
+				nl.zoethout.grot.validation.TestUserValidator.TestUserValidator(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckUser.CheckUser(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.CheckAddress(TestInfo)
+	S		: write general methods
+				nl.zoethout.grot.validation.TestUserValidator.setup()
+				nl.zoethout.grot.validation.TestUserValidator.checkRequired(String)
+	S		: write testcase for valid user and address
+				nl.zoethout.grot.validation.TestUserValidator.All_Valid(TestInfo)
+	S		: write testcases for user
+				nl.zoethout.grot.validation.TestUserValidator.CheckUser.User_FirstName_Required(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckUser.User_LastName_Required(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckUser.User_DateBirth_Required(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckUser.User_Sex_Required(TestInfo)
+	S		: write testcases for address
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_StreetName_Required(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_StreetName_Invalid(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_StreetName_Length(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_StreetNumber_Required(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_StreetNumber_Invalid(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_Zip_Required(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_Zip_Invalid(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_Zip_Length(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_Zip_Space(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_Zip_Letter(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_Zip_Number(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_City_Required(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_City_Invalid(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_City_Length(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_Country_Required(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_Email1_Required(TestInfo)
+				nl.zoethout.grot.validation.TestUserValidator.CheckAddress.Address_Phone1_Required(TestInfo)
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+35	R		: Code improvement
+
+	S		: delete
+				nl.zoethout.grot.validation.poc.Student
+				nl.zoethout.grot.validation.poc.StudentValidator
+				nl.zoethout.grot.web.PocController.rmStudentGet(Map<String, Object>)
+				nl.zoethout.grot.web.PocController.rmStudentPost(Student, BindingResult, Model)
+				nl.zoethout.grot.web.PocController.maStudent()
+				nl.zoethout.grot.web.PocController.rmUserPostStudent(Student, BindingResult, Model)
+	S		: re-write
+				/grot/src/main/webapp/WEB-INF/jsp/poc.jsp
+
+	R		: Done...!
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+37	R		: ???

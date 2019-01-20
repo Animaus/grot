@@ -21,7 +21,7 @@ public class HomeController extends WebController {
 	private static final String DEFAULT_MESSAGE = "message";
 
 	@RequestMapping(value = { "/", "/home", "/welcome", "/index" }, method = RequestMethod.GET)
-	public String rmHome(Map<String, Object> model, HttpServletRequest req) {
+	public String rmHome(Map<String, Object> model, final HttpServletRequest req) {
 		setAttributes(req);
 		AttributeProvider attr = AttributeProviderImpl.getProvider(req);
 		attr.setSAError(null);
@@ -29,7 +29,7 @@ public class HomeController extends WebController {
 		return HOME.part();
 	}
 
-	private void setAttributes(HttpServletRequest req) {
+	private void setAttributes(final HttpServletRequest req) {
 		HttpSession ses = req.getSession();
 		ResourceBundle bundle = ResourceBundle.getBundle("text");
 		setText(ses, bundle, "WELCOME");
@@ -47,7 +47,7 @@ public class HomeController extends WebController {
 		setText(ses, bundle, "LNK_USR_MEMBERS");
 	}
 
-	private void setText(HttpSession ses, ResourceBundle bundle, String key) {
+	private void setText(HttpSession ses, final ResourceBundle bundle, final String key) {
 		String value = bundle.getString(key);
 		ses.setAttribute(key, value);
 	}

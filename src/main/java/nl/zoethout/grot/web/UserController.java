@@ -42,12 +42,11 @@ import nl.zoethout.grot.validation.UserValidator;
 @RequestMapping("/user")
 public class UserController extends WebController {
 
-//	protected static final String URL_REDIRECT_USER = "redirect:/user/";
 	@Autowired
 	private UserService userService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String rmLoginGet(HttpServletRequest req) {
+	public String rmLoginGet(final HttpServletRequest req) {
 		// Make sure there's no previous login
 		Principal.terminate();
 		provider(req).setSAPrincipal(null);
@@ -55,7 +54,7 @@ public class UserController extends WebController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String rmLoginPost(Map<String, Object> model, HttpServletRequest req) {
+	public String rmLoginPost(Map<String, Object> model, final HttpServletRequest req) {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		User usr = userService.loginUser(username, password);
@@ -70,7 +69,7 @@ public class UserController extends WebController {
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String rmLogout(HttpServletRequest req) {
+	public String rmLogout(final HttpServletRequest req) {
 		Principal.terminate();
 		provider(req).setSAPrincipal(null);
 		req.getSession().invalidate();
@@ -78,7 +77,7 @@ public class UserController extends WebController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String rmUsers(Model model, HttpServletRequest req) {
+	public String rmUsers(Model model, final HttpServletRequest req) {
 		provider(req).setSAFixed(null);
 		List<User> profiles = userService.listProfiles();
 		provider(req).setSAProfiles(profiles);
@@ -90,7 +89,7 @@ public class UserController extends WebController {
 	}
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
-	public String rmUser(Model model, HttpServletRequest req, @PathVariable(value = "username") String username) {
+	public String rmUser(Model model, final HttpServletRequest req, @PathVariable(value = "username") final String username) {
 		// Chosen member - reading
 		User user = userService.readUser(username);
 		// Chosen member - session
@@ -104,7 +103,7 @@ public class UserController extends WebController {
 	}
 
 	@RequestMapping(value = "/{username}/edit", method = RequestMethod.GET)
-	public String rmUserGet(Model model, HttpServletRequest req, @PathVariable(value = "username") String username) {
+	public String rmUserGet(Model model, final HttpServletRequest req, @PathVariable(value = "username") final String username) {
 		// Chosen member - reading
 		User user = userService.readUser(username);
 		// Chosen member - session
@@ -131,9 +130,8 @@ public class UserController extends WebController {
 	 * @return
 	 */
 	@RequestMapping(value = "/{username}/save", method = RequestMethod.POST)
-	public String rmUserPost(Model model, @ModelAttribute("mutable") User user, BindingResult bindingResult,
-			HttpServletRequest req, @PathVariable(value = "username") String username) {
-		// TODO 31 - Slight bug discovered: unauthorised saving...
+	public String rmUserPost(Model model, @ModelAttribute("mutable") User user, final BindingResult bindingResult,
+			HttpServletRequest req, @PathVariable(value = "username") final String username) {
 		if (!isAuthor(req, username)) {
 			return REDIRECT_USER.part() + username;
 		}
@@ -156,7 +154,7 @@ public class UserController extends WebController {
 		address.changeCase();
 		// instantiate validator
 		AddressValidator addressValidator = new AddressValidator();
-		UserValidator userValidator = new UserValidator(userService, addressValidator);
+		UserValidator userValidator = new UserValidator(addressValidator);
 		// validate
 		userValidator.validate(user, bindingResult);
 		// appropriate page
@@ -169,32 +167,33 @@ public class UserController extends WebController {
 		} else {
 			// Change authorisation
 			editAuthorisation(userService, req, user);
-			// save member
+			// Save member
 			userService.saveUser(user);
 			userService.saveAddress(address);
-			// route to appropriate page
+			// Route to appropriate page
 			return REDIRECT_USER.part() + username;
 		}
 	}
 
-	private void logging(Model model, BindingResult bindingResult, String message) {
+	private void logging(Model model, final BindingResult bindingResult, final String message) {
+		String result = "";
 		if (message == null || message.equals("")) {
-			message = "";
+			result = "";
 		}
 		List<ObjectError> errors = bindingResult.getAllErrors();
 		for (ObjectError error : errors) {
 			if (error.getDefaultMessage() != null) {
-				message += "<br><br><b>getCode</b> : " + error.getCode();
-				message += "<br><b>getDefaultMessage</b> : " + error.getDefaultMessage();
-				message += "<br><b>getObjectName</b> : " + error.getObjectName();
-				message += "<br>" + error.toString();
+				result += "<br><br><b>getCode</b> : " + error.getCode();
+				result += "<br><b>getDefaultMessage</b> : " + error.getDefaultMessage();
+				result += "<br><b>getObjectName</b> : " + error.getObjectName();
+				result += "<br>" + error.toString();
 			}
 		}
-		model.addAttribute("message", message);
+		model.addAttribute("message", result);
 	}
 
 	@ModelAttribute("roles")
-	public Map<String, String> maRoles(HttpServletRequest req) {
+	public Map<String, String> maRoles(final HttpServletRequest req) {
 		Principal principal = provider(req).getSAPrincipal();
 		if (principal == null) {
 			return null;
@@ -207,7 +206,7 @@ public class UserController extends WebController {
 	}
 
 	@ModelAttribute("countries")
-	public CountryCode[] maCountries(HttpServletRequest req) {
+	public CountryCode[] maCountries(final HttpServletRequest req) {
 		return CountryCode.values();
 	}
 
@@ -222,7 +221,7 @@ public class UserController extends WebController {
 	// https://www.logicbig.com/tutorials/spring-framework/spring-core/property-editors.html
 	private class RoleEditor extends PropertyEditorSupport {
 		@Override
-		public void setAsText(String roleName) throws IllegalArgumentException {
+		public void setAsText(final String roleName) throws IllegalArgumentException {
 			setValue(userService.readRole(roleName));
 		}
 	}

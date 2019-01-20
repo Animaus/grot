@@ -19,18 +19,16 @@ public class UserValidator implements Validator {
 	// http://docs.spring.io/spring/docs/current/spring-framework-reference/html/validation.html
 
 	private final Validator addressValidator;
-	private UserService userService;
 
-	public UserValidator(UserService userService, Validator addressValidator) {
+	public UserValidator(Validator addressValidator) {
 		if (addressValidator == null) {
-			throw new IllegalArgumentException("The supplied [Validator] is " + "required and must not be null.");
+			throw new IllegalArgumentException("The supplied [Validator] is required and must not be null.");
 		}
 		if (!addressValidator.supports(Address.class)) {
 			throw new IllegalArgumentException(
-					"The supplied [Validator] must " + "support the validation of [Address] instances.");
+					"The supplied [Validator] must support the validation of [Address] instances.");
 		}
 		this.addressValidator = addressValidator;
-		this.userService = userService;
 	}
 
 	@Override

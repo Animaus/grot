@@ -60,7 +60,7 @@ public class TestUserControllerIntegrationTest extends MyUnitTest {
 		if (mockMvc == null) {
 			// Initializes MockMvc and loads Spring configuration
 			mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-			initUserService(userService);
+			mockUserService(userService);
 		}
 	}
 

@@ -56,19 +56,22 @@ import nl.zoethout.grot.service.UserServiceImpl;
 // @ContextConfiguration(classes = { WebConfig.class })
 @ContextConfiguration(locations = { "classpath:testContext.xml", "classpath:applicationContext.xml" })
 public class TestUserControllerUnittest extends MyUnitTest {
+	
+	private static final String MUTABLE = "mutable";
 	private static final String URL_USER = "/user";
 	private static final String URL_USER_LOGIN = "/user/login";
-	private MockMvc mockMvc;
 	
+	private MockMvc mockMvc;
+
 	@Mock
 	private UserServiceImpl userService;
-	
+
 	@InjectMocks
 	private UserController userController;
 	private String urlMethod;
 	private String httpMethod;
 
-	TestUserControllerUnittest(TestInfo inf) {
+	TestUserControllerUnittest(final TestInfo inf) {
 		System.out.println(inf.getDisplayName());
 	}
 
@@ -79,39 +82,39 @@ public class TestUserControllerUnittest extends MyUnitTest {
 			MockitoAnnotations.initMocks(this);
 			// Initializes MockMvc without loading Spring configuration
 			mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-			initUserService(userService);
+			mockUserService(userService);
 		}
 	}
 
-	private void assertRun(User user, String userName, String mode) throws Exception {
+	private void assertRun(final User user, final String userName, final String mode) throws Exception {
 		// Prepare web
 		String page = getPage(mode);
 		String url = getUrl(userName);
-		req = new MockHttpServletRequest(httpMethod, url);
-		login(user);
+		MockHttpServletRequest req = new MockHttpServletRequest(httpMethod, url);
+		login(req, user);
 		// Print parameters
 		printParameters(user, userName, 0, page);
 		// Prepare action
-		MockHttpServletRequestBuilder action = get(url).with(mockedRequest(req));
+		MockHttpServletRequestBuilder action = get(url).with(mockRequest(req));
 		ResultActions ra = mockMvc.perform(action);
 		// Check status
 		ra.andExpect(status().isOk());
 		// Check page to access
 		ra.andExpect(view().name(page));
 		// Check user to be edited
-		assertUser(userName, ra);
+		assertUser(req, userName, ra);
 	}
 
-	private void assertUser(String userName, ResultActions ra) {
+	private void assertUser(final MockHttpServletRequest req, final String userName, final ResultActions ra) {
 		if (userName != null) {
-			User mutable = (User) ra.andReturn().getModelAndView().getModel().get("mutable");
-			User fixed = attr.getSAFixed();
+			User mutable = (User) ra.andReturn().getModelAndView().getModel().get(MUTABLE);
+			User fixed = provider(req).getSAFixed();
 			assertEquals(userName, mutable.getUserName());
 			assertEquals(userName, fixed.getUserName());
 		}
 	}
 
-	private String getUrl(String userName) {
+	private String getUrl(final String userName) {
 		String url = "";
 		if (userName != null) {
 			url = URL_USER + "/" + userName + urlMethod;
@@ -121,7 +124,7 @@ public class TestUserControllerUnittest extends MyUnitTest {
 		return url;
 	}
 
-	private String getPage(String mode) {
+	private String getPage(final String mode) {
 		String access = "";
 		switch (mode) {
 		case "sv": // singular verified
@@ -145,18 +148,18 @@ public class TestUserControllerUnittest extends MyUnitTest {
 		return access;
 	}
 
-	private void printParameters(User user, String userName, int saving, String page) {
+	private void printParameters(final User user, final String userName, final int saving, final String page) {
 		if (user == null) {
-			println("logon\t: " + user);
+			printLine("logon\t: " + user);
 		} else {
-			println("logon\t: " + user.getUserName());
+			printLine("logon\t: " + user.getUserName());
 		}
-		println("access\t: " + userName);
-		println("saving\t: " + saving);
-		println("page\t: " + page);
+		printLine("access\t: " + userName);
+		printLine("saving\t: " + saving);
+		printLine("page\t: " + page);
 	}
 
-	private void setMutable(User edit) {
+	private void setMutable(final MockHttpServletRequest req, final User edit) {
 		req.setParameter("userId", "" + edit.getUserId());
 		req.setParameter("userName", edit.getUserName());
 		req.setParameter("firstName", edit.getFirstName());
@@ -168,9 +171,9 @@ public class TestUserControllerUnittest extends MyUnitTest {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		req.setParameter("dateBirth", dateFormat.format(edit.getDateBirth()));
 		req.setParameter("dateRegistered", dateFormat.format(edit.getDateRegistered()));
-	
+
 		Address address = edit.getAddress();
-	
+
 		req.setParameter("address.streetName", address.getStreetName());
 		req.setParameter("address.streetNumber", address.getStreetNumber());
 		req.setParameter("address.zip", address.getZip());
@@ -180,21 +183,20 @@ public class TestUserControllerUnittest extends MyUnitTest {
 		req.setParameter("address.phone2", address.getPhone2());
 		req.setParameter("address.email1", address.getEmail1());
 		req.setParameter("address.email2", address.getEmail2());
-	
 	}
 
 	@Nested
 	@DisplayName("Login")
 	class Login {
-		Login(TestInfo inf) {
-			println("- " + inf.getDisplayName());
+		Login(final TestInfo inf) {
+			printLine("- " + inf.getDisplayName());
 			prefix = "\t";
 		}
 
 		@Test
 		@DisplayName("rmLoginGet")
-		void rmLoginGet(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmLoginGet(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			Principal usr = null;
 			ResultActions ra = mockMvc.perform(get(URL_USER_LOGIN));
 			ra.andExpect(status().isOk());
@@ -206,13 +208,13 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 		@Test
 		@DisplayName("rmLoginPost_Admin_GoodPWD")
-		void rmLoginPost_Admin_GoodPWD(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmLoginPost_Admin_GoodPWD(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			User user = getAdmin();
-			req = new MockHttpServletRequest("POST", URL_USER_LOGIN);
+			MockHttpServletRequest req = new MockHttpServletRequest("POST", URL_USER_LOGIN);
 			req.setParameter("username", user.getUserName());
 			req.setParameter("password", user.getPassword());
-			MockHttpServletRequestBuilder action = post(URL_USER_LOGIN).with(mockedRequest(req));
+			MockHttpServletRequestBuilder action = post(URL_USER_LOGIN).with(mockRequest(req));
 			ResultActions ra = mockMvc.perform(action);
 			ra.andExpect(status().is3xxRedirection());
 			ra.andExpect(view().name(REDIRECT_HOME.part()));
@@ -222,13 +224,13 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 		@Test
 		@DisplayName("rmLoginPost_Admin_WrongPWD")
-		void rmLoginPost_Admin_WrongPWD(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmLoginPost_Admin_WrongPWD(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			User user = getAdmin();
-			req = new MockHttpServletRequest("POST", URL_USER_LOGIN);
+			MockHttpServletRequest req = new MockHttpServletRequest("POST", URL_USER_LOGIN);
 			req.setParameter("username", user.getUserName());
 			req.setParameter("password", "WrongPWD");
-			MockHttpServletRequestBuilder action = post(URL_USER_LOGIN).with(mockedRequest(req));
+			MockHttpServletRequestBuilder action = post(URL_USER_LOGIN).with(mockRequest(req));
 			ResultActions ra = mockMvc.perform(action);
 			ra.andExpect(status().isOk());
 			ra.andExpect(view().name(LOGIN.part()));
@@ -240,7 +242,7 @@ public class TestUserControllerUnittest extends MyUnitTest {
 	@Nested
 	@DisplayName("Users")
 	class Usrs {
-		Usrs(TestInfo inf) {
+		Usrs(final TestInfo inf) {
 			System.out.println("- " + inf.getDisplayName());
 			prefix = "\t";
 			urlMethod = "";
@@ -249,22 +251,22 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 		@Test
 		@DisplayName("rmUsers_Admin")
-		void rmUsers_Admin(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUsers_Admin(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(getAdmin(), null, "pv");
 		}
 
 		@Test
 		@DisplayName("rmUsers_User")
-		void rmUsers_User(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUsers_User(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(getUser(), null, "pu");
 		}
 
 		@Test
 		@DisplayName("rmUsers_Guest")
-		void rmUsers_Guest(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUsers_Guest(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(null, null, "pu");
 		}
 	}
@@ -272,8 +274,8 @@ public class TestUserControllerUnittest extends MyUnitTest {
 	@Nested
 	@DisplayName("User")
 	class Usr {
-		Usr(TestInfo inf) {
-			println("- " + inf.getDisplayName());
+		Usr(final TestInfo inf) {
+			printLine("- " + inf.getDisplayName());
 			prefix = "\t";
 			urlMethod = "";
 			httpMethod = "GET";
@@ -281,36 +283,36 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 		@Test
 		@DisplayName("rmUser_Admin_front00")
-		void rmUser_Admin_front00(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUser_Admin_front00(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(getAdmin(), "front00", "sv");
 		}
 
 		@Test
 		@DisplayName("rmUser_Admin_arc0j00")
-		void rmUser_Admin_arc0j00(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUser_Admin_arc0j00(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(getAdmin(), "arc0j00", "sv");
 		}
 
 		@Test
 		@DisplayName("rmUser_User_front00")
-		void rmUser_User_front00(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUser_User_front00(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(getUser(), "front00", "su");
 		}
 
 		@Test
 		@DisplayName("rmUser_User_arc0j00")
-		void rmUser_User_arc0j00(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUser_User_arc0j00(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(getUser(), "arc0j00", "sv");
 		}
 
 		@Test
 		@DisplayName("rmUser_Guest_arc0j00")
-		void rmUser_Guest_arc0j00(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUser_Guest_arc0j00(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(null, "arc0j00", "su");
 		}
 	}
@@ -318,8 +320,8 @@ public class TestUserControllerUnittest extends MyUnitTest {
 	@Nested
 	@DisplayName("UserGet")
 	class UsrGet {
-		UsrGet(TestInfo inf) {
-			println("- " + inf.getDisplayName());
+		UsrGet(final TestInfo inf) {
+			printLine("- " + inf.getDisplayName());
 			prefix = "\t";
 			urlMethod = "/edit";
 			httpMethod = "GET";
@@ -327,36 +329,36 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 		@Test
 		@DisplayName("rmUserGet_Admin_front00")
-		void rmUserGet_Admin_front00(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUserGet_Admin_front00(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(getAdmin(), "front00", "svw");
 		}
 
 		@Test
 		@DisplayName("rmUserGet_Admin_arc0j00")
-		void rmUserGet_Admin_arc0j00(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUserGet_Admin_arc0j00(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(getAdmin(), "arc0j00", "svw");
 		}
 
 		@Test
 		@DisplayName("rmUserGet_User_arc0j00")
-		void rmUserGet_User_arc0j00(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUserGet_User_arc0j00(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(getUser(), "arc0j00", "svw");
 		}
 
 		@Test
 		@DisplayName("rmUserGet_User_front00")
-		void rmUserGet_User_front00(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUserGet_User_front00(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(getUser(), "front00", "su");
 		}
 
 		@Test
 		@DisplayName("rmUserGet_Guest_arc0j00")
-		void rmUserGet_Guest_arc0j00(TestInfo inf) throws Exception {
-			println(inf.getDisplayName());
+		void rmUserGet_Guest_arc0j00(final TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
 			assertRun(null, "arc0j00", "su");
 		}
 	}
@@ -364,33 +366,33 @@ public class TestUserControllerUnittest extends MyUnitTest {
 	@Nested
 	@DisplayName("UserPost")
 	class UsrPost {
-		UsrPost(TestInfo inf) {
-			println("- " + inf.getDisplayName());
+		UsrPost(final TestInfo inf) {
+			printLine("- " + inf.getDisplayName());
 			prefix = "\t";
 			urlMethod = "/save";
 			httpMethod = "POST";
 		}
 
-		private void assertEdit(User user, String userName, int saving) throws Exception {
+		private void assertEdit(final User user, final String userName, final int saving) throws Exception {
 			// Prepare web
 			String page = REDIRECT_USER.part() + userName;
 			String url = getUrl(userName);
-			req = new MockHttpServletRequest(httpMethod, url);
-			login(user);
+			MockHttpServletRequest req = new MockHttpServletRequest(httpMethod, url);
+			login(req, user);
 			// Print parameters
 			printParameters(user, userName, saving, page);
 			// Prepare user to be edited
 			User edit = userService.readUser(userName);
-			attr.setSAFixed(edit);
-			setMutable(edit);
+			provider(req).setSAFixed(edit);
+			setMutable(req, edit);
 			// Prepare action
-			MockHttpServletRequestBuilder action = post(url).with(mockedRequest(req));
+			MockHttpServletRequestBuilder action = post(url).with(mockRequest(req));
 			ResultActions ra = mockMvc.perform(action);
 			// Check status
 			ra.andExpect(status().isFound());
 			// Check page to access
 			ra.andExpect(view().name(page));
-			ra.andExpect(model().attributeExists("mutable"));
+			ra.andExpect(model().attributeExists(MUTABLE));
 			// Check saving
 			ArgumentCaptor<User> saveUser = ArgumentCaptor.forClass(User.class);
 			ArgumentCaptor<Address> saveAddress = ArgumentCaptor.forClass(Address.class);
@@ -400,31 +402,31 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 		@Test
 		@DisplayName("rmUserPost_Admin_front00")
-		void rmUserPost_Admin_front00(TestInfo inf) throws Exception {
+		void rmUserPost_Admin_front00(final TestInfo inf) throws Exception {
 			assertEdit(getAdmin(), "front00", 1);
 		}
 
 		@Test
 		@DisplayName("rmUserPost_Admin_arc0j00")
-		void rmUserPost_Admin_arc0j00(TestInfo inf) throws Exception {
+		void rmUserPost_Admin_arc0j00(final TestInfo inf) throws Exception {
 			assertEdit(getAdmin(), "arc0j00", 1);
 		}
 
 		@Test
 		@DisplayName("rmUserPost_User_front00")
-		void rmUserPost_User_front00(TestInfo inf) throws Exception {
+		void rmUserPost_User_front00(final TestInfo inf) throws Exception {
 			assertEdit(getUser(), "front00", 0);
 		}
 
 		@Test
 		@DisplayName("rmUserPost_User_arc0j00")
-		void rmUserPost_User_arc0j00(TestInfo inf) throws Exception {
+		void rmUserPost_User_arc0j00(final TestInfo inf) throws Exception {
 			assertEdit(getUser(), "arc0j00", 1);
 		}
 
 		@Test
 		@DisplayName("rmUserPost_Guest_arc0j00")
-		void rmUserPost_Guest_arc0j00(TestInfo inf) throws Exception {
+		void rmUserPost_Guest_arc0j00(final TestInfo inf) throws Exception {
 			assertEdit(null, "arc0j00", 0);
 		}
 	}
@@ -432,33 +434,34 @@ public class TestUserControllerUnittest extends MyUnitTest {
 	@Nested
 	@DisplayName("UserPostError")
 	class UsrPostError {
-		UsrPostError(TestInfo inf) {
-			println("- " + inf.getDisplayName());
+		UsrPostError(final TestInfo inf) {
+			printLine("- " + inf.getDisplayName());
 			prefix = "\t";
 			urlMethod = "/save";
 			httpMethod = "POST";
 		}
 
-		private void assertEdit(User user, String userName, int saving, String page, ResultMatcher rm) throws Exception {
+		private void assertEdit(final User user, final String userName, final int saving, final String page,
+				final ResultMatcher rm) throws Exception {
 			// Prepare web
 			String url = getUrl(userName);
-			req = new MockHttpServletRequest(httpMethod, url);
-			login(user);
+			MockHttpServletRequest req = new MockHttpServletRequest(httpMethod, url);
+			login(req, user);
 			// Print parameters
 			printParameters(user, userName, saving, page);
 			// Prepare user to be edited
 			User edit = userService.readUser(userName);
-			attr.setSAFixed(edit);
-			setMutable(edit);
+			provider(req).setSAFixed(edit);
+			setMutable(req, edit);
 			req.setParameter("dateBirth", "WrongDate");
 			// Prepare action
-			MockHttpServletRequestBuilder action = post(url).with(mockedRequest(req));
+			MockHttpServletRequestBuilder action = post(url).with(mockRequest(req));
 			ResultActions ra = mockMvc.perform(action);
 			// Check status
 			ra.andExpect(rm);
 			// Check page to access
 			ra.andExpect(view().name(page));
-			ra.andExpect(model().attributeExists("mutable"));
+			ra.andExpect(model().attributeExists(MUTABLE));
 			// Check saving
 			ArgumentCaptor<User> saveUser = ArgumentCaptor.forClass(User.class);
 			ArgumentCaptor<Address> saveAddress = ArgumentCaptor.forClass(Address.class);
@@ -468,7 +471,7 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 		@Test
 		@DisplayName("rmUserPost_Admin_front00")
-		void rmUserPost_Admin_front00(TestInfo inf) throws Exception {
+		void rmUserPost_Admin_front00(final TestInfo inf) throws Exception {
 			String userName = "front00";
 			String page = "user_verified_write";
 			assertEdit(getAdmin(), userName, 0, page, status().isOk());
@@ -476,7 +479,7 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 		@Test
 		@DisplayName("rmUserPost_Admin_arc0j00")
-		void rmUserPost_Admin_arc0j00(TestInfo inf) throws Exception {
+		void rmUserPost_Admin_arc0j00(final TestInfo inf) throws Exception {
 			String userName = "arc0j00";
 			String page = "user_verified_write";
 			assertEdit(getAdmin(), userName, 0, page, status().isOk());
@@ -484,7 +487,7 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 		@Test
 		@DisplayName("rmUserPost_User_front00")
-		void rmUserPost_User_front00(TestInfo inf) throws Exception {
+		void rmUserPost_User_front00(final TestInfo inf) throws Exception {
 			String userName = "front00";
 			String page = REDIRECT_USER.part() + userName;
 			assertEdit(getUser(), userName, 0, page, status().isFound());
@@ -492,7 +495,7 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 		@Test
 		@DisplayName("rmUserPost_User_arc0j00")
-		void rmUserPost_User_arc0j00(TestInfo inf) throws Exception {
+		void rmUserPost_User_arc0j00(final TestInfo inf) throws Exception {
 			String userName = "arc0j00";
 			String page = "user_verified_write";
 			assertEdit(getUser(), userName, 0, page, status().isOk());
@@ -500,7 +503,7 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 		@Test
 		@DisplayName("rmUserPost_Guest_arc0j00")
-		void rmUserPost_Guest_arc0j00(TestInfo inf) throws Exception {
+		void rmUserPost_Guest_arc0j00(final TestInfo inf) throws Exception {
 			String userName = "arc0j00";
 			String page = REDIRECT_USER.part() + userName;
 			assertEdit(null, userName, 0, page, status().isFound());

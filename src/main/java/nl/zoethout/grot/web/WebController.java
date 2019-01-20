@@ -20,7 +20,7 @@ public abstract class WebController {
 		throw new IllegalStateException(String.format("Duplicate key \"%s\"", key));
 	};
 	
-	protected void gotoURL(HttpServletRequest req, HttpServletResponse res, String URL) {
+	protected void gotoURL(final HttpServletRequest req, final HttpServletResponse res, final String URL) {
 		String context = req.getContextPath();
 		try {
 			res.sendRedirect(context + URL);
@@ -29,13 +29,14 @@ public abstract class WebController {
 		}
 	}
 
-	protected AttributeProvider provider(HttpServletRequest req) {
+	protected AttributeProvider provider(final HttpServletRequest req) {
 		AttributeProvider provider = AttributeProviderImpl.getProvider(req);
 		return provider;
 	}
 
-	protected String getAuthorPage(HttpServletRequest req, String pagename, String username, boolean isEdit) {
-		pagename += "_";
+	protected String getAuthorPage(final HttpServletRequest req, final String pagename, final String username, final boolean isEdit) {
+		String result = pagename;
+		result += "_";
 		String write = "";
 		if (isEdit) {
 			write = "_write";
@@ -43,24 +44,24 @@ public abstract class WebController {
 		Principal principal = provider(req).getSAPrincipal();
 		if (principal == null) {
 			// Not logged on
-			pagename += "unknown";
+			result += "unknown";
 		} else {
 			String principalName = principal.getUserName();
 			if (checkRole(req, ADM)) {
 				// Admin
-				pagename += "verified" + write;
+				result += "verified" + write;
 			} else if (principalName.equals(username)) {
 				// Profile-owner
-				pagename += "verified" + write;
+				result += "verified" + write;
 			} else {
 				// Neither admin nor profile-owner
-				pagename += "unknown";
+				result += "unknown";
 			}
 		}
-		return pagename;
+		return result;
 	}
 
-	protected boolean isAuthor(HttpServletRequest req, String username) {
+	protected boolean isAuthor(final HttpServletRequest req, final String username) {
 		Principal principal = provider(req).getSAPrincipal();
 		if (principal == null) {
 			// Not logged on
@@ -77,7 +78,7 @@ public abstract class WebController {
 		}
 	}
 
-	protected boolean checkRole(HttpServletRequest req, String role) {
+	protected boolean checkRole(final HttpServletRequest req, final String role) {
 		Principal principal = provider(req).getSAPrincipal();
 		if (principal == null) {
 			return false;
@@ -86,7 +87,7 @@ public abstract class WebController {
 		}
 	}
 
-	protected void editAuthorisation(UserService userService, HttpServletRequest req, User user) {
+	protected void editAuthorisation(final UserService userService, final HttpServletRequest req, final User user) {
 		Principal principal = provider(req).getSAPrincipal();
 		if (principal != null && principal.hasRole(ADM)) {
 			// Change allowed
@@ -105,7 +106,7 @@ public abstract class WebController {
 		}
 	}
 
-	protected void setAuthorisation(UserService userService, User user) {
+	protected void setAuthorisation(final UserService userService, final User user) {
 		Role role = userService.readRole(USR);
 		user.getRoles().add(role);
 		user.setEnabled(true);

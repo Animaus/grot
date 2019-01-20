@@ -10,15 +10,15 @@ public abstract class MainValidator implements Validator {
 
 	public abstract void validate(Object arg0, Errors arg1) ;
 
-	public boolean isAlphaNumericSpace(String strValue){
+	protected boolean isAlphaNumericSpace(String strValue){
 		return StringUtils.isAlphanumericSpace(strValue);
 	}
 	
-	public boolean isAlphaNumeric(String strValue){
+	protected boolean isAlphaNumeric(String strValue){
 		return StringUtils.isAlphanumeric(strValue);
 	}
 	
-	public boolean isAlphaSpace(String strValue){
+	protected boolean isAlphaSpace(String strValue){
 		return StringUtils.isAlphaSpace(strValue);
 	}
 }

@@ -283,7 +283,7 @@ public enum CountryCode {
 	 * @param code
 	 * @return The country name.
 	 */
-	public static String getName(String code) {
+	public static String getName(final String code) {
 		return codeMap.get(code);
 	}
 
@@ -293,7 +293,7 @@ public enum CountryCode {
 	 * @param name
 	 * @return The country code.
 	 */
-	public static String getCode(String name) {
+	public static String getCode(final String name) {
 		return nameMap.get(name).toString();
 	}
 

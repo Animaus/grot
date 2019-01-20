@@ -46,8 +46,6 @@ import nl.zoethout.grot.util.CountryCode;
 import nl.zoethout.grot.util.TextUtil;
 import nl.zoethout.grot.validation.AddressValidator;
 import nl.zoethout.grot.validation.UserValidator;
-import nl.zoethout.grot.validation.poc.Student;
-import nl.zoethout.grot.validation.poc.StudentValidator;
 
 @SuppressWarnings("unused")
 @Controller // This class is a Controller
@@ -226,28 +224,6 @@ public class PocController extends WebController {
 		return POC.part();
 	}
 
-	@RequestMapping(value = "/student", method = RequestMethod.GET)
-	public String rmStudentGet(Map<String, Object> model) {
-		model.put(DEFAULT_MESSAGE, "Start. Click any link to check...");
-		return "validation/student";
-	}
-
-	@RequestMapping(value = "/student", method = RequestMethod.POST)
-	public String rmStudentPost(@ModelAttribute("student") Student student, BindingResult bindingResult, Model model) {
-		StudentValidator studentValidator = new StudentValidator();
-		studentValidator.validate(student, bindingResult);
-		if (bindingResult.hasErrors()) {
-			return "poc/student";
-		} else {
-			return "poc/result";
-		}
-	}
-
-	@ModelAttribute("student")
-	public Student maStudent() {
-		return new Student();
-	}
-
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	public String rmUserGet(Model model, HttpServletRequest req) {
 		// Chosen member - username
@@ -280,7 +256,7 @@ public class PocController extends WebController {
 		address.changeCase();
 		// instantiate validator
 		AddressValidator addressValidator = new AddressValidator();
-		UserValidator userValidator = new UserValidator(userService, addressValidator);
+		UserValidator userValidator = new UserValidator(addressValidator);
 		// validate
 		userValidator.validate(user, bindingResult);
 		// appropriate page
@@ -301,21 +277,6 @@ public class PocController extends WebController {
 			userService.saveUser(user);
 			userService.saveAddress(address);
 			// Page
-			return "user_readable";
-		}
-	}
-
-	// @RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String rmUserPostStudent(@ModelAttribute("student") Student student, BindingResult bindingResult,
-			Model model) {
-		// instantiate validator
-		StudentValidator studentValidator = new StudentValidator();
-		// validate
-		studentValidator.validate(student, bindingResult);
-		// appropriate pages
-		if (bindingResult.hasErrors()) {
-			return "user_writable";
-		} else {
 			return "user_readable";
 		}
 	}

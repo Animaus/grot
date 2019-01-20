@@ -24,7 +24,6 @@
 					<a href="loginInvalid">${VAL_LOGIN_INVALID}</a><br />
 					<a href="denied">Access denied</a><br />
 					<a href="granted">Access granted</a><br />
-					<a href="student">Validation 1</a><br />
 					<a href="user">Validation 2</a><br />
 				</p>
 				${message}

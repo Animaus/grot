@@ -15,7 +15,7 @@ import nl.zoethout.grot.MyUnitTest;
 @DisplayName("TestDatetimeHelper")
 public class TestDatetimeHelper extends MyUnitTest {
 	TestDatetimeHelper(TestInfo inf) {
-		println(inf.getDisplayName());
+		printLine(inf.getDisplayName());
 	}
 
 	@Nested
@@ -29,30 +29,30 @@ public class TestDatetimeHelper extends MyUnitTest {
 		@Test
 		@DisplayName("2016-01-01")
 		void test1(TestInfo inf) {
-			println(inf.getDisplayName());
+			printLine(inf.getDisplayName());
 			LocalDateTime dtLocal = LocalDateTime.of(2016, 01, 01, 0, 0, 0);
 			String key = DatetimeHelper.getKey(dtLocal);
-			println("Key=" + key);
+			printLine("Key=" + key);
 			assertTrue(key.equals("2016-53"), () -> "Key \"" + key + "\" should have been \"2016-53\"...");
 		}
 
 		@Test
 		@DisplayName("2016-01-06")
 		void test2(TestInfo inf) {
-			println(inf.getDisplayName());
+			printLine(inf.getDisplayName());
 			LocalDateTime dtLocal = LocalDateTime.of(2016, 01, 06, 0, 0, 0);
 			String key = DatetimeHelper.getKey(dtLocal);
-			println("Key=" + key);
+			printLine("Key=" + key);
 			assertTrue(key.equals("2016-01"), () -> "Key \"" + key + "\" should have been \"2016-01\"...");
 		}
 
 		@Test
 		@DisplayName("1965-03-18")
 		void test3(TestInfo inf) {
-			println(inf.getDisplayName());
+			printLine(inf.getDisplayName());
 			LocalDateTime dtLocal = LocalDateTime.of(1965, 03, 18, 0, 0, 0);
 			String key = DatetimeHelper.getKey(dtLocal);
-			println("Key=" + key);
+			printLine("Key=" + key);
 			assertTrue(key.equals("1965-11"), () -> "Key \"" + key + "\" should have been \"1965-11\"...");
 		}
 
@@ -69,30 +69,30 @@ public class TestDatetimeHelper extends MyUnitTest {
 		@Test
 		@DisplayName("2016-01-04")
 		void test1(TestInfo inf) {
-			println(inf.getDisplayName());
+			printLine(inf.getDisplayName());
 			LocalDateTime dtLocal = LocalDateTime.of(2016, 01, 04, 0, 0, 0);
 			int key = getDayNumber(dtLocal);
-			println("Daynumber=" + key);
+			printLine("Daynumber=" + key);
 			assertTrue(key == 1, () -> "Key \"" + key + "\" should have been \"1\"...");
 		}
 
 		@Test
 		@DisplayName("2016-01-10")
 		void test2(TestInfo inf) {
-			println(inf.getDisplayName());
+			printLine(inf.getDisplayName());
 			LocalDateTime dtLocal = LocalDateTime.of(2016, 01, 10, 0, 0, 0);
 			int key = getDayNumber(dtLocal);
-			println("Daynumber=" + key);
+			printLine("Daynumber=" + key);
 			assertTrue(key == 7, () -> "Key \"" + key + "\" should have been \"7\"...");
 		}
 
 		@Test
 		@DisplayName("1965-03-18")
 		void test3(TestInfo inf) {
-			println(inf.getDisplayName());
+			printLine(inf.getDisplayName());
 			LocalDateTime dtLocal = LocalDateTime.of(1965, 03, 18, 0, 0, 0);
 			int key = getDayNumber(dtLocal);
-			println("Daynumber=" + key);
+			printLine("Daynumber=" + key);
 			assertTrue(key == 4, () -> "Key \"" + key + "\" should have been \"4\"...");
 		}
 	}

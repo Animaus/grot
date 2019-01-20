@@ -56,12 +56,12 @@ public class TestHomeController extends MyUnitTest {
 		void rmHome(TestInfo inf) throws Exception {
 			String[] urls = { "/", "/home", "/welcome", "/index" };
 			for (String url : urls) {
-				println(url);
+				printLine(url);
 				ResultActions ra = mockMvc.perform(get(url));
 				ra.andExpect(status().isOk());
 				ra.andExpect(model().attribute("message", MSG));
 				ra.andExpect(view().name(VIEW_NAME));
-				checkAttributes(ra);
+				assertAttributes(ra);
 			}
 		}
 	}

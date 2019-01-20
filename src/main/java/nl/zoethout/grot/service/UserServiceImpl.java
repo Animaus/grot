@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	public UserServiceImpl() {
 	}
 
-	public UserServiceImpl(UserDao userDao) {
+	public UserServiceImpl(final UserDao userDao) {
 		this.userDao = userDao;
 	}
 
@@ -63,22 +63,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User readUser(int userId) {
+	public User readUser(final int userId) {
 		return userDao.readUser(userId);
 	}
 
 	@Override
-	public User readUser(String userName) {
+	public User readUser(final String userName) {
 		return userDao.readUser(userName);
 	}
 
 	@Override
-	public Address readAddress(int userId) {
+	public Address readAddress(final int userId) {
 		return userDao.readAddress(userId);
 	}
 
 	@Override
-	public Role readRole(String roleName) {
+	public Role readRole(final String roleName) {
 		return userDao.readRole(roleName);
 	}
 
@@ -88,12 +88,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User loginUser(String userName, String password) {
+	public User loginUser(final String userName, final String password) {
 		return userDao.loginUser(userName, password);
 	}
 
 	@Override
-	public void setPrincipal(HttpServletRequest req, User usr) {
+	public void setPrincipal(final HttpServletRequest req, final User usr) {
 		AttributeProvider attr = AttributeProviderImpl.getProvider(req);
 		Principal principal = Principal.getUser(usr);
 		attr.setSAPrincipal(principal);
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 	 * Opvragen gelijkende veldwaarden
 	 */
 	@SuppressWarnings("unused")
-	private List<String> listPropertiesLike(String pojoField, String pojoValue) {
+	private List<String> listPropertiesLike(final String pojoField, final String pojoValue) {
 		return userDao.listPropertiesLike(pojoField, pojoValue);
 	}
 }

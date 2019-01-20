@@ -16,11 +16,11 @@ import nl.zoethout.grot.MyUnitTest;
 public class TestPrincipal extends MyUnitTest {
 	private Principal p;
 
-	private TestPrincipal(TestInfo inf) {
+	private TestPrincipal(final TestInfo inf) {
 		System.out.println(inf.getDisplayName());
 	}
 
-	private void init(User usr) {
+	private void init(final User usr) {
 		p = Principal.getUser(usr);
 	}
 
@@ -33,42 +33,42 @@ public class TestPrincipal extends MyUnitTest {
 	@Nested
 	@DisplayName("HasRole")
 	class HasRole {
-		HasRole(TestInfo inf) {
+		HasRole(final TestInfo inf) {
 			System.out.println("- " + inf.getDisplayName());
 			prefix = "\t";
 		}
 
 		@Test
 		@DisplayName("ADMIN")
-		void testAdmin(TestInfo inf) {
-			println(inf.getDisplayName());
+		void testAdmin(final TestInfo inf) {
+			printLine(inf.getDisplayName());
 			init(getAdmin());
-			println(p.getUser());
+			printLine(p.getUser());
 			assertTrue(p.hasRole(ADM), () -> "User " + p.getUserName() + " should have role \"Admin\"...");
 		}
 
 		@Test
 		@DisplayName("USER")
-		void testUser(TestInfo inf) {
-			println(inf.getDisplayName());
+		void testUser(final TestInfo inf) {
+			printLine(inf.getDisplayName());
 			init(getUser());
-			println(p.getUser());
+			printLine(p.getUser());
 			assertTrue(p.hasRole(USR), () -> "User " + p.getUserName() + " should have role \"User\"...");
 		}
 
 		@Test
 		@DisplayName("DISABLED")
-		void testDisabled(TestInfo inf) {
-			println(inf.getDisplayName());
+		void testDisabled(final TestInfo inf) {
+			printLine(inf.getDisplayName());
 			init(getDisabled());
-			println(p.getUser());
+			printLine(p.getUser());
 			assertFalse(p.hasRole(""), () -> "User " + p.getUserName() + " should have no roles...");
 		}
 
 		@Test
 		@DisplayName("GUEST")
 		@Disabled("Disabled : GUEST")
-		void testGuest(TestInfo inf) {
+		void testGuest(final TestInfo inf) {
 			// What if user is not logged in?
 		}
 	}

@@ -7,7 +7,7 @@ public enum PageURL {
 	ERROR("error"), //
 	TEST("test"), //
 	REDIRECT_HOME("redirect:/"), //
-	REDIRECT_USER("redirect:/user/"), // TODO 31 - Added...
+	REDIRECT_USER("redirect:/user/"), //
 	REDIRECT_REPOSITORY("redirect:repository"), //
 	USERS_UNKNOWN("users_unknown"), // Show all users (when logged out)
 	USERS_VERIFIED("users_verified"), // Show all users (when logged in)
