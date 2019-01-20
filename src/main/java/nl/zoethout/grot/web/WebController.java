@@ -14,7 +14,7 @@ import nl.zoethout.grot.util.AttributeProvider;
 import nl.zoethout.grot.util.AttributeProviderImpl;
 
 public abstract class WebController {
-	protected String strClass = getClass().getName();
+	protected String strClass = getClass().getSimpleName();
 	protected static final String ADM = "ROLE_ADMIN";
 	protected static final String USR = "ROLE_USER";
 	

@@ -98,18 +98,6 @@ public class TestLoginController extends MyTestCases {
 		}
 
 		@Test
-		@DisplayName("login_exists")
-		void login_exists(final TestInfo inf) throws Exception {
-			FormLoginRequestBuilder action = formLogin("/login");
-			ResultActions ra = mockMvc.perform( //
-					action //
-//							.user("user1") //
-//							.password("user1Pass") //
-			);
-			ra.andExpect(status().isFound());
-		}
-
-		@Test
 		@DisplayName("login_exists2")
 		@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
 		void login_exists2(final TestInfo inf) throws Exception {
@@ -154,33 +142,44 @@ public class TestLoginController extends MyTestCases {
 	}
 
 	@Nested
-	@DisplayName("RedirectionSecurityIntegrationTest")
+	@DisplayName("Login")
 	@ContextConfiguration(classes = { TestSecurityConfig.class, TestBeans.class })
 	@WebAppConfiguration // Will load the web application context
 	@ExtendWith(SpringExtension.class) // Enables loading WebApplicationContext
 	// TODO 43 - RedirectionSecurityIntegrationTest
-	public class RedirectionSecurityIntegrationTest {
+	public class Login {
 		@Autowired
 		private WebApplicationContext context;
 		private MockMvc mvc;
 
-		private String strClass = this.getClass().getCanonicalName();
+		private String strClass = this.getClass().getSimpleName();
 
-		RedirectionSecurityIntegrationTest(final TestInfo inf) {
+		Login(final TestInfo inf) {
 			System.out.println("| - " + inf.getDisplayName());
 		}
 
 		@BeforeEach
 		void setup() {
 			String strMethod = "setup";
-			testInfo(strClass, strMethod, "");
+			devInfo(strClass, strMethod, "");
 			mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+		}
+
+		@Test
+		@DisplayName("login_exists")
+		void login_exists(final TestInfo inf) throws Exception {
+			String strMethod = "login_exists";
+			devInfo(strClass, strMethod, "");
+		
+			FormLoginRequestBuilder action = formLogin("/login");
+			ResultActions ra = mvc.perform(action);
+			ra.andExpect(status().isFound());
 		}
 
 		@Test
 		public void givenLogin_whenUnauthenticated_thenGotoLogin() throws Exception {
 			String strMethod = "givenLogin_whenUnauthenticated_thenGotoLogin";
-			testInfo(strClass, strMethod, "");
+			devInfo(strClass, strMethod, "");
 
 			String url = "/login";
 
@@ -193,7 +192,7 @@ public class TestLoginController extends MyTestCases {
 		@Test
 		public void givenSecured_whenUnauthenticated_thenGotoLogin() throws Exception {
 			String strMethod = "givenSecured_whenUnauthenticated_thenGotoLogin";
-			testInfo(strClass, strMethod, "");
+			devInfo(strClass, strMethod, "");
 
 			String url = "/user/arc0j00";
 			String redirect = "**/login";
@@ -208,7 +207,7 @@ public class TestLoginController extends MyTestCases {
 		@Test
 		public void givenSecured_whenAuthenticated_thenSuccess() throws Exception {
 			String strMethod = "givenSecured_whenAuthenticated_thenSuccess";
-			testInfo(strClass, strMethod, "");
+			devInfo(strClass, strMethod, "");
 
 			UserDetails userDetails = getUserDetails(getUser());
 			String url = "/user/arc0j00";
@@ -222,12 +221,12 @@ public class TestLoginController extends MyTestCases {
 		@Test
 		public void givenSecured_whenLogin_thenRedirect() throws Exception {
 			String strMethod = "givenSecured_whenLogin_thenRedirect";
-			testInfo(strClass, strMethod, "");
+			devInfo(strClass, strMethod, "");
 
 			UserDetails userDetails = getUserDetails(getUser());
 
 			String url = "/user/arc0j00";
-			String redirect = "**/user/**";
+			String redirect = "/login*";
 
 			MockHttpServletRequestBuilder action1 = get(url);
 			ResultActions ra1 = mvc.perform(action1);

@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MyTestController implements MyTest {
 	@RequestMapping("/arc0j00")
 	public void user(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("\nController says : accessing arc0j00");
+		System.out.println("\nMyTestController says : accessing arc0j00");
 	}
 
 	@RequestMapping("/front00")
 	public void admin(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("\nController says : accessing front00");
+		System.out.println("\nMyTestController says : accessing front00");
 	}
 }

@@ -6,7 +6,7 @@ import nl.zoethout.grot.util.AttributeProvider;
 import nl.zoethout.grot.util.AttributeProviderImpl;
 
 public class Handler {
-	protected String strClass = getClass().getName();
+	protected String strClass = getClass().getSimpleName();
 
 	protected AttributeProvider provider(final HttpServletRequest req) {
 		AttributeProvider provider = AttributeProviderImpl.getProvider(req);

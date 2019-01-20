@@ -25,7 +25,7 @@ import nl.zoethout.grot.service.UserService;
 
 @Configuration
 // TODO 43 - RedirectionSecurityIntegrationTest @ComponentScan
-@ComponentScan(basePackages = { "nl.zoethout.grot.mytest" })
+@ComponentScan(basePackages = { "nl.zoethout.grot.mytest","nl.zoethout.grot.web" })
 @SuppressWarnings("deprecation")
 public class TestBeans {
 
