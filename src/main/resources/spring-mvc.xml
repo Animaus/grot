@@ -33,8 +33,4 @@ http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
 
 	<mvc:annotation-driven />
 
-	<!-- also add the following beans to get rid of some exceptions -->
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
-
 </beans>

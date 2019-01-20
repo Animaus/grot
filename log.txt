@@ -1440,23 +1440,39 @@ TASKS PERFORMED
 
 	S		: write
 				nl.zoethout.grot.web.TestUserControllerUnittest
-
-				https://memorynotfound.com/unit-test-spring-mvc-rest-service-junit-mockito/
-				unit-test-spring-mvc-rest-service-mockito-junit-example.zip
-
-				So, I have an unit-test for the controller, but I also want an integration-test. Some tips found, for further study.
-					https://duckduckgo.com/?q=spring+%2Bcontroller+%2Bservice+%2Bmock+%2Bunit+-rest&atb=v139-3__&ia=web
-					https://stackoverflow.com/questions/42108040/spring-controller-test
-
-	S		: write
-				nl.zoethout.grot.web.TestUserController
 	P31-01	:
 				Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException:
 				Error creating bean with name 'userController': Unsatisfied dependency expressed through field 'userService';
 				nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException:
-
 				No qualifying bean of type 'nl.zoethout.grot.service.UserService' available:
 				expected at least 1 bean which qualifies as autowire candidate.
 				Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	S		: write
+				/grot/src/test/resources/testContext.xml
+	S		: re-write
+				nl.zoethout.grot.web.TestUserControllerUnittest
+					added
+					@ContextConfiguration(locations = { "classpath:testContext.xml", "classpath:applicationContext.xml" })
+	*P31-01	: solved...!
+
+	P31-02	:
+				javax.servlet.ServletException: Circular view path [login]:
+				would dispatch back to the current handler URL [/user/login] again.
+				Check your ViewResolver setup!
+				(Hint: This may be the result of an unspecified view, due to default view name generation.)
+	S		: re-write
+				nl.zoethout.grot.util.PageURL.LOGIN
+					login -> logon
+	S		: rename
+				/grot/src/main/webapp/WEB-INF/jsp/login.jsp
+				-> /grot/src/main/webapp/WEB-INF/jsp/logon.jsp
+	*P31-02	: solved...!
+
+	D		: wishlist
+				So, I have an unit-test for the controller, but I also want an integration-test.
+				https://memorynotfound.com/unit-test-spring-mvc-rest-service-junit-mockito/
+				unit-test-spring-mvc-rest-service-mockito-junit-example.zip
+	S		: write
+				nl.zoethout.grot.web.TestUserControllerIntegration
 
 
