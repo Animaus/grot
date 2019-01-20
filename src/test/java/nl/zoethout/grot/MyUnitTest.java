@@ -22,6 +22,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
+import nl.zoethout.grot.domain.Address;
 import nl.zoethout.grot.domain.Principal;
 import nl.zoethout.grot.domain.Role;
 import nl.zoethout.grot.domain.User;
@@ -41,8 +42,8 @@ public class MyUnitTest {
 	}
 
 	protected User getAdmin() {
+		// User
 		User usr = new User();
-		Set<Role> roles = new HashSet<Role>();
 		usr.setUserId(1);
 		usr.setUserName("front00");
 		usr.setFirstName("Terry");
@@ -53,15 +54,31 @@ public class MyUnitTest {
 		usr.setEnabled(true);
 		usr.setDateBirth(getDate("1118-06-17"));
 		usr.setDateRegistered(getDate("2018-06-17"));
+		Set<Role> roles = new HashSet<Role>();
 		addRole(roles, "Gebruiker", USR);
 		addRole(roles, "Beheerder", ADM);
 		usr.setRoles(roles);
+		// Address
+		Address address = new Address();
+		address.setUserId(1);
+		address.setUserName("front00");
+		address.setStreetName("Forest");
+		address.setStreetNumber("321");
+		address.setZip("1013 TF");
+		address.setCity("Amiens");
+		address.setCountry("FR");
+		address.setPhone1("0612345678");
+		address.setPhone2("");
+		address.setEmail1("thierry@domain.org");
+		address.setEmail2("");
+		usr.setAddress(address);
+		// Return
 		return usr;
 	}
 
 	protected User getUser() {
+		// User
 		User usr = new User();
-		Set<Role> roles = new HashSet<Role>();
 		usr.setUserId(2);
 		usr.setUserName("arc0j00");
 		usr.setFirstName("Jeanne");
@@ -72,14 +89,30 @@ public class MyUnitTest {
 		usr.setEnabled(true);
 		usr.setDateBirth(getDate("1218-06-17"));
 		usr.setDateRegistered(getDate("2018-06-17"));
+		Set<Role> roles = new HashSet<Role>();
 		addRole(roles, "Gebruiker", USR);
 		usr.setRoles(roles);
+		// Address
+		Address address = new Address();
+		address.setUserId(2);
+		address.setUserName("arc0j00");
+		address.setStreetName("Convent");
+		address.setStreetNumber("321 b");
+		address.setZip("1413 JA");
+		address.setCity("Orleans");
+		address.setCountry("FR");
+		address.setPhone1("0687654321");
+		address.setPhone2("");
+		address.setEmail1("jeanne@domain.org");
+		address.setEmail2("");
+		usr.setAddress(address);
+		// Return
 		return usr;
 	}
 
 	protected User getDisabled() {
+		// User
 		User usr = new User();
-		Set<Role> roles = new HashSet<Role>();
 		usr.setUserId(4);
 		usr.setUserName("hawks00");
 		usr.setFirstName("Stephen");
@@ -90,7 +123,23 @@ public class MyUnitTest {
 		usr.setEnabled(false);
 		usr.setDateBirth(getDate("1942-01-08"));
 		usr.setDateRegistered(getDate("2018-11-23"));
+		Set<Role> roles = new HashSet<Role>();
 		usr.setRoles(roles);
+		// Address
+		Address address = new Address();
+		address.setUserId(4);
+		address.setUserName("hawks00");
+		address.setStreetName("University Lane");
+		address.setStreetNumber("99");
+		address.setZip("9999 XX");
+		address.setCity("Oxford");
+		address.setCountry("GB");
+		address.setPhone1("");
+		address.setPhone2("");
+		address.setEmail1("stephen@domain.org");
+		address.setEmail2("");
+		usr.setAddress(address);
+		// Return
 		return usr;
 	}
 
@@ -199,25 +248,34 @@ public class MyUnitTest {
 		println("==============================");
 	}
 
-	protected void setProvider() {
-		attr = AttributeProviderImpl.getProvider(req);
+	protected void setProvider() throws Exception {
+		if (req == null) {
+			throw new Exception("No request available...! Hint: try login AFTER instantiating request.");
+		} else {
+			attr = AttributeProviderImpl.getProvider(req);
+		}
 	}
 
-	protected void logout() {
+	protected void logout() throws Exception {
 		try {
 			Principal.terminate();
 			attr.setSAPrincipal(null);
 			req.getSession().invalidate();
 		} catch(NullPointerException e) {
 		}
+		setProvider();
 	}
 
-	protected void login(User user) {
+	protected void login(User user) throws Exception {
 		logout();
 		if (req != null) {
-			Principal principal = Principal.getUser(user);
+			if (user != null) {
+				Principal principal = Principal.getUser(user);
+				attr.setSAPrincipal(principal);
+			}
 			setProvider();
-			attr.setSAPrincipal(principal);
+		} else {
+			throw new Exception("No request available...! Hint: try login AFTER instantiating request.");
 		}
 	}
 

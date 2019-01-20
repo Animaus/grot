@@ -40,7 +40,8 @@ import nl.zoethout.grot.validation.UserValidator;
 @Controller
 @RequestMapping("/user")
 public class UserController extends WebController {
-	
+
+	protected static final String URL_REDIRECT_USER = "redirect:/user/";
 	@Autowired
 	private UserService userService;
 
@@ -131,7 +132,12 @@ public class UserController extends WebController {
 	@RequestMapping(value = "/{username}/save", method = RequestMethod.POST)
 	public String rmUserPost(Model model, @ModelAttribute("mutable") User user, BindingResult bindingResult,
 			HttpServletRequest req, @PathVariable(value = "username") String username) {
+		// TODO 31 - Slight bug discovered: unauthorised saving...
+		if (!isAuthor(req, username)) {
+			return URL_REDIRECT_USER + username;
+		}
 		// Make sure fields not on model do have value
+		// Reminder: model lives on the request-scope 
 		User fixedUser = provider(req).getSAFixed();
 		user.setUserId(fixedUser.getUserId());
 		user.setUserName(fixedUser.getUserName());
@@ -140,6 +146,7 @@ public class UserController extends WebController {
 		Address address = user.getAddress();
 		address.setUserId(fixedUser.getUserId());
 		address.setUserName(fixedUser.getUserName());
+		// Only admin can enable/disable user
 		if (!checkRole(req, ADM)) {
 			user.setEnabled(fixedUser.isEnabled());
 		}
@@ -165,7 +172,7 @@ public class UserController extends WebController {
 			userService.saveUser(user);
 			userService.saveAddress(address);
 			// route to appropriate page
-			return "redirect:/user/" + username;
+			return URL_REDIRECT_USER + username;
 		}
 	}
 

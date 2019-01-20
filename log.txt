@@ -1546,3 +1546,10 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUserGet_User_front00(TestInfo)
 				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUserGet_User_arc0j00(TestInfo)
 				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUserGet_Guest_arc0j00(TestInfo)
+
+	D		: DEBUG logs in console
+				https://www.mkyong.com/spring-boot/spring-boot-test-how-to-stop-debug-logs/
+				Run the Spring Boot tests and find out the console is full of DEBUG logs, try to control the
+				logging level in the application.yml, but the unit tests just ignore the settings.
+	S		: write
+				src/test/resources/logback-test.xml
