@@ -1549,7 +1549,7 @@ TASKS PERFORMED
 
 	D		: DEBUG logs in console
 				https://www.mkyong.com/spring-boot/spring-boot-test-how-to-stop-debug-logs/
-				Run the Spring Boot tests and find out the console is full of DEBUG logs, try to control the
-				logging level in the application.yml, but the unit tests just ignore the settings.
+					Run the Spring Boot tests and find out the console is full of DEBUG logs, try to control the
+					logging level in the application.yml, but the unit tests just ignore the settings.
 	S		: write
 				src/test/resources/logback-test.xml

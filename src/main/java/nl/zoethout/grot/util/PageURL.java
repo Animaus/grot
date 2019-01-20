@@ -2,11 +2,12 @@ package nl.zoethout.grot.util;
 
 public enum PageURL {
 	HOME("home"), //
-	LOGIN("logon"),
+	LOGIN("logon"), //
 	POC("poc"), //
 	ERROR("error"), //
 	TEST("test"), //
 	REDIRECT_HOME("redirect:/"), //
+	REDIRECT_USER("redirect:/user/"), // TODO 31 - Added...
 	REDIRECT_REPOSITORY("redirect:repository"), //
 	USERS_UNKNOWN("users_unknown"), // Show all users (when logged out)
 	USERS_VERIFIED("users_verified"), // Show all users (when logged in)

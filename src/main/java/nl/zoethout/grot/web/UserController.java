@@ -2,6 +2,7 @@ package nl.zoethout.grot.web;
 
 import static nl.zoethout.grot.util.PageURL.LOGIN;
 import static nl.zoethout.grot.util.PageURL.REDIRECT_HOME;
+import static nl.zoethout.grot.util.PageURL.REDIRECT_USER;
 import static nl.zoethout.grot.util.PageURL.USERS_UNKNOWN;
 import static nl.zoethout.grot.util.PageURL.USERS_VERIFIED;
 
@@ -41,7 +42,7 @@ import nl.zoethout.grot.validation.UserValidator;
 @RequestMapping("/user")
 public class UserController extends WebController {
 
-	protected static final String URL_REDIRECT_USER = "redirect:/user/";
+//	protected static final String URL_REDIRECT_USER = "redirect:/user/";
 	@Autowired
 	private UserService userService;
 
@@ -134,7 +135,7 @@ public class UserController extends WebController {
 			HttpServletRequest req, @PathVariable(value = "username") String username) {
 		// TODO 31 - Slight bug discovered: unauthorised saving...
 		if (!isAuthor(req, username)) {
-			return URL_REDIRECT_USER + username;
+			return REDIRECT_USER.part() + username;
 		}
 		// Make sure fields not on model do have value
 		// Reminder: model lives on the request-scope 
@@ -172,7 +173,7 @@ public class UserController extends WebController {
 			userService.saveUser(user);
 			userService.saveAddress(address);
 			// route to appropriate page
-			return URL_REDIRECT_USER + username;
+			return REDIRECT_USER.part() + username;
 		}
 	}
 
