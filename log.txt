@@ -2080,19 +2080,6 @@ TASKS PERFORMED
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-43	R		: Write unit-tests for LoginController
-
-	S		: add
-				<dependency>
-					<groupId>org.springframework.security</groupId>
-					<artifactId>spring-security-test</artifactId>
-					<scope>test</scope>
-				</dependency>
-
-	D		: Development continued in project "spring-security-mvc-login".
-
-
-------------------------------------------------------------------------------------------------------------------------------------------------
 35	R		: Code improvement
 
 	S		: delete
@@ -2105,21 +2092,14 @@ TASKS PERFORMED
 43	R		: Write unit-tests for LoginController
 
 	S		: add
-				D	: copied from nl.zoethout.grot.config.SecurityConfig
-				nl.zoethout.grot.testconfig.TestSecurityConfig
-				nl.zoethout.grot.testconfig.TestSecurityConfig.delegatingPasswordEncoder()
-	S		: delete
-				nl.zoethout.grot.testconfig.TestSecurityConfig.userDetailsService
-				nl.zoethout.grot.testconfig.TestSecurityConfig.configure(AuthenticationManagerBuilder)
-				nl.zoethout.grot.testconfig.TestSecurityConfig.getPasswordEncoder()
+				<dependency>
+					<groupId>org.springframework.security</groupId>
+					<artifactId>spring-security-test</artifactId>
+					<scope>test</scope>
+				</dependency>
 
+	D		: Development continued in project "spring-security-mvc-login".
 
-------------------------------------------------------------------------------------------------------------------------------------------------
-35	R		: Code improvement
-
-	S		: move
-				nl.zoethout.grot.MyUnitTest
-				-> nl.zoethout.grot.mytest.MyTestCases
 	S		: add
 				nl.zoethout.grot.mytest.MyTestUsers
 				nl.zoethout.grot.mytest.MyTestUsers.getAdmin()
@@ -2141,11 +2121,65 @@ TASKS PERFORMED
 				nl.zoethout.grot.mytest.MyTest
 				nl.zoethout.grot.mytest.MyTest.testInfo(String, String, String)
 	S		: re-write
-				D	: implements MyTest
+				D	: extends MyTest
 				nl.zoethout.grot.mytest.MyTestUsers
-	S		: delete
-				nl.zoethout.grot.web.TestLoginController.testInfo(String, String, String)
-				nl.zoethout.grot.testconfig.MyTestConfig
 
+	S		: move
+				nl.zoethout.grot.web.TestLoginController.setup()
+				-> nl.zoethout.grot.web.TestLoginController.Login_new.setup()
+				nl.zoethout.grot.web.TestLoginController.wac
+				-> nl.zoethout.grot.web.TestLoginController.Login_new.wac
+				nl.zoethout.grot.web.TestLoginController.mockMvc
+				-> nl.zoethout.grot.web.TestLoginController.Login_new.mockMvc
+				nl.zoethout.grot.web.TestLoginController.loginController
+				-> nl.zoethout.grot.web.TestLoginController.Login_new.loginController
+				nl.zoethout.grot.web.TestLoginController.userDetailsService
+				-> nl.zoethout.grot.web.TestLoginController.Login_new.userDetailsService
+	S		: add
+				nl.zoethout.grot.web.TestLoginController.Login_new.Login_new(TestLoginController, TestInfo)
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+	S		: add
+				D	: from /spring-security-mvc-login
+				D	: org.baeldung.TestAll.RedirectionSecurityIntegrationTest
+				nl.zoethout.grot.web.TestLoginController.RedirectionSecurityIntegrationTest
+	S		: add
+				nl.zoethout.grot.web.TestLoginController.RedirectionSecurityIntegrationTest.URL_LOGIN_REDIR
+				nl.zoethout.grot.web.TestLoginController.RedirectionSecurityIntegrationTest.URL_SECURE
+	S		: re-write
+				nl.zoethout.grot.web.TestLoginController.RedirectionSecurityIntegrationTest.setup()
+
+	S		: running
+				nl.zoethout.grot.web.TestLoginController.RedirectionSecurityIntegrationTest
+	*P43-01	: java.lang.IllegalStateException: Failed to load ApplicationContext
+			Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name
+			 'org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration': Unsatisfied dependency expressed through
+			 constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating
+			 bean with name 'dataSource' defined in class path resource
+			 [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory
+			 method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate
+			 [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is
+			 org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to determine
+			 a suitable driver class
+			Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined
+			 in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean
+			 instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException:
+			 Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested
+			 exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed
+			 to determine a suitable driver class
+			Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate
+			 [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is
+			 org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to determine
+			 a suitable driver class
+			Caused by: org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to
+			 determine a suitable driver class
+	S		: re-write
+				D	: moved annotations from encapsulating class to nl.zoethout.grot.web.TestLoginController.Login_new
+				nl.zoethout.grot.web.TestLoginController
+	*P43-01	: solved...!
+
+	S		: add
+				nl.zoethout.grot.mytest.MyTestController
+				nl.zoethout.grot.mytest.MyTestController.admin(HttpServletRequest, HttpServletResponse)
+				nl.zoethout.grot.mytest.MyTestController.user(HttpServletRequest, HttpServletResponse)
+
+	D		: proceed at "43 - formLogin - DIZZUM...!"

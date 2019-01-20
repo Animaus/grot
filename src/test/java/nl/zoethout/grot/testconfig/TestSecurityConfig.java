@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -49,6 +50,7 @@ public class TestSecurityConfig extends WebSecurityConfigurerAdapter implements 
 				.logoutSuccessHandler(logoutSuccessHandler()) //
 				.permitAll();
 
+		// TODO 43 - formLogin - DIZZUM...!
 //		http.formLogin() //
 //				.loginPage("/login") // custom login page
 //				.defaultSuccessUrl("/loginSuccess", true) // landing after a successful login
@@ -59,23 +61,25 @@ public class TestSecurityConfig extends WebSecurityConfigurerAdapter implements 
 	}
 
 	@Override
-	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+	protected void configure(final AuthenticationManagerBuilder builder) throws Exception {
 		testInfo(strClass, "configure(AuthenticationManagerBuilder)", "");
 		User adm = getAdmin();
 		User usr = getUser();
-		User dis = getDisabled();
 
 		List<String> admRoles = adm.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList());
 		List<String> usrRoles = usr.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList());
 
 		// TODO 43 - RedirectionSecurityIntegrationTest auth.inMemoryAuthentication
-		auth.inMemoryAuthentication() //
-				.withUser(adm.getUserName()).password(adm.getPassword())
-				.roles(getRolename(admRoles.get(0)), getRolename(admRoles.get(1))) //
-				.and() //
-				.withUser(usr.getUserName()).password(usr.getPassword()).roles(getRolename(usrRoles.get(0))) //
-				.and() //
-				.withUser(dis.getUserName()).password(dis.getPassword()).roles(getRolename(usrRoles.get(0)));
+		builder.inMemoryAuthentication() //
+				.withUser(adm.getUserName()) //
+				.password(adm.getPassword()) //
+				.roles(getRolename(admRoles.get(0))) //
+				.roles(getRolename(admRoles.get(1))); //
+
+		builder.inMemoryAuthentication() //
+				.withUser(usr.getUserName()) //
+				.password(usr.getPassword()) //
+				.roles(getRolename(usrRoles.get(0)));
 	}
 
 	@Bean
