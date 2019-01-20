@@ -17,5 +17,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd"
 	<bean id="userRepository" name="userRepository" class="org.mockito.Mockito" factory-method="mock">
 		<constructor-arg value="nl.zoethout.grot.repository.UserRepository" />
 	</bean>
-	
+
+	<!-- 43 -->
+	<bean id="userDetailsService" name="userDetailsService" class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg value="nl.zoethout.grot.service.UserService" />
+	</bean>
+
 </beans>

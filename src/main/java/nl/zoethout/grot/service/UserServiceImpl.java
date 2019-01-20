@@ -167,6 +167,7 @@ public class UserServiceImpl implements UserService {
 	private List<GrantedAuthority> getGrantedAuthorities(User user) {
 		List<String> userRoles = readRoleNames(user.getUserId());
 		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+		// TODO Lambda and streams
 		for (String userRole : userRoles) {
 			authorities.add(new SimpleGrantedAuthority(userRole));
 		}

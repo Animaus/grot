@@ -1,21 +1,17 @@
 package nl.zoethout.grot.web;
 
-import static nl.zoethout.grot.util.PageURL.LOGIN;
-import static nl.zoethout.grot.util.PageURL.REDIRECT_HOME;
 import static nl.zoethout.grot.util.PageURL.REDIRECT_USER;
 import static nl.zoethout.grot.util.PageURL.USERS_UNKNOWN;
 import static nl.zoethout.grot.util.PageURL.USERS_VERIFIED;
 import static nl.zoethout.grot.util.PageURL.USER_UNKNOWN;
 import static nl.zoethout.grot.util.PageURL.USER_VERIFIED;
 import static nl.zoethout.grot.util.PageURL.USER_VERIFIED_WRITE;
-import static nl.zoethout.grot.util.SessionAttributes.USER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -26,15 +22,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -42,25 +35,22 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import nl.zoethout.grot.MyUnitTest;
+import nl.zoethout.grot.config.WebConfig;
 import nl.zoethout.grot.domain.Address;
-import nl.zoethout.grot.domain.Principal;
 import nl.zoethout.grot.domain.User;
 import nl.zoethout.grot.service.UserServiceImpl;
 
-@DisplayName("TestUserControllerUnittest")
-// Enables loading WebApplicationContext
-@ExtendWith(SpringExtension.class)
-// Will load the web application context
-@WebAppConfiguration
+@DisplayName("TestUserController")
+//@ExtendWith(SpringExtension.class) // Enables loading WebApplicationContext
+//@WebAppConfiguration // Will load the web application context
 // Bootstrap the context that the test will use
-// @ContextConfiguration(classes = { WebConfig.class })
-@ContextConfiguration(locations = { "classpath:testContext.xml", "classpath:applicationContext.xml" })
-public class TestUserControllerUnittest extends MyUnitTest {
-	
+//@ContextConfiguration(locations = { "classpath:mockBeans.xml", "classpath:applicationContext.xml" })
+@ContextConfiguration(classes = { WebConfig.class })
+//@ImportResource({"classpath:mockBeans.xml"})
+public class TestUserController extends MyUnitTest {
+
 	private static final String MUTABLE = "mutable";
 	private static final String URL_USER = "/user";
-	private static final String URL_USER_LOGIN = "/user/login";
-	
 	private MockMvc mockMvc;
 
 	@Mock
@@ -68,10 +58,11 @@ public class TestUserControllerUnittest extends MyUnitTest {
 
 	@InjectMocks
 	private UserController userController;
+
 	private String urlMethod;
 	private String httpMethod;
 
-	TestUserControllerUnittest(final TestInfo inf) {
+	TestUserController(final TestInfo inf) {
 		System.out.println(inf.getDisplayName());
 	}
 
@@ -91,8 +82,9 @@ public class TestUserControllerUnittest extends MyUnitTest {
 		String page = getPage(mode);
 		String url = getUrl(userName);
 		MockHttpServletRequest req = new MockHttpServletRequest(httpMethod, url);
-		login(req, user);
+		mockLogin(req, user);
 		// Print parameters
+		printLine("url\t: " + url);
 		printParameters(user, userName, 0, page);
 		// Prepare action
 		MockHttpServletRequestBuilder action = get(url).with(mockRequest(req));
@@ -186,60 +178,6 @@ public class TestUserControllerUnittest extends MyUnitTest {
 	}
 
 	@Nested
-	@DisplayName("Login")
-	class Login {
-		Login(final TestInfo inf) {
-			printLine("- " + inf.getDisplayName());
-			prefix = "\t";
-		}
-
-		@Test
-		@DisplayName("rmLoginGet")
-		void rmLoginGet(final TestInfo inf) throws Exception {
-			printLine(inf.getDisplayName());
-			Principal usr = null;
-			ResultActions ra = mockMvc.perform(get(URL_USER_LOGIN));
-			ra.andExpect(status().isOk());
-			ra.andExpect(view().name(LOGIN.part()));
-			ra.andExpect(request().sessionAttribute(USER, usr));
-			// Print parameters
-			printParameters(null, null, 0, LOGIN.part());
-		}
-
-		@Test
-		@DisplayName("rmLoginPost_Admin_GoodPWD")
-		void rmLoginPost_Admin_GoodPWD(final TestInfo inf) throws Exception {
-			printLine(inf.getDisplayName());
-			User user = getAdmin();
-			MockHttpServletRequest req = new MockHttpServletRequest("POST", URL_USER_LOGIN);
-			req.setParameter("username", user.getUserName());
-			req.setParameter("password", user.getPassword());
-			MockHttpServletRequestBuilder action = post(URL_USER_LOGIN).with(mockRequest(req));
-			ResultActions ra = mockMvc.perform(action);
-			ra.andExpect(status().is3xxRedirection());
-			ra.andExpect(view().name(REDIRECT_HOME.part()));
-			// Print parameters
-			printParameters(user, null, 0, REDIRECT_HOME.part());
-		}
-
-		@Test
-		@DisplayName("rmLoginPost_Admin_WrongPWD")
-		void rmLoginPost_Admin_WrongPWD(final TestInfo inf) throws Exception {
-			printLine(inf.getDisplayName());
-			User user = getAdmin();
-			MockHttpServletRequest req = new MockHttpServletRequest("POST", URL_USER_LOGIN);
-			req.setParameter("username", user.getUserName());
-			req.setParameter("password", "WrongPWD");
-			MockHttpServletRequestBuilder action = post(URL_USER_LOGIN).with(mockRequest(req));
-			ResultActions ra = mockMvc.perform(action);
-			ra.andExpect(status().isOk());
-			ra.andExpect(view().name(LOGIN.part()));
-			// Print parameters
-			printParameters(user, null, 0, LOGIN.part());
-		}
-	}
-
-	@Nested
 	@DisplayName("Users")
 	class Usrs {
 		Usrs(final TestInfo inf) {
@@ -269,6 +207,36 @@ public class TestUserControllerUnittest extends MyUnitTest {
 			printLine(inf.getDisplayName());
 			assertRun(null, null, "pu");
 		}
+
+		@Test
+		@DisplayName("rmHome2")
+		void rmHome2(TestInfo inf) throws Exception {
+			printLine(inf.getDisplayName());
+			User user = getAdmin();
+			// Prepare web
+			String page = "home";
+			String url = "/home";
+			MockHttpServletRequest req = new MockHttpServletRequest("GET", url);
+			mockLogin(req, user);
+			// Print parameters
+			// printParameters(user, userName, 0, page);
+			// Prepare action
+			MockHttpServletRequestBuilder action = get(url).with(mockRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			// Check status
+			ra.andExpect(status().isOk());
+			// Check page to access
+			ra.andExpect(view().name(page));
+			// Check user to be edited
+			// assertUser(req, userName, ra);
+		}
+		
+		@Test
+		@DisplayName("rmHome3")
+		void rmHome3(TestInfo inf) throws Exception {
+			mockMvc.perform(get("/")).andExpect(status().isOk());
+		}
+
 	}
 
 	@Nested
@@ -378,7 +346,7 @@ public class TestUserControllerUnittest extends MyUnitTest {
 			String page = REDIRECT_USER.part() + userName;
 			String url = getUrl(userName);
 			MockHttpServletRequest req = new MockHttpServletRequest(httpMethod, url);
-			login(req, user);
+			mockLogin(req, user);
 			// Print parameters
 			printParameters(user, userName, saving, page);
 			// Prepare user to be edited
@@ -446,7 +414,7 @@ public class TestUserControllerUnittest extends MyUnitTest {
 			// Prepare web
 			String url = getUrl(userName);
 			MockHttpServletRequest req = new MockHttpServletRequest(httpMethod, url);
-			login(req, user);
+			mockLogin(req, user);
 			// Print parameters
 			printParameters(user, userName, saving, page);
 			// Prepare user to be edited

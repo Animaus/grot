@@ -10,47 +10,46 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import nl.zoethout.grot.MyUnitTest;
-import nl.zoethout.grot.config.WebConfig;
 
 @DisplayName("TestHomeController")
-@ContextConfiguration(classes = { WebConfig.class })
-//TODO 46 - This is a workaround...!
-public class TestHomeController extends MyUnitTest {
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(HomeController.class)
+// TODO 46 - This does not work...!
+public class TestHomeControllerIntegration extends MyUnitTest {
 
 	private MockMvc mockMvc;
+	
+	@Autowired
+	WebApplicationContext wac;
 
-	@InjectMocks
-	private HomeController homeController;
+	TestHomeControllerIntegration(TestInfo inf) {
+		System.out.println(inf.getDisplayName());
+	}
 
 	@BeforeEach
 	void setup() {
 		if (mockMvc == null) {
-			// Initializes objects annotated with @Mock
-			MockitoAnnotations.initMocks(this);
-			// Initializes MockMvc without loading Spring configuration
-			mockMvc = MockMvcBuilders.standaloneSetup(homeController).build();
+			mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 		}
-	}
-
-	TestHomeController(final TestInfo inf) {
-		System.out.println(inf.getDisplayName());
 	}
 
 	@Nested
 	@DisplayName("Home")
 	class Home {
 		private static final String MSG = "GROT is een afkorting voor Generieke Re-enactment Organisatie Toepassing.";
-		private static final String VIEW_NAME = "jspHome";
+		private static final String VIEW_NAME = "home";
 
-		Home(final TestInfo inf) {
+		Home(TestInfo inf) {
 			System.out.println("- " + inf.getDisplayName());
 			prefix = "\t";
 		}
@@ -68,6 +67,5 @@ public class TestHomeController extends MyUnitTest {
 				assertAttributes(ra);
 			}
 		}
-
 	}
 }

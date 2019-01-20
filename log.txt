@@ -45,6 +45,7 @@ SOLVED
 	R		: 39	- Processing successful login
 	R		: 40	- Processing unsuccessful login
 	R		: 41	- Processing logout
+	R		: 45	- Spring from XML to Java-based config
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -67,8 +68,10 @@ TODO
 	R		: 28	- Make code J8 compliant - replace constants with enumeration
 	R		: 29	- Replace statements with lambda
 	R		: 35	- Code improvement
-	R		: 42	- Write unit-tests for LoginController
-	R		: 43	- Re-write unit-tests for UserController
+	R		: 42	- Write unit-tests for HomeController
+	R		: 43	- Write unit-tests for LoginController
+	R		: 44	- Re-write unit-tests for UserController
+	R		: 46	- Re-write unit-tests for HomeController
 
 
 ================================================================================================================================================
@@ -1833,7 +1836,7 @@ TASKS PERFORMED
 	S		: add
 				nl.zoethout.grot.service.UserServiceImpl.loadUserByUsername(String)
 
-	D		: http-error
+	*P37-01	: http-error
 				Date 		2018-12-14 10:43:28.847+0100 (CET)
 				Status 	404
 				Message 	Not Found
@@ -1844,12 +1847,13 @@ TASKS PERFORMED
 				/grot/src/main/webapp/WEB-INF/jsp/users_menu.jsp
 				/grot/src/main/webapp/WEB-INF/jsp/home.jsp
 				nl.zoethout.grot.web.LoginController.login(HttpServletRequest)
+	*P37-01	: solved...!
 
 	D		: On secured user redirect to /login (with empty user-data)
 	S		: re-write
 				nl.zoethout.grot.config.SecurityConfig.configure(HttpSecurity)
 
-	D		: exception after entering user/pwd
+	*P37-02	: exception after entering user/pwd
 				org.springframework.security.authentication.InternalAuthenticationServiceException:
 				 UserDetailsService returned null, which is an interface contract violation
 	S		: add
@@ -1867,6 +1871,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.service.UserServiceImpl.getGrantedAuthorities(User)
 	S		: re-write
 				nl.zoethout.grot.service.UserServiceImpl.loadUserByUsername(String)
+	*P37-02	: solved...!
 
 	D		: https://www.thomasvitale.com/https-spring-boot-ssl-certificate/
 				Adapting application.properties suffices telling Spring Security to require requests over HTTPS.
@@ -1977,3 +1982,111 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.UserController.rmLoginGet(HttpServletRequest)
 				nl.zoethout.grot.web.UserController.rmLoginPost(Map<String, Object>, HttpServletRequest)
 				nl.zoethout.grot.web.UserController.rmLogout(HttpServletRequest)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+42	R		: Write unit-tests for HomeController
+
+	* P42-01
+	D		: APPLICATION FAILED TO START
+				Description	: A component required a bean named 'entityManagerFactory' that could not be found.
+				Action	: Consider defining a bean named 'entityManagerFactory' in your configuration.
+				  Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userRepository':
+				  Cannot create inner bean '(inner bean)#ef60710' of type [org.springframework.orm.jpa.SharedEntityManagerCreator]
+				  while setting bean property 'entityManager'; nested exception is org.springframework.beans.factory.BeanCreationException:
+				  Error creating bean with name '(inner bean)#ef60710': Cannot resolve reference to bean 'entityManagerFactory' while
+				  setting constructor argument; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException:
+				  No bean named 'entityManagerFactory' available
+	D		: https://stackoverflow.com/questions/53524827/springboot-webmvctest-and-mockbean-not-working-as-expected
+			  The problem's caused by your use of @EnableJpaRepositories on your application's main class. By placing it on the main
+			  class, you're indicating that JPA repositories must always be enabled, irrespective of which particular slice of functionality
+			  you're trying to test.
+			  You can fix your problem by doing one of the following:
+			  - Move @EnableJpaRepositores and @EntityScan onto a separate JPA-specific configuration class
+			  - Remove @EnableJpaRepositories and @EntityScan and rely on the auto-configured defaults. For this to work, your repositories
+			    and entities will have to be in a sub-package of your main class's package.
+	D		: https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-testing-spring-boot-applications-detecting-config
+	D		: https://stackoverflow.com/questions/45350546/entitymanagerfactory-not-found-in-springboot
+	D		: Remembering Unit-tests DID run before creating class nl.zoethout.grot.config.SecurityConfig, I there checked for @EnableJpaRepositories.
+			  There it was! I removed the annotation and ran the test again: it worked...! Then I ran the application and it worked as well...!
+	S		: re-write
+				nl.zoethout.grot.config.SecurityConfig
+	*P42-01	: solved...!
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+45	R		: Spring from XML to Java-based config
+
+	D		: http://www.robinhowlett.com/blog/2013/02/13/spring-app-migration-from-xml-to-java-based-config/
+	D		: https://www.baeldung.com/spring-delegating-filter-proxy
+
+	S		: add
+				nl.zoethout.grot.config.WebConfig
+				nl.zoethout.grot.config.WebConfig.addResourceHandlers(ResourceHandlerRegistry)
+				nl.zoethout.grot.config.WebConfig.viewResolver()
+				nl.zoethout.grot.config.WebConfig.messageSource()
+
+	S		: re-write
+				/grot/src/main/webapp/WEB-INF/web.xml
+				/grot/src/main/resources/application.properties
+				nl.zoethout.grot.config.SecurityConfig.configure(WebSecurity)
+
+	S		: delete
+				/grot/src/main/resources/applicationContext.xml
+				/grot/src/main/resources/spring-context.xml
+				/grot/src/main/resources/spring-mvc.xml
+				/grot/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml
+
+	S		: rename
+				/grot/src/main/resources/testContext.xml
+				-> mockBeans.xml
+
+	P45-01	: Unit tests for homecontroller fail
+
+	R		: Done...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+46	R		: Re-write unit-tests for HomeController
+
+	D		: Since migration from XML to Java-based config, I can't get the integration test to work.
+	D		: As a workaround, I emulated the approach of nl.zoethout.grot.web.TestUserController, though I do not need nor want
+			  InjectMocks on my controller.
+
+	S		: rename
+				nl.zoethout.grot.web.TestHomeController
+				-> nl.zoethout.grot.web.TestHomeControllerIntegration
+
+	S		: add
+				nl.zoethout.grot.web.TestHomeController
+
+	*P46-01	: circular redirection, again...
+	S		: re-write
+				nl.zoethout.grot.util.PageURL
+					HOME("home") -> "jspHome"
+					LOGIN("logon") -> "jspLogin"
+					POC("poc") -> "jspPoc"
+					ERROR("error") -> "jspError"
+					TEST("test") -> "jspTest"
+	S		: rename
+				/grot/src/main/webapp/WEB-INF/jsp/home.jsp -> jspHome.jsp
+				/grot/src/main/webapp/WEB-INF/jsp/logon.jsp -> jspLogin.jsp
+				/grot/src/main/webapp/WEB-INF/jsp/poc.jsp -> jspPoc.jsp
+				/grot/src/main/webapp/WEB-INF/jsp/error.jsp -> jspError.jsp
+				/grot/src/main/webapp/WEB-INF/jsp/test.jsp -> jspTest.jsp
+	*P46-01	: solved...!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+43	R		: Write unit-tests for LoginController
+
+	S		: add
+				<dependency>
+					<groupId>org.springframework.security</groupId>
+					<artifactId>spring-security-test</artifactId>
+					<scope>test</scope>
+				</dependency>
+
+	D		: Development continued in project "spring-security-mvc-login".

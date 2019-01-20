@@ -15,10 +15,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
@@ -58,6 +62,7 @@ public class MyUnitTest {
 		usr.setEnabled(true);
 		usr.setDateBirth(getDate("1118-06-17"));
 		usr.setDateRegistered(getDate("2018-06-17"));
+		// Roles
 		Set<Role> roles = new HashSet<Role>();
 		addRole(roles, "Gebruiker", USR);
 		addRole(roles, "Beheerder", ADM);
@@ -93,6 +98,7 @@ public class MyUnitTest {
 		usr.setEnabled(true);
 		usr.setDateBirth(getDate("1218-06-17"));
 		usr.setDateRegistered(getDate("2018-06-17"));
+		// Roles
 		Set<Role> roles = new HashSet<Role>();
 		addRole(roles, "Gebruiker", USR);
 		usr.setRoles(roles);
@@ -127,6 +133,7 @@ public class MyUnitTest {
 		usr.setEnabled(false);
 		usr.setDateBirth(getDate("1942-01-08"));
 		usr.setDateRegistered(getDate("2018-11-23"));
+		// Roles
 		Set<Role> roles = new HashSet<Role>();
 		usr.setRoles(roles);
 		// Address
@@ -157,17 +164,6 @@ public class MyUnitTest {
 		return date;
 	}
 
-	protected List<Role> getRoles() {
-		List<Role> roles = new LinkedList<Role>();
-		addRole(roles, "admin", "Administrators");
-		addRole(roles, "user", "Regular users");
-		addRole(roles, "employee", "Employee");
-		addRole(roles, "student", "Student");
-		addRole(roles, "ROLE_USER", "Gebruiker");
-		addRole(roles, "ROLE_ADMIN", "Beheerder");
-		return roles;
-	}
-
 	private void addRole(Set<Role> roles, final String roleDesc, final String roleName) {
 		if (roles == null) {
 			roles = new HashSet<Role>();
@@ -188,6 +184,17 @@ public class MyUnitTest {
 		role.setRoleDesc(roleDesc);
 		role.setRoleName(roleName);
 		roles.add(role);
+	}
+
+	protected List<Role> getRoles() {
+		List<Role> roles = new LinkedList<Role>();
+		addRole(roles, "admin", "Administrators");
+		addRole(roles, "user", "Regular users");
+		addRole(roles, "employee", "Employee");
+		addRole(roles, "student", "Student");
+		addRole(roles, "ROLE_USER", "Gebruiker");
+		addRole(roles, "ROLE_ADMIN", "Beheerder");
+		return roles;
 	}
 
 	protected List<User> listProfiles() {
@@ -219,6 +226,32 @@ public class MyUnitTest {
 		ra.andExpect(request().sessionAttribute("LNK_USR_HOME", bundle.getString("LNK_USR_HOME")));
 		ra.andExpect(request().sessionAttribute("LNK_USR_LOGIN", bundle.getString("LNK_USR_LOGIN")));
 		ra.andExpect(request().sessionAttribute("LNK_USR_MEMBERS", bundle.getString("LNK_USR_MEMBERS")));
+	}
+	
+	// TODO 43 - 03a - mockUserDetailsService
+	protected void mockUserDetailsService(final UserServiceImpl userDetailsService) {
+		when(userDetailsService.loadUserByUsername("front00")).thenReturn(getUserDetails(getAdmin()));
+		when(userDetailsService.loadUserByUsername("arc0j00")).thenReturn(getUserDetails(getAdmin()));
+		when(userDetailsService.loadUserByUsername("hawks00")).thenReturn(getUserDetails(getAdmin()));
+	}
+
+	// TODO 43 - 03b - getUserDetails
+	protected UserDetails getUserDetails(User user) {
+		List<GrantedAuthority> authorities = getGrantedAuthorities(user);
+		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+				user.isEnabled(), true, true, true, authorities);
+	}
+
+	// TODO 43 - 03c - getGrantedAuthorities
+	private List<GrantedAuthority> getGrantedAuthorities(User user) {
+		List<String> userRoles = user.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList());
+		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+		// TODO Lambda and streams
+		for (String userRole : userRoles) {
+			authorities.add(new SimpleGrantedAuthority(userRole));
+		}
+		List<GrantedAuthority> result = new ArrayList<GrantedAuthority>(authorities);
+		return result;
 	}
 
 	protected void mockUserService(final UserServiceImpl userService) {
@@ -252,7 +285,7 @@ public class MyUnitTest {
 		return provider;
 	}
 
-	protected void logout(final MockHttpServletRequest req) throws Exception {
+	protected void mockLogout(final MockHttpServletRequest req) throws Exception {
 		Principal.terminate();
 		provider(req).setSAPrincipal(null);
 		req.getSession().invalidate();
@@ -263,8 +296,8 @@ public class MyUnitTest {
 	 * @param user For guest login user=null
 	 * @throws Exception
 	 */
-	protected void login(final MockHttpServletRequest req, final User user) throws Exception {
-		logout(req);
+	protected void mockLogin(final MockHttpServletRequest req, final User user) throws Exception {
+		mockLogout(req);
 		if (user != null) {
 			Principal principal = Principal.getUser(user);
 			provider(req).setSAPrincipal(principal);

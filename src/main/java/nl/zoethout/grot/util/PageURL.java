@@ -1,11 +1,11 @@
 package nl.zoethout.grot.util;
 
 public enum PageURL {
-	HOME("home"), //
-	LOGIN("login"), //
-	POC("poc"), //
-	ERROR("error"), //
-	TEST("test"), //
+	HOME("jspHome"), //
+	LOGIN("jspLogin"), //
+	POC("jspPoc"), //
+	ERROR("jspError"), //
+	TEST("jspTest"), //
 	REDIRECT_HOME("redirect:/"), //
 	REDIRECT_USER("redirect:/user/"), //
 	REDIRECT_REPOSITORY("redirect:repository"), //

@@ -3,9 +3,7 @@ package nl.zoethout.grot.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,28 +13,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import nl.zoethout.grot.repository.UserRepository;
 import nl.zoethout.grot.security.CustomAuthenticationFailureHandler;
 import nl.zoethout.grot.security.CustomLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableJpaRepositories(basePackageClasses = UserRepository.class)
+//@EnableGlobalMethodSecurity(prePostEnabled = true) // P42-01
+//@EnableJpaRepositories(basePackageClasses = UserRepository.class) // P42-01
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//	private final class hupseflups implements LogoutSuccessHandler {
-//		@Override
-//		public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
-//				Authentication authentication) throws IOException, ServletException {
-//		}
-//	}
 
 	@Autowired
 	private UserDetailsService userDetailsService;
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**");
+		web.ignoring().antMatchers("/images/**");
+		web.ignoring().antMatchers("/img/**");
+		web.ignoring().antMatchers("/css/**");
+		web.ignoring().antMatchers("/bootstrap/**");
 	}
 
 	@Override

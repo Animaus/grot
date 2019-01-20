@@ -16,7 +16,6 @@ import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,17 +30,17 @@ import nl.zoethout.grot.domain.User;
 import nl.zoethout.grot.service.UserServiceImpl;
 
 @DisplayName("TestUserControllerIntegrationTest")
-// Enables loading WebApplicationContext
+//Enables loading WebApplicationContext
 @ExtendWith(SpringExtension.class)
-// Will load the web application context
+//Will load the web application context
 @WebAppConfiguration
-// Bootstrap the context that the test will use
-// @ContextConfiguration(classes = {WebConfig.class})
-@ContextConfiguration(locations = { "classpath:testContext.xml", "classpath:applicationContext.xml" })
-public class TestUserControllerIntegrationTest extends MyUnitTest {
+//Bootstrap the context that the test will use
+//@ContextConfiguration(classes = {WebConfig.class})
+//@ContextConfiguration(locations = { "classpath:mockBeans.xml", "classpath:applicationContext.xml" })
+public class TestUserControllerIntegration extends MyUnitTest {
 
 	private static final String URL_REDIRECT = "redirect:/";
-	private static final String URL_LOGIN = "/user/login";
+	private static final String URL_LOGIN = "/login";
 	private MockMvc mockMvc;
 
 	@Mock
@@ -50,7 +49,7 @@ public class TestUserControllerIntegrationTest extends MyUnitTest {
 	@Autowired
 	WebApplicationContext wac;
 
-	TestUserControllerIntegrationTest(TestInfo inf) {
+	TestUserControllerIntegration(TestInfo inf) {
 		System.out.println(inf.getDisplayName());
 	}
 

@@ -17,6 +17,7 @@ public abstract class WebController {
 	protected String strClass = getClass().getName();
 	protected static final String ADM = "ROLE_ADMIN";
 	protected static final String USR = "ROLE_USER";
+	
 	protected final static BinaryOperator<String> merger = (key, val) -> {
 		throw new IllegalStateException(String.format("Duplicate key \"%s\"", key));
 	};
