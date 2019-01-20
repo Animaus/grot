@@ -1,12 +1,17 @@
 package nl.zoethout.grot;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
+
+import org.springframework.test.web.servlet.ResultActions;
 
 import nl.zoethout.grot.domain.Role;
 import nl.zoethout.grot.domain.User;
@@ -17,11 +22,11 @@ public class MyUnitTest {
 
 	protected String prefix = "";
 
-	protected void print(Object str) {
+	protected void println(Object str) {
 		System.out.println(prefix + str);
 	}
 
-	protected static User getAdmin() {
+	protected User getAdmin() {
 		User usr = new User();
 		Set<Role> roles = new HashSet<Role>();
 		usr.setUserId(1);
@@ -40,7 +45,7 @@ public class MyUnitTest {
 		return usr;
 	}
 
-	protected static User getUser() {
+	protected User getUser() {
 		User usr = new User();
 		Set<Role> roles = new HashSet<Role>();
 		usr.setUserId(2);
@@ -58,7 +63,7 @@ public class MyUnitTest {
 		return usr;
 	}
 
-	protected static User getDisabled() {
+	protected User getDisabled() {
 		User usr = new User();
 		Set<Role> roles = new HashSet<Role>();
 		usr.setUserId(4);
@@ -75,7 +80,7 @@ public class MyUnitTest {
 		return usr;
 	}
 
-	private static void addRole(Set<Role> roles, String roleDesc, String roleName) {
+	private void addRole(Set<Role> roles, String roleDesc, String roleName) {
 		if (roles == null) {
 			roles = new HashSet<Role>();
 		}
@@ -86,7 +91,7 @@ public class MyUnitTest {
 		roles.add(role);
 	}
 
-	protected static void addRole(List<Role> roles, String roleDesc, String roleName) {
+	protected void addRole(List<Role> roles, String roleDesc, String roleName) {
 		if (roles == null) {
 			roles = new ArrayList<Role>();
 		}
@@ -97,7 +102,7 @@ public class MyUnitTest {
 		roles.add(role);
 	}
 
-	private static Date getDate(String strDate) {
+	private Date getDate(String strDate) {
 		Date date = null;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		try {
@@ -105,5 +110,44 @@ public class MyUnitTest {
 		} catch (ParseException e) {
 		}
 		return date;
+	}
+
+	/**
+	 * Checks the contents of the sessionattributes
+	 * 
+	 * @param ra
+	 * @throws Exception
+	 */
+	protected void checkAttributes(ResultActions ra) throws Exception {
+		ResourceBundle bundle = ResourceBundle.getBundle("text");
+		ra.andExpect(request().sessionAttribute("WELCOME", bundle.getString("WELCOME")));
+		ra.andExpect(request().sessionAttribute("LOGIN_MSG", bundle.getString("LOGIN_MSG")));
+		ra.andExpect(request().sessionAttribute("LOGIN_NON", bundle.getString("LOGIN_NON")));
+		ra.andExpect(request().sessionAttribute("LOGIN_YES", bundle.getString("LOGIN_YES")));
+		ra.andExpect(request().sessionAttribute("LOGIN_OUT", bundle.getString("LOGIN_OUT")));
+		ra.andExpect(request().sessionAttribute("LOGIN_ONN", bundle.getString("LOGIN_ONN")));
+		ra.andExpect(request().sessionAttribute("LOGIN_USR", bundle.getString("LOGIN_USR")));
+		ra.andExpect(request().sessionAttribute("LOGIN_PWD", bundle.getString("LOGIN_PWD")));
+		ra.andExpect(request().sessionAttribute("LOGIN_ERR", bundle.getString("LOGIN_ERR")));
+		bundle = ResourceBundle.getBundle("link");
+		ra.andExpect(request().sessionAttribute("LNK_USR_HOME", bundle.getString("LNK_USR_HOME")));
+		ra.andExpect(request().sessionAttribute("LNK_USR_LOGIN", bundle.getString("LNK_USR_LOGIN")));
+		ra.andExpect(request().sessionAttribute("LNK_USR_MEMBERS", bundle.getString("LNK_USR_MEMBERS")));
+	}
+
+	/*
+	 * // TODO 31 - Testing roles from userService
+	 * assertTrue(roles.size() == 6);
+	 * when(userService.readRoles()).thenReturn(roles);
+	 */
+	protected List<Role> getRoles() {
+		List<Role> roles = new ArrayList<Role>();
+		addRole(roles, "admin", "Administrators");
+		addRole(roles, "user", "Regular users");
+		addRole(roles, "employee", "Employee");
+		addRole(roles, "student", "Student");
+		addRole(roles, "ROLE_USER", "Gebruiker");
+		addRole(roles, "ROLE_ADMIN", "Beheerder");
+		return roles;
 	}
 }

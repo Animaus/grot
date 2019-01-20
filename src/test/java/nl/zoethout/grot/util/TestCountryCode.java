@@ -24,7 +24,7 @@ public class TestCountryCode extends MyUnitTest {
 		@Test
 		@DisplayName("Zimbabwe")
 		void test1(TestInfo inf) {
-			print(inf.getDisplayName());
+			println(inf.getDisplayName());
 			assertTrue(CountryCode.getCode("Zimbabwe").equalsIgnoreCase("ZW"),
 					() -> "Country \"Zimbabwe\" should have had code \"ZW\"...");
 		}
@@ -41,7 +41,7 @@ public class TestCountryCode extends MyUnitTest {
 		@Test
 		@DisplayName("Andorra")
 		void test1(TestInfo inf) {
-			print(inf.getDisplayName());
+			println(inf.getDisplayName());
 			assertTrue(CountryCode.getName("AD").equalsIgnoreCase("Andorra"),
 					() -> "Code \"AD\" should have had country \"Andorra\"...");
 		}

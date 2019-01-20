@@ -1439,7 +1439,7 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.TestHomeController
 
 	S		: write
-				nl.zoethout.grot.web.TestUserControllerUnittest
+				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginGet(TestInfo)
 	P31-01	:
 				Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException:
 				Error creating bean with name 'userController': Unsatisfied dependency expressed through field 'userService';
@@ -1470,9 +1470,28 @@ TASKS PERFORMED
 
 	D		: wishlist
 				So, I have an unit-test for the controller, but I also want an integration-test.
-				https://memorynotfound.com/unit-test-spring-mvc-rest-service-junit-mockito/
-				unit-test-spring-mvc-rest-service-mockito-junit-example.zip
+					https://memorynotfound.com/unit-test-spring-mvc-rest-service-junit-mockito/
+					unit-test-spring-mvc-rest-service-mockito-junit-example.zip
+					https://www.baeldung.com/integration-testing-in-spring
 	S		: write
-				nl.zoethout.grot.web.TestUserControllerIntegration
+				nl.zoethout.grot.web.TestUserControllerIntegrationTest.Login.rmLoginGet(TestInfo)
 
+	D		: annotations (for further study)
+				This:
+					@DisplayName("TestHomeController")
+					@ExtendWith(SpringExtension.class)
+					@WebMvcTest(HomeController.class)
+						returns: "/WEB-INF/jsp/home.jsp" (but not always)
+				Essentially does the same as:
+					@DisplayName("TestUserControllerUnittest")
+					@ExtendWith(SpringExtension.class)
+					@ContextConfiguration(locations = { "classpath:testContext.xml", "classpath:applicationContext.xml" })
+					@WebAppConfiguration
+						returns: "string"
 
+	S		: write
+				nl.zoethout.grot.web.TestUserControllerIntegrationTest.Login.rmLoginPost_Admin_FailsNoInjection(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginPostExperimental(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.mockedRequest(MockHttpServletRequest)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginPost_Admin(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginPost_Admin_WrongPWD(TestInfo)

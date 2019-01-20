@@ -41,27 +41,27 @@ public class TestPrincipal extends MyUnitTest {
 		@Test
 		@DisplayName("ADMIN")
 		void testAdmin(TestInfo inf) {
-			print(inf.getDisplayName());
+			println(inf.getDisplayName());
 			init(getAdmin());
-			print(p.getUser());
+			println(p.getUser());
 			assertTrue(p.hasRole(ADM), () -> "User " + p.getUserName() + " should have role \"Admin\"...");
 		}
 
 		@Test
 		@DisplayName("USER")
 		void testUser(TestInfo inf) {
-			print(inf.getDisplayName());
+			println(inf.getDisplayName());
 			init(getUser());
-			print(p.getUser());
+			println(p.getUser());
 			assertTrue(p.hasRole(USR), () -> "User " + p.getUserName() + " should have role \"User\"...");
 		}
 
 		@Test
 		@DisplayName("DISABLED")
 		void testDisabled(TestInfo inf) {
-			print(inf.getDisplayName());
+			println(inf.getDisplayName());
 			init(getDisabled());
-			print(p.getUser());
+			println(p.getUser());
 			assertFalse(p.hasRole(""), () -> "User " + p.getUserName() + " should have no roles...");
 		}
 
