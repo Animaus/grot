@@ -1488,6 +1488,7 @@ TASKS PERFORMED
 					@ContextConfiguration(locations = { "classpath:testContext.xml", "classpath:applicationContext.xml" })
 					@WebAppConfiguration
 						returns: "string"
+				See remarks in classes "TestUserController[*]"
 
 	S		: write
 				nl.zoethout.grot.web.TestUserControllerIntegrationTest.Login.rmLoginPost_Admin_FailsNoInjection(TestInfo)
@@ -1495,3 +1496,53 @@ TASKS PERFORMED
 				nl.zoethout.grot.web.TestUserControllerUnittest.mockedRequest(MockHttpServletRequest)
 				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginPost_Admin(TestInfo)
 				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginPost_Admin_WrongPWD(TestInfo)
+
+	S		: moved
+				nl.zoethout.grot.web.TestUserControllerUnittest.mockedRequest(MockHttpServletRequest)
+				-> nl.zoethout.grot.MyUnitTest.mockedRequest(MockHttpServletRequest)
+
+	S		: write
+				nl.zoethout.grot.MyUnitTest.initUserService(UserServiceImpl)
+	S		: re-write
+				nl.zoethout.grot.web.TestUserControllerUnittest.setup()
+				nl.zoethout.grot.web.TestUserControllerIntegrationTest.setup()
+
+	S		: write
+				nl.zoethout.grot.MyUnitTest.listProfiles()
+	S		: re-write
+				nl.zoethout.grot.MyUnitTest.initUserService(UserServiceImpl)
+
+	S		: write
+				nl.zoethout.grot.MyUnitTest.feedback(ResultActions)
+
+	S		: add
+				nl.zoethout.grot.MyUnitTest.attr
+				nl.zoethout.grot.MyUnitTest.req
+	S		: write
+				nl.zoethout.grot.MyUnitTest.setProvider()
+				nl.zoethout.grot.MyUnitTest.logout()
+				nl.zoethout.grot.MyUnitTest.login(User)
+	S		: re-write
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUsers_Admin(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUsers_User(TestInfo)
+
+	D		: mocking void methods
+				https://stackoverflow.com/questions/2276271/how-to-make-mock-to-void-methods-with-mockito
+				https://stackoverflow.com/questions/28836778/usages-of-dothrow-doanswer-donothing-and-doreturn-in-mockito
+				Code found in "tutorials-master"
+	S		: re-write
+				nl.zoethout.grot.MyUnitTest.initUserService(UserServiceImpl)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Login.rmLoginPost_Admin_GoodPWD(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUsers_Guest(TestInfo)
+
+	S		: write
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUser_Admin_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUser_Admin_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUser_User_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUser_User_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUser_Guest_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUserGet_Admin_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUserGet_Admin_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUserGet_User_front00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUserGet_User_arc0j00(TestInfo)
+				nl.zoethout.grot.web.TestUserControllerUnittest.Users.rmUserGet_Guest_arc0j00(TestInfo)

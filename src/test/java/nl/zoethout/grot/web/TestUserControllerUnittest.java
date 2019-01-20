@@ -1,7 +1,13 @@
 package nl.zoethout.grot.web;
 
+import static nl.zoethout.grot.util.PageURL.LOGIN;
+import static nl.zoethout.grot.util.PageURL.USERS_UNKNOWN;
+import static nl.zoethout.grot.util.PageURL.USERS_VERIFIED;
+import static nl.zoethout.grot.util.PageURL.USER_UNKNOWN;
+import static nl.zoethout.grot.util.PageURL.USER_VERIFIED;
+import static nl.zoethout.grot.util.PageURL.USER_VERIFIED_WRITE;
 import static nl.zoethout.grot.util.SessionAttributes.USER;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
@@ -17,7 +23,6 @@ import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,7 +31,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import nl.zoethout.grot.MyUnitTest;
@@ -35,11 +39,19 @@ import nl.zoethout.grot.domain.User;
 import nl.zoethout.grot.service.UserServiceImpl;
 
 @DisplayName("TestUserControllerUnittest")
+// Enables loading WebApplicationContext
 @ExtendWith(SpringExtension.class)
+// Will load the web application context
 @WebAppConfiguration
-//@ContextConfiguration(classes = { WebConfig.class })
+// Bootstrap the context that the test will use
+// @ContextConfiguration(classes = { WebConfig.class })
 @ContextConfiguration(locations = { "classpath:testContext.xml", "classpath:applicationContext.xml" })
 public class TestUserControllerUnittest extends MyUnitTest {
+
+	private static final String URL_USER = "/user";
+	private static final String URL_USER_LOGIN = "/user/login";
+	private static final String URL_REDIRECT = "redirect:/";
+
 	private MockMvc mockMvc;
 
 	@Mock
@@ -59,20 +71,13 @@ public class TestUserControllerUnittest extends MyUnitTest {
 		if (mockMvc == null) {
 			// Initializes MockMvc without loading Spring configuration
 			mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+			initUserService(userService);
 		}
-		when(userService.readRoles()).thenReturn(getRoles());
-		when(userService.loginUser("front00", "123456")).thenReturn(getAdmin());
-		when(userService.loginUser("arc0j00", "123456")).thenReturn(getUser());
-		when(userService.loginUser("hawks00", "123456")).thenReturn(getDisabled());
 	}
 
 	@Nested
 	@DisplayName("Login")
 	class Login {
-		private static final String URL_REDIRECT = "redirect:/";
-		private static final String URL_LOGIN = "/user/login";
-		private static final String VIEW_NAME = "logon";
-
 		Login(TestInfo inf) {
 			System.out.println("- " + inf.getDisplayName());
 			prefix = "\t";
@@ -83,53 +88,22 @@ public class TestUserControllerUnittest extends MyUnitTest {
 		@Disabled
 		void rmLoginGet(TestInfo inf) throws Exception {
 			Principal usr = null;
-			ResultActions ra = mockMvc.perform(get(URL_LOGIN));
-			// ra.andDo(print());
+			ResultActions ra = mockMvc.perform(get(URL_USER_LOGIN));
 			ra.andExpect(status().isOk());
-			ra.andExpect(view().name(VIEW_NAME));
+			ra.andExpect(view().name(LOGIN.part()));
 			ra.andExpect(request().sessionAttribute(USER, usr));
 		}
 
-		/**
-		 * The idea here is to define the mock request with all necessary parameters
-		 * before it is executed. We want to describe behaviour for the mock service
-		 * first. This behaviour includes the mock request.
-		 * 
-		 * @param inf
-		 * @throws Exception
-		 */
 		@Test
-		@DisplayName("rmLoginPostExperimental")
+		@DisplayName("rmLoginPost_Admin_GoodPWD")
 		@Disabled
-		void rmLoginPostExperimental(TestInfo inf) throws Exception {
+		void rmLoginPost_Admin_GoodPWD(TestInfo inf) throws Exception {
 			User user = getAdmin();
-			// Define the mock request
-			MockHttpServletRequest req = new MockHttpServletRequest("POST", URL_LOGIN);
-			req.addParameter("username", user.getUserName());
-			req.addParameter("password", user.getPassword());
-			// https://stackoverflow.com/questions/2276271/how-to-make-mock-to-void-methods-with-mockito
-			// Alas, this does not set a sessionattribute as we want.
-			Mockito.doCallRealMethod().when(userService).setPrincipal(req, user);
-			// Define the action and execute it
-			MockHttpServletRequestBuilder action = post(URL_LOGIN).with(mockedRequest(req));
+			req = new MockHttpServletRequest("POST", URL_USER_LOGIN);
+			req.setParameter("username", user.getUserName());
+			req.setParameter("password", user.getPassword());
+			MockHttpServletRequestBuilder action = post(URL_USER_LOGIN).with(mockedRequest(req));
 			ResultActions ra = mockMvc.perform(action);
-			// Test results
-			// ra.andDo(print());
-			ra.andExpect(view().name(URL_REDIRECT));
-			// Unfortunately this can not be...
-			// ra.andExpect(request().sessionAttribute(USER, user));
-		}
-
-		@Test
-		@DisplayName("rmLoginPost_Admin")
-		@Disabled
-		void rmLoginPost_Admin(TestInfo inf) throws Exception {
-			User user = getAdmin();
-			MockHttpServletRequestBuilder action = post(URL_LOGIN);
-			action.param("username", user.getUserName());
-			action.param("password", user.getPassword());
-			ResultActions ra = mockMvc.perform(action);
-			// ra.andDo(print());
 			ra.andExpect(status().is3xxRedirection());
 			ra.andExpect(view().name(URL_REDIRECT));
 		}
@@ -139,24 +113,242 @@ public class TestUserControllerUnittest extends MyUnitTest {
 		@Disabled
 		void rmLoginPost_Admin_WrongPWD(TestInfo inf) throws Exception {
 			User user = getAdmin();
-			MockHttpServletRequestBuilder action = post(URL_LOGIN);
-			action.param("username", user.getUserName());
-			action.param("password", "WrongPassword");
+			req = new MockHttpServletRequest("POST", URL_USER_LOGIN);
+			req.setParameter("username", user.getUserName());
+			req.setParameter("password", "WrongPWD");
+			MockHttpServletRequestBuilder action = post(URL_USER_LOGIN).with(mockedRequest(req));
 			ResultActions ra = mockMvc.perform(action);
-			// ra.andDo(print());
 			ra.andExpect(status().isOk());
-			ra.andExpect(view().name(VIEW_NAME));
+			ra.andExpect(view().name(LOGIN.part()));
+		}
+	}
+
+	@Nested
+	@DisplayName("Users")
+	class Users {
+		Users(TestInfo inf) {
+			System.out.println("- " + inf.getDisplayName());
+			prefix = "\t";
+		}
+
+		@Test
+		@DisplayName("rmUsers_Admin")
+		@Disabled
+		void rmUsers_Admin(TestInfo inf) throws Exception {
+			req = new MockHttpServletRequest("GET", URL_USER);
+			login(getAdmin());
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USERS_VERIFIED.part()));
+		}
+
+		@Test
+		@DisplayName("rmUsers_User")
+		@Disabled
+		void rmUsers_User(TestInfo inf) throws Exception {
+			req = new MockHttpServletRequest("GET", URL_USER);
+			login(getUser());
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USERS_UNKNOWN.part()));
+		}
+
+		@Test
+		@DisplayName("rmUsers_Guest")
+		@Disabled
+		void rmUsers_Guest(TestInfo inf) throws Exception {
+			req = new MockHttpServletRequest("GET", URL_USER);
+			logout();
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USERS_UNKNOWN.part()));
+		}
+
+		@Test
+		@DisplayName("rmUser_Admin_front00")
+		@Disabled
+		void rmUser_Admin_front00(TestInfo inf) throws Exception {
+			String userName = "front00";
+			String URL = URL_USER + "/" + userName;
+			req = new MockHttpServletRequest("GET", URL);
+			login(getAdmin());
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USER_VERIFIED.part()));
+			User mutable = (User) ra.andReturn().getModelAndView().getModel().get("mutable");
+			User fixed = attr.getSAFixed();
+			assertEquals(userName, mutable.getUserName());
+			assertEquals(userName, fixed.getUserName());
+		}
+
+		@Test
+		@DisplayName("rmUser_Admin_arc0j00")
+		@Disabled
+		void rmUser_Admin_arc0j00(TestInfo inf) throws Exception {
+			String userName = "arc0j00";
+			String URL = URL_USER + "/" + userName;
+			req = new MockHttpServletRequest("GET", URL);
+			login(getAdmin());
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USER_VERIFIED.part()));
+			User mutable = (User) ra.andReturn().getModelAndView().getModel().get("mutable");
+			User fixed = attr.getSAFixed();
+			assertEquals(userName, mutable.getUserName());
+			assertEquals(userName, fixed.getUserName());
+		}
+
+		@Test
+		@DisplayName("rmUser_User_front00")
+		@Disabled
+		void rmUser_User_front00(TestInfo inf) throws Exception {
+			String userName = "front00";
+			String URL = URL_USER + "/" + userName;
+			req = new MockHttpServletRequest("GET", URL);
+			login(getUser());
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USER_UNKNOWN.part()));
+			User mutable = (User) ra.andReturn().getModelAndView().getModel().get("mutable");
+			User fixed = attr.getSAFixed();
+			assertEquals(userName, mutable.getUserName());
+			assertEquals(userName, fixed.getUserName());
+		}
+
+		@Test
+		@DisplayName("rmUser_User_arc0j00")
+		@Disabled
+		void rmUser_User_arc0j00(TestInfo inf) throws Exception {
+			String userName = "arc0j00";
+			String URL = URL_USER + "/" + userName;
+			req = new MockHttpServletRequest("GET", URL);
+			login(getUser());
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USER_VERIFIED.part()));
+			User mutable = (User) ra.andReturn().getModelAndView().getModel().get("mutable");
+			User fixed = attr.getSAFixed();
+			assertEquals(userName, mutable.getUserName());
+			assertEquals(userName, fixed.getUserName());
+		}
+		
+		@Test
+		@DisplayName("rmUser_Guest_arc0j00")
+		@Disabled
+		void rmUser_Guest_arc0j00(TestInfo inf) throws Exception {
+			String userName = "arc0j00";
+			String URL = URL_USER + "/" + userName;
+			req = new MockHttpServletRequest("GET", URL);
+			logout();
+			setProvider();
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USER_UNKNOWN.part()));
+			User mutable = (User) ra.andReturn().getModelAndView().getModel().get("mutable");
+			User fixed = attr.getSAFixed();
+			assertEquals(userName, mutable.getUserName());
+			assertEquals(userName, fixed.getUserName());
+		}
+		
+		@Test
+		@DisplayName("rmUserGet_Admin_front00")
+		@Disabled
+		void rmUserGet_Admin_front00(TestInfo inf) throws Exception {
+			String userName = "front00";
+			String URL = URL_USER + "/" + userName + "/edit";
+			req = new MockHttpServletRequest("GET", URL);
+			login(getAdmin());
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USER_VERIFIED_WRITE.part()));
+			User mutable = (User) ra.andReturn().getModelAndView().getModel().get("mutable");
+			User fixed = attr.getSAFixed();
+			assertEquals(userName, mutable.getUserName());
+			assertEquals(userName, fixed.getUserName());
+		}
+
+		@Test
+		@DisplayName("rmUserGet_Admin_arc0j00")
+		@Disabled
+		void rmUserGet_Admin_arc0j00(TestInfo inf) throws Exception {
+			String userName = "arc0j00";
+			String URL = URL_USER + "/" + userName + "/edit";
+			req = new MockHttpServletRequest("GET", URL);
+			login(getAdmin());
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USER_VERIFIED_WRITE.part()));
+			User mutable = (User) ra.andReturn().getModelAndView().getModel().get("mutable");
+			User fixed = attr.getSAFixed();
+			assertEquals(userName, mutable.getUserName());
+			assertEquals(userName, fixed.getUserName());
+		}
+
+		@Test
+		@DisplayName("rmUserGet_User_front00")
+		@Disabled
+		void rmUserGet_User_front00(TestInfo inf) throws Exception {
+			String userName = "front00";
+			String URL = URL_USER + "/" + userName + "/edit";
+			req = new MockHttpServletRequest("GET", URL);
+			login(getUser());
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USER_UNKNOWN.part()));
+			User mutable = (User) ra.andReturn().getModelAndView().getModel().get("mutable");
+			User fixed = attr.getSAFixed();
+			assertEquals(userName, mutable.getUserName());
+			assertEquals(userName, fixed.getUserName());
+		}
+
+		@Test
+		@DisplayName("rmUserGet_User_arc0j00")
+		@Disabled
+		void rmUserGet_User_arc0j00(TestInfo inf) throws Exception {
+			String userName = "arc0j00";
+			String URL = URL_USER + "/" + userName + "/edit";
+			req = new MockHttpServletRequest("GET", URL);
+			login(getUser());
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USER_VERIFIED_WRITE.part()));
+			User mutable = (User) ra.andReturn().getModelAndView().getModel().get("mutable");
+			User fixed = attr.getSAFixed();
+			assertEquals(userName, mutable.getUserName());
+			assertEquals(userName, fixed.getUserName());
+		}
+		
+		@Test
+		@DisplayName("rmUserGet_Guest_arc0j00")
+		@Disabled
+		void rmUserGet_Guest_arc0j00(TestInfo inf) throws Exception {
+			String userName = "arc0j00";
+			String URL = URL_USER + "/" + userName + "/edit";
+			req = new MockHttpServletRequest("GET", URL);
+			logout();
+			setProvider();
+			MockHttpServletRequestBuilder action = get(URL_USER).with(mockedRequest(req));
+			ResultActions ra = mockMvc.perform(action);
+			ra.andExpect(status().isOk());
+			ra.andExpect(view().name(USER_UNKNOWN.part()));
+			User mutable = (User) ra.andReturn().getModelAndView().getModel().get("mutable");
+			User fixed = attr.getSAFixed();
+			assertEquals(userName, mutable.getUserName());
+			assertEquals(userName, fixed.getUserName());
 		}
 
 	}
 
-	// https://stackoverflow.com/questions/30757044/autowired-httpservletrequest-in-spring-test-integration-tests
-	private static RequestPostProcessor mockedRequest(final MockHttpServletRequest mockHttpServletRequest) {
-		return new RequestPostProcessor() {
-			@Override
-			public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
-				return mockHttpServletRequest;
-			}
-		};
-	}
 }

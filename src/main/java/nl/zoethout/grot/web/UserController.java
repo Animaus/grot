@@ -111,6 +111,7 @@ public class UserController extends WebController {
 		model.addAttribute("mutable", user);
 		// appropriate page
 		String page = getAuthorPage(req, "user", username, true);
+		// Return chosen page
 		return page;
 	}
 
