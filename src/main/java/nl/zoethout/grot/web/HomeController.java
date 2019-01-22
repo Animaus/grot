@@ -1,5 +1,10 @@
 package nl.zoethout.grot.web;
 
+<<<<<<< HEAD
+=======
+import static nl.zoethout.grot.util.PageURL.*;
+
+>>>>>>> develop/Grot.190119.1252
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -19,15 +24,26 @@ public class HomeController extends WebController {
 	private static final String DEFAULT_MESSAGE = "message";
 
 	@RequestMapping(value = { "/", "/home", "/welcome", "/index" }, method = RequestMethod.GET)
+<<<<<<< HEAD
 	public String rmHome(Map<String, Object> model, HttpServletRequest req) {
+=======
+	public String rmHome(Map<String, Object> model, final HttpServletRequest req) {
+>>>>>>> develop/Grot.190119.1252
 		setAttributes(req);
 		AttributeProvider attr = AttributeProviderImpl.getProvider(req);
 		attr.setSAError(null);
 		model.put(DEFAULT_MESSAGE, req.getSession().getAttribute("WELCOME"));
+<<<<<<< HEAD
 		return PAGE_HOME;
 	}
 
 	private void setAttributes(HttpServletRequest req) {
+=======
+		return HOME.part();
+	}
+
+	private void setAttributes(final HttpServletRequest req) {
+>>>>>>> develop/Grot.190119.1252
 		HttpSession ses = req.getSession();
 		ResourceBundle bundle = ResourceBundle.getBundle("text");
 		setText(ses, bundle, "WELCOME");
@@ -45,7 +61,11 @@ public class HomeController extends WebController {
 		setText(ses, bundle, "LNK_USR_MEMBERS");
 	}
 
+<<<<<<< HEAD
 	private void setText(HttpSession ses, ResourceBundle bundle, String key) {
+=======
+	private void setText(HttpSession ses, final ResourceBundle bundle, final String key) {
+>>>>>>> develop/Grot.190119.1252
 		String value = bundle.getString(key);
 		ses.setAttribute(key, value);
 	}

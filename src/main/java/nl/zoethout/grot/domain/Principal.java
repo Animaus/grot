@@ -7,12 +7,20 @@ public final class Principal extends UserWrapper {
 	private static Principal USER ; // Lazy initialization: create on first use
 
 	// 2 - a private constructor (no callers can instantiate directly)
+<<<<<<< HEAD
 	private Principal(User user) {
+=======
+	private Principal(final User user) {
+>>>>>>> develop/Grot.190119.1252
 		this.user = user;
 	}
 
 	// 3 - public static method for callers to get a reference to the instance
+<<<<<<< HEAD
 	public static Principal getUser(User user) {
+=======
+	public static Principal getUser(final User user) {
+>>>>>>> develop/Grot.190119.1252
 		if (USER == null) {
 			synchronized (Principal.class) {
 				if (USER == null) {

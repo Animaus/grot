@@ -1,7 +1,14 @@
 package nl.zoethout.grot.util;
 
+<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.Map;
+=======
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+>>>>>>> develop/Grot.190119.1252
 
 public enum CountryCode {
 	AF("Afghanistan"),
@@ -252,6 +259,7 @@ public enum CountryCode {
 	ZM("Zambia"),
 	ZW("Zimbabwe");
 
+<<<<<<< HEAD
 	private static final Map<String, CountryCode> nameMap = new HashMap<String, CountryCode>();
 	private static final Map<String, String> codeMap = new HashMap<String, String>();
 	
@@ -306,6 +314,49 @@ public enum CountryCode {
 		for (CountryCode s:CountryCode.values()) {
 			System.out.println(s.getName());
 		}
+=======
+	private static final Map<String, CountryCode> nameMap = Arrays.asList(values()).stream()
+			.collect(Collectors.toMap(CountryCode::getName, Function.identity()));
+	private static final Map<String, String> codeMap = Arrays.asList(values()).stream()
+			.collect(Collectors.toMap(CountryCode::toString, CountryCode::getName));
+
+	/**
+	 * Country name
+	 */
+	private final String name;
+
+	private CountryCode(final String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Get the country name.
+	 *
+	 * @return The country name.
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Get the country name.
+	 * 
+	 * @param code
+	 * @return The country name.
+	 */
+	public static String getName(final String code) {
+		return codeMap.get(code);
+	}
+
+	/**
+	 * Get the country code.
+	 * 
+	 * @param name
+	 * @return The country code.
+	 */
+	public static String getCode(final String name) {
+		return nameMap.get(name).toString();
+>>>>>>> develop/Grot.190119.1252
 	}
 
 }

@@ -10,6 +10,7 @@
 
 		<display-name>grot</display-name>
 
+<<<<<<< HEAD
 		<servlet>
 			<servlet-name>mvc-dispatcher</servlet-name>
 			<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -41,3 +42,6 @@
 		</filter-mapping>
 
 	</web-app>
+=======
+</web-app>
+>>>>>>> develop/Grot.190119.1252

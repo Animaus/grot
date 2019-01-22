@@ -19,6 +19,7 @@ public class UserValidator implements Validator {
 	// http://docs.spring.io/spring/docs/current/spring-framework-reference/html/validation.html
 
 	private final Validator addressValidator;
+<<<<<<< HEAD
 	private UserService userService;
 
 	public UserValidator(UserService userService, Validator addressValidator) {
@@ -31,6 +32,18 @@ public class UserValidator implements Validator {
 		}
 		this.addressValidator = addressValidator;
 		this.userService = userService;
+=======
+
+	public UserValidator(Validator addressValidator) {
+		if (addressValidator == null) {
+			throw new IllegalArgumentException("The supplied [Validator] is required and must not be null.");
+		}
+		if (!addressValidator.supports(Address.class)) {
+			throw new IllegalArgumentException(
+					"The supplied [Validator] must support the validation of [Address] instances.");
+		}
+		this.addressValidator = addressValidator;
+>>>>>>> develop/Grot.190119.1252
 	}
 
 	@Override

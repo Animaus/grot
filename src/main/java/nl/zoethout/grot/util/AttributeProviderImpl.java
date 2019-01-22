@@ -62,4 +62,12 @@ public class AttributeProviderImpl implements AttributeProvider {
 	public void setSAFixed(User user) {
 		ses.setAttribute(SessionAttributes.FIXED, user);
 	}
+<<<<<<< HEAD
+=======
+
+	@Override
+	public void setSAUsername(String username) {
+		ses.setAttribute(SessionAttributes.USERNAME, username);
+	}
+>>>>>>> develop/Grot.190119.1252
 }

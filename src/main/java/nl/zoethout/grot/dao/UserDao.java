@@ -1,12 +1,17 @@
 package nl.zoethout.grot.dao;
 
 import java.util.List;
+<<<<<<< HEAD
+=======
+import java.util.Set;
+>>>>>>> develop/Grot.190119.1252
 
 import nl.zoethout.grot.domain.Address;
 import nl.zoethout.grot.domain.Role;
 import nl.zoethout.grot.domain.User;
 
 public interface UserDao {
+<<<<<<< HEAD
 
 	// http://www.tutorialspoint.com/spring/spring_jdbc_example.htm
 
@@ -14,6 +19,13 @@ public interface UserDao {
 
 	public void saveUser(User user);
 	
+=======
+	// http://www.tutorialspoint.com/spring/spring_jdbc_example.htm
+	public void executeSQL(String sql);
+
+	public void saveUser(User user);
+
+>>>>>>> develop/Grot.190119.1252
 	public void saveAddress(Address address);
 
 	public void updateUser(String userName, String SQLColumn, String SQLValue);
@@ -26,6 +38,7 @@ public interface UserDao {
 
 	public void deleteUser(String userName);
 
+<<<<<<< HEAD
 	/**
 	 * Identical fieldvalues
 	 */
@@ -53,4 +66,25 @@ public interface UserDao {
 	 */
 	public List<User> listProfiles();
 
+=======
+	public List<String> listPropertiesSame(String pojoField, String pojoValue);
+
+	public List<String> listPropertiesLike(String pojoField, String pojoValue);
+
+	public Role readRole(String roleName);
+
+	public Role readRole(int userId);
+	
+	public List<Role> readRoles();
+
+	public Set<Role> readRoles(int userId);
+
+	public List<String> readRoleNames();
+
+	public List<String> readRoleNames(int userId);
+
+	public User loginUser(String userName, String password);
+
+	public List<User> listProfiles();
+>>>>>>> develop/Grot.190119.1252
 }

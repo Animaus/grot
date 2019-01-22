@@ -12,4 +12,8 @@ public interface AttributeProvider {
 	public void setSAProfiles(List<User> profiles);
 	public User getSAFixed();
 	public void setSAFixed(User user);
+<<<<<<< HEAD
+=======
+	public void setSAUsername(String username);
+>>>>>>> develop/Grot.190119.1252
 }

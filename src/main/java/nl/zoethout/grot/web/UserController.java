@@ -1,11 +1,22 @@
 package nl.zoethout.grot.web;
 
+<<<<<<< HEAD
+=======
+import static nl.zoethout.grot.util.PageURL.REDIRECT_USER;
+import static nl.zoethout.grot.util.PageURL.USERS_UNKNOWN;
+import static nl.zoethout.grot.util.PageURL.USERS_VERIFIED;
+
+>>>>>>> develop/Grot.190119.1252
 import java.beans.PropertyEditorSupport;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+<<<<<<< HEAD
+=======
+import java.util.stream.Collectors;
+>>>>>>> develop/Grot.190119.1252
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +45,7 @@ import nl.zoethout.grot.validation.UserValidator;
 @Controller
 @RequestMapping("/user")
 public class UserController extends WebController {
+<<<<<<< HEAD
 	@Autowired
 	private UserService userService;
 
@@ -77,11 +89,30 @@ public class UserController extends WebController {
 			return PAGE_USERS_VERIFIED;
 		} else {
 			return PAGE_USERS_UNKNOWN;
+=======
+
+	@Autowired
+	private UserService userService;
+
+	@RequestMapping(method = RequestMethod.GET)
+	public String rmUsers(Model model, final HttpServletRequest req) {
+		provider(req).setSAFixed(null);
+		List<User> profiles = userService.listProfiles();
+		provider(req).setSAProfiles(profiles);
+		if (checkRole(req, ADM)) {
+			return USERS_VERIFIED.part();
+		} else {
+			return USERS_UNKNOWN.part();
+>>>>>>> develop/Grot.190119.1252
 		}
 	}
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
+<<<<<<< HEAD
 	public String rmUser(Model model, HttpServletRequest req, @PathVariable(value = "username") String username) {
+=======
+	public String rmUser(Model model, final HttpServletRequest req, @PathVariable(value = "username") final String username) {
+>>>>>>> develop/Grot.190119.1252
 		// Chosen member - reading
 		User user = userService.readUser(username);
 		// Chosen member - session
@@ -95,7 +126,11 @@ public class UserController extends WebController {
 	}
 
 	@RequestMapping(value = "/{username}/edit", method = RequestMethod.GET)
+<<<<<<< HEAD
 	public String rmUserGet(Model model, HttpServletRequest req, @PathVariable(value = "username") String username) {
+=======
+	public String rmUserGet(Model model, final HttpServletRequest req, @PathVariable(value = "username") final String username) {
+>>>>>>> develop/Grot.190119.1252
 		// Chosen member - reading
 		User user = userService.readUser(username);
 		// Chosen member - session
@@ -104,6 +139,10 @@ public class UserController extends WebController {
 		model.addAttribute("mutable", user);
 		// appropriate page
 		String page = getAuthorPage(req, "user", username, true);
+<<<<<<< HEAD
+=======
+		// Return chosen page
+>>>>>>> develop/Grot.190119.1252
 		return page;
 	}
 
@@ -121,9 +160,19 @@ public class UserController extends WebController {
 	 * @return
 	 */
 	@RequestMapping(value = "/{username}/save", method = RequestMethod.POST)
+<<<<<<< HEAD
 	public String rmUserPost(Model model, @ModelAttribute("mutable") User user, BindingResult bindingResult,
 			HttpServletRequest req, @PathVariable(value = "username") String username) {
 		// Make sure fields not on model do have value
+=======
+	public String rmUserPost(Model model, @ModelAttribute("mutable") User user, final BindingResult bindingResult,
+			HttpServletRequest req, @PathVariable(value = "username") final String username) {
+		if (!isAuthor(req, username)) {
+			return REDIRECT_USER.part() + username;
+		}
+		// Make sure fields not on model do have value
+		// Reminder: model lives on the request-scope 
+>>>>>>> develop/Grot.190119.1252
 		User fixedUser = provider(req).getSAFixed();
 		user.setUserId(fixedUser.getUserId());
 		user.setUserName(fixedUser.getUserName());
@@ -132,7 +181,12 @@ public class UserController extends WebController {
 		Address address = user.getAddress();
 		address.setUserId(fixedUser.getUserId());
 		address.setUserName(fixedUser.getUserName());
+<<<<<<< HEAD
 		if (!checkRole(req, ADMIN)) {
+=======
+		// Only admin can enable/disable user
+		if (!checkRole(req, ADM)) {
+>>>>>>> develop/Grot.190119.1252
 			user.setEnabled(fixedUser.isEnabled());
 		}
 		// Change case
@@ -140,7 +194,11 @@ public class UserController extends WebController {
 		address.changeCase();
 		// instantiate validator
 		AddressValidator addressValidator = new AddressValidator();
+<<<<<<< HEAD
 		UserValidator userValidator = new UserValidator(userService, addressValidator);
+=======
+		UserValidator userValidator = new UserValidator(addressValidator);
+>>>>>>> develop/Grot.190119.1252
 		// validate
 		userValidator.validate(user, bindingResult);
 		// appropriate page
@@ -153,6 +211,7 @@ public class UserController extends WebController {
 		} else {
 			// Change authorisation
 			editAuthorisation(userService, req, user);
+<<<<<<< HEAD
 			// save member
 			userService.saveUser(user);
 			userService.saveAddress(address);
@@ -164,10 +223,25 @@ public class UserController extends WebController {
 	private void logging(Model model, BindingResult bindingResult, String message) {
 		if (message == null || message.equals("")) {
 			message = "";
+=======
+			// Save member
+			userService.saveUser(user);
+			userService.saveAddress(address);
+			// Route to appropriate page
+			return REDIRECT_USER.part() + username;
+		}
+	}
+
+	private void logging(Model model, final BindingResult bindingResult, final String message) {
+		String result = "";
+		if (message == null || message.equals("")) {
+			result = "";
+>>>>>>> develop/Grot.190119.1252
 		}
 		List<ObjectError> errors = bindingResult.getAllErrors();
 		for (ObjectError error : errors) {
 			if (error.getDefaultMessage() != null) {
+<<<<<<< HEAD
 				message += "<br><br><b>getCode</b> : " + error.getCode();
 				message += "<br><b>getDefaultMessage</b> : " + error.getDefaultMessage();
 				message += "<br><b>getObjectName</b> : " + error.getObjectName();
@@ -188,13 +262,36 @@ public class UserController extends WebController {
 				result.put(role.getRoleName(), role.getRoleDesc());
 			}
 			return result;
+=======
+				result += "<br><br><b>getCode</b> : " + error.getCode();
+				result += "<br><b>getDefaultMessage</b> : " + error.getDefaultMessage();
+				result += "<br><b>getObjectName</b> : " + error.getObjectName();
+				result += "<br>" + error.toString();
+			}
+		}
+		model.addAttribute("message", result);
+	}
+
+	@ModelAttribute("roles")
+	public Map<String, String> maRoles(final HttpServletRequest req) {
+		Principal principal = provider(req).getSAPrincipal();
+		if (principal == null) {
+			return null;
+		} else if (principal.hasRole(ADM)) {
+			return userService.readRoles().stream()
+					.collect(Collectors.toMap(Role::getRoleName, Role::getRoleDesc, merger, LinkedHashMap::new));
+>>>>>>> develop/Grot.190119.1252
 		} else {
 			return null;
 		}
 	}
 
 	@ModelAttribute("countries")
+<<<<<<< HEAD
 	public CountryCode[] maCountries(HttpServletRequest req) {
+=======
+	public CountryCode[] maCountries(final HttpServletRequest req) {
+>>>>>>> develop/Grot.190119.1252
 		return CountryCode.values();
 	}
 
@@ -209,7 +306,11 @@ public class UserController extends WebController {
 	// https://www.logicbig.com/tutorials/spring-framework/spring-core/property-editors.html
 	private class RoleEditor extends PropertyEditorSupport {
 		@Override
+<<<<<<< HEAD
 		public void setAsText(String roleName) throws IllegalArgumentException {
+=======
+		public void setAsText(final String roleName) throws IllegalArgumentException {
+>>>>>>> develop/Grot.190119.1252
 			setValue(userService.readRole(roleName));
 		}
 	}

@@ -16,7 +16,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "role", catalog = "db_example")
+<<<<<<< HEAD
 public class Role implements Serializable {
+=======
+public class Role implements Serializable, Comparable<Role> {
+>>>>>>> develop/Grot.190119.1252
 
 	private static final long serialVersionUID = 1L;
 
@@ -72,10 +76,20 @@ public class Role implements Serializable {
 
 	@Override
 	public String toString() {
+<<<<<<< HEAD
 		// return "Role [users=" + users + ", roleId=" + roleId + ", roleName=" +
 		// roleName + ", roleDesc=" + roleDesc
 		// + "]";
 		return "Role [roleId=" + roleId + " , roleName=" + roleName + " , roleDesc=" + roleDesc + "]";
 	}
+=======
+		return "Role [roleId=" + roleId + " , roleName=" + roleName + " , roleDesc=" + roleDesc + "]";
+	}
+	
+	@Override
+	public int compareTo(Role role) {
+		return this.roleName.compareTo(role.getRoleName());
+	}
+>>>>>>> develop/Grot.190119.1252
 
 }
