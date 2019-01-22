@@ -2489,3 +2489,8 @@ To get these versions into Git, I best checkout to "Initial commit" and build th
 	C		: Didn't see that one coming...
 				Last running version = grot_181202_1500
 				First bugged version = grot_181216_1836
+			  Coincides with adding certificates for secure http-connection (https)
+
+	S		: re-write referring link in html-page (http -> https)
+				<a href="http://discovery.animaus.dds.nl:9090/" target="self">Application</a>
+				-> <a href="https://discovery.animaus.dds.nl:9090/" target="self">Application</a>
