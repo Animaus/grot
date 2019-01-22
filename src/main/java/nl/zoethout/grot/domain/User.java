@@ -71,8 +71,6 @@ public class User {
 		super();
 	}
 
-<<<<<<< HEAD
-=======
 	public User(User user) {
 		this.address = user.getAddress();
 		this.roles = user.getRoles();
@@ -88,7 +86,6 @@ public class User {
 		this.dateRegistered = user.getDateRegistered();
 	}
 
->>>>>>> develop/Grot.190119.1252
 	public Address getAddress() {
 		return this.address;
 	}

@@ -24,23 +24,9 @@ public abstract class UserWrapper {
 	}
 
 	public boolean hasRole(String roleName) {
-<<<<<<< HEAD
-		boolean result = false;
-		Set<Role> roles = getUserRoles();
-		for (Role role : roles) {
-			if (role.getRoleName().equals(roleName)) {
-				result = true;
-				break;
-			}
-		}
-		return result;
-	}
-	
-=======
 		return getUserRoles().stream().map(Role::getRoleName).filter(roleName::equals).count() > 0;
 	}
 
->>>>>>> develop/Grot.190119.1252
 	public Integer getUserId() {
 		return user.getUserId();
 	}
@@ -89,17 +75,6 @@ public abstract class UserWrapper {
 		user.getSex();
 	}
 
-<<<<<<< HEAD
-//	public String getEmail() {
-//		return user.getEmail();
-//	}
-//
-//	public void setEmail(String email) {
-//		user.getEmail();
-//	}
-
-=======
->>>>>>> develop/Grot.190119.1252
 	public String getPassword() {
 		return user.getPassword();
 	}

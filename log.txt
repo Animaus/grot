@@ -1,18 +1,11 @@
-<<<<<<< HEAD
-=======
 
->>>>>>> develop/Grot.190119.1252
 ================================================================================================================================================
 INDEX
 ================================================================================================================================================
 
 R = Reason
 S = Solution
-<<<<<<< HEAD
-D = Description
-=======
 C = Comment
->>>>>>> develop/Grot.190119.1252
 P = Problem
 
 
@@ -42,8 +35,6 @@ SOLVED
 	R		: 25	- Users - save member with values
 	R		: 26	- Users - fieldvalidation
 	R		: 27	- Users - copy fieldvalidation from PocController to UserController
-<<<<<<< HEAD
-=======
 	R		: 30	- Make code J8 compliant - replace org.joda.time
 	R		: 31	- Write tests for Spring-MVC with Mockito and JUnit5
 	R		: 32	- Write unit-tests for UserController
@@ -57,34 +48,24 @@ SOLVED
 	R		: 41	- Processing logout
 	R		: 45	- Spring from XML to Java-based config
 
->>>>>>> develop/Grot.190119.1252
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 FAILED
 ------------------------------------------------------------------------------------------------------------------------------------------------
 	R		: 10	- Basic Spring security
 
-<<<<<<< HEAD
-=======
 
->>>>>>> develop/Grot.190119.1252
 ------------------------------------------------------------------------------------------------------------------------------------------------
 WISHLIST
 ------------------------------------------------------------------------------------------------------------------------------------------------
 	R		: 06	- Create persistence unit
 	R		: 12	- SQL-datamodel - what happens when there's no database or table?
 
-<<<<<<< HEAD
-=======
 
->>>>>>> develop/Grot.190119.1252
 ------------------------------------------------------------------------------------------------------------------------------------------------
 TODO
 ------------------------------------------------------------------------------------------------------------------------------------------------
 	R		: 15	- Users - registration
-<<<<<<< HEAD
-	R		: 28	- Get base-code on Github
-=======
 	R		: 28	- Make code J8 compliant - replace constants with enumeration
 	R		: 29	- Replace statements with lambda
 	R		: 35	- Code improvement
@@ -92,7 +73,6 @@ TODO
 	R		: 43	- Write unit-tests for LoginController
 	R		: 44	- Re-write unit-tests for UserController
 	R		: 46	- Re-write unit-tests for HomeController
->>>>>>> develop/Grot.190119.1252
 
 
 ================================================================================================================================================
@@ -100,14 +80,11 @@ TASKS PERFORMED
 ================================================================================================================================================
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
 Version		: 180606_1633
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 ................................................................................................................................................
->>>>>>> develop/Grot.190119.1252
 01.	R		: Setup a project using Spring-boot and Spring-MVC
 
 	S		: Created basic files and code for Hello World : see "install*.zip"
@@ -115,16 +92,6 @@ Version		: 180606_1633
 	R		: Done...!
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-02.	R		: Classes - diagram
-
-	D		: software installation
-				Argo program shortcut contains hard-coded reference to JAVA 6 and requires JAVA 6 to be installed.
-				After installation of Argo, change program shortcut to refer to JAVA 8 (JDK-jre) and uninstall JAVA 6.
-
-	D		: current version
-=======
 ................................................................................................................................................
 02.	R		: Classes - diagram
 
@@ -133,41 +100,25 @@ Version		: 180606_1633
 				After installation of Argo, change program shortcut to refer to JAVA 8 (JDK-jre) and uninstall JAVA 6.
 
 	C		: current version
->>>>>>> develop/Grot.190119.1252
 				class_diagram_02
 
 	R		: Done...!
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-04	R		: SQL-datamodel - diagram
-
-	D		: current version
-=======
 ................................................................................................................................................
 4	R		: SQL-datamodel - diagram
 
 	C		: current version
->>>>>>> develop/Grot.190119.1252
 				sql_datamodel_02
 
 	R		: Done...!
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-03.	R		: Classes - domain and web
-
-	S		: add
-	D		: generated from Argo
-=======
 ................................................................................................................................................
 03.	R		: Classes - domain and web
 
 	S		: add
 	C		: generated from Argo
->>>>>>> develop/Grot.190119.1252
 				nl.zoethout.grot.domain.Adres.java
 				nl.zoethout.grot.domain.Beheerder.java
 				nl.zoethout.grot.domain.Evenement.java
@@ -202,11 +153,7 @@ Version		: 180606_1633
 					<artifactId>persistence-api</artifactId>
 					<version>1.0.2</version>
 				</dependency>
-<<<<<<< HEAD
-	D		: works fine for now, but unsure if this is the best solution
-=======
 	C		: works fine for now, but unsure if this is the best solution
->>>>>>> develop/Grot.190119.1252
 	*P03-01	: solved...!
 
 	S		: add javax annotations
@@ -228,15 +175,12 @@ Version		: 180606_1633
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
 Version		: 180608_1917
 Since previous	:   2 d, 02:44
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 ................................................................................................................................................
->>>>>>> develop/Grot.190119.1252
 07.	R		: Basic web-interface
 
 	S		: add
@@ -251,19 +195,11 @@ Since previous	:   2 d, 02:44
 
 	S		: re-write
 				nl.zoethout.grot.web.Welcome.welcome(Map<String, Object>)
-<<<<<<< HEAD
-					"welcome" -> "home"
-	D		: effectively disabled "welcome.jsp"
-	S		: re-write
-				/src/main/webapp/WEB-INF/jsp/home.jsp
-	D		: saved old version as "home.txt"
-=======
 					welcome" -> "home
 	C		: effectively disabled "welcome.jsp"
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/home.jsp
 	C		: saved old version as "home.txt"
->>>>>>> develop/Grot.190119.1252
 
 	*P07-01	: custom text doesn't show
 	S		: add
@@ -293,41 +229,25 @@ Since previous	:   2 d, 02:44
 	R		: Done...!
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-=======
 ................................................................................................................................................
->>>>>>> develop/Grot.190119.1252
 09.	R		: Efficient Spring-configuration
 
 	S		: add
 				/src/main/resources/applicationContext.xml
 	S		: re-write
 				/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml
-<<<<<<< HEAD
-	D		: made it import "applicationContext.xml"
-=======
 	C		: made it import "applicationContext.xml"
->>>>>>> develop/Grot.190119.1252
 	S		: add
 				/src/main/resources/spring-mvc.xml
 				/src/main/resources/spring-context.xml
 	S		: re-write
 				/src/main/resources/applicationContext.xml
-<<<<<<< HEAD
-	D		: made it import "spring-mvc.xml" and "spring-context.xml"
-=======
 	C		: made it import "spring-mvc.xml" and "spring-context.xml"
->>>>>>> develop/Grot.190119.1252
 
 	R		: Done...!
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-=======
 ................................................................................................................................................
->>>>>>> develop/Grot.190119.1252
 08.	R		: Login - create page
 
 	S		: add
@@ -348,26 +268,15 @@ Since previous	:   2 d, 02:44
 	R		: Done...!
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-10	R		: Basic Spring security
-
-	D		: after several day of fruitless trying, I gave up.
-=======
 ................................................................................................................................................
 10	R		: Basic Spring security
 
 	C		: after several day of fruitless trying, I gave up.
->>>>>>> develop/Grot.190119.1252
 
 	R		: Failed...!
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-<<<<<<< HEAD
-05.	R		: SQL-datamodel - script and code
-	
-=======
 Version		: 180619_2053
 Since previous	:  11 d, 01:36
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -376,27 +285,11 @@ Since previous	:  11 d, 01:36
 ................................................................................................................................................
 05.	R		: SQL-datamodel - script and code
 
->>>>>>> develop/Grot.190119.1252
 	S		: renamed
 				nl.zoethout.grot.web.Welcome -> HomeController
 				nl.zoethout.grot.domain.User -> UserPreferred
 
 	S		: add
-<<<<<<< HEAD
-	D		: entities
-				nl.zoethout.grot.domain.User
-				nl.zoethout.grot.domain.UserRole
-				nl.zoethout.grot.domain.Role
-	D		: SQL model
-				/src/main/resources/db_example.sql
-	D		: entries for spring.jpa & spring.datasource
-				/src/main/resources/application.properties
-	D		: repositories
-				nl.zoethout.grot.repository.UserRepository
-				nl.zoethout.grot.dao.UserDao
-				nl.zoethout.grot.dao.UserDaoGrot
-	D		: basic check
-=======
 	C		: entities
 				nl.zoethout.grot.domain.User
 				nl.zoethout.grot.domain.UserRole
@@ -410,16 +303,11 @@ Since previous	:  11 d, 01:36
 				nl.zoethout.grot.dao.UserDao
 				nl.zoethout.grot.dao.UserDaoGrot
 	C		: basic check
->>>>>>> develop/Grot.190119.1252
 				/src/main/webapp/WEB-INF/jsp/basic.jsp
 				nl.zoethout.grot.web.BasicController
 
 	S		: re-write
-<<<<<<< HEAD
-	D		: descriptive message for basic check
-=======
 	C		: descriptive message for basic check
->>>>>>> develop/Grot.190119.1252
 				/src/main/resources/text.properties
 
 	S		: delete
@@ -428,15 +316,9 @@ Since previous	:  11 d, 01:36
 	R		: Done...!
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-11.	R		: Consistent display of pages and texts
-	
-=======
 ................................................................................................................................................
 11.	R		: Consistent display of pages and texts
 
->>>>>>> develop/Grot.190119.1252
 	S		: added
 				nl.zoethout.grot.web.HomeController.DISPATCHER
 				nl.zoethout.grot.web.BasicController.DISPATCHER
@@ -454,19 +336,11 @@ Since previous	:  11 d, 01:36
 	R		: Done...!
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-13.	R		: Users - more properties and storage
-
-	S		: re-write
-	D		: SQL model
-=======
 ................................................................................................................................................
 13.	R		: Users - more properties and storage
 
 	S		: re-write
 	C		: SQL model
->>>>>>> develop/Grot.190119.1252
 				/src/main/resources/db_example.sql
 	S		: add
 				nl.zoethout.grot.domain.User.password
@@ -495,11 +369,7 @@ Since previous	:  11 d, 01:36
 	R		: Done...!
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-=======
 ................................................................................................................................................
->>>>>>> develop/Grot.190119.1252
 16.	R		: Login and pseudo-security
 
 	S		: add
@@ -517,11 +387,7 @@ Since previous	:  11 d, 01:36
 	* P16-01	: java.lang.StackOverflowError: null
 	S		: re-write
 				nl.zoethout.grot.domain.Role.toString()
-<<<<<<< HEAD
-	D		: deleted call to property "users" in entity.
-=======
 	C		: deleted call to property "users" in entity.
->>>>>>> develop/Grot.190119.1252
 				You want a user with associated roles but at the same time you do not want not all users connected to those roles.
 	*P16-01	: solved...!
 
@@ -570,18 +436,12 @@ Since previous	:  11 d, 01:36
 				nl.zoethout.grot.web.UserController.DEFAULT_MESSAGE
 				nl.zoethout.grot.domain.WrappedUser.WrappedUser(User, List<String>)
 
-<<<<<<< HEAD
-	D		: login
-=======
 	C		: login
->>>>>>> develop/Grot.190119.1252
 				page does not display error on login
 				should redirect to home on succesfull login
 				method : nl.zoethout.grot.web.UserController.rmCheck(Map<String, Object>, HttpServletRequest)
 				user entity is too limited : does not have prefix, sex, first- and lastname
 
-<<<<<<< HEAD
-=======
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 Version		: 180710_1552
@@ -592,7 +452,6 @@ Since previous	:  20 d, 18:59
 ................................................................................................................................................
 16.	R		: Login and pseudo-security
 
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				nl.zoethout.grot.web.HomeController.rmWelcome(Map<String, Object>, HttpServletRequest)
 				nl.zoethout.grot.web.UserController.rmCheck(HttpServletRequest)
@@ -608,11 +467,7 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.domain.User.lastName
 				nl.zoethout.grot.domain.User.prefix
 				nl.zoethout.grot.domain.User.sex
-<<<<<<< HEAD
-	D		: and matching getters / setters on nl.zoethout.grot.domain.User and nl.zoethout.grot.domain.WrappedUser
-=======
 	C		: and matching getters / setters on nl.zoethout.grot.domain.User and nl.zoethout.grot.domain.WrappedUser
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/home.jsp
 				/src/main/webapp/WEB-INF/jsp/poc.jsp
@@ -620,11 +475,7 @@ Since previous	:  20 d, 18:59
 
 	S		: rename
 				nl.zoethout.grot.web.HomeController.rmWelcome(Map<String, Object>, HttpServletRequest)	-> rmHome
-<<<<<<< HEAD
-				nl.zoethout.grot.web.UserController.rmCheck(HttpServletRequest)					-> rmLoginGet
-=======
 				nl.zoethout.grot.web.UserController.rmCheck(HttpServletRequest)
->>>>>>> develop/Grot.190119.1252
 	S		: add
 				nl.zoethout.grot.AttributeProvider.getSAPrincipal()
 				nl.zoethout.grot.AttributeProvider.setSAPrincipal(Principal)
@@ -640,20 +491,12 @@ Since previous	:  20 d, 18:59
 	R		: Done...!
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-=======
 ................................................................................................................................................
->>>>>>> develop/Grot.190119.1252
 14.	R		: Custom errorpage
 
 	S		: re-write
 				/src/main/resources/application.properties
-<<<<<<< HEAD
-	D		: entries to disable whitelabel errorpage
-=======
 	C		: entries to disable whitelabel errorpage
->>>>>>> develop/Grot.190119.1252
 				| # ERRORPAGE - as of SpringBootVersion >= 1.3
 				| server.error.whitelabel.enabled=false
 				| server.error.include-stacktrace=always
@@ -665,28 +508,17 @@ Since previous	:  20 d, 18:59
 	R		: Done...!
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-=======
 ................................................................................................................................................
->>>>>>> develop/Grot.190119.1252
 17.	R		: Users - show a list of users
 
 	S		: renamed
 				nl.zoethout.grot.domain.WrappedUser -> Principal
 	S		: add
 				nl.zoethout.grot.domain.Member
-<<<<<<< HEAD
-	D		: initially Principal, but removed removed singleton behaviour to be able to put different instances in one list.
-
-
-	D		: CLEAN CODE
-=======
 	C		: initially Principal, but removed removed singleton behaviour to be able to put different instances in one list.
 
 
 	C		: CLEAN CODE
->>>>>>> develop/Grot.190119.1252
 
 	S		: add
 				nl.zoethout.grot.web.WebController.getAttr(HttpServletRequest)
@@ -709,11 +541,7 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.web.UserController.rmLoginPost(Map<String, Object>, HttpServletRequest)
 
 
-<<<<<<< HEAD
-	D		: ADD A MENU-ITEM FOR USERS / MEMBERS
-=======
 	C		: ADD A MENU-ITEM FOR USERS / MEMBERS
->>>>>>> develop/Grot.190119.1252
 
 	S		: re-write
 				/src/main/resources/link.properties
@@ -727,11 +555,7 @@ Since previous	:  20 d, 18:59
 				/src/main/webapp/WEB-INF/jsp/users_menu.jsp
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-=======
 ................................................................................................................................................
->>>>>>> develop/Grot.190119.1252
 18.	R		: Users - make the list of users admin-dependant
 
 	S		: add to interface
@@ -757,11 +581,7 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.web.WebController.PAGE_USERS_VERIFIED
 
 
-<<<<<<< HEAD
-	D		: CLEAN CODE
-=======
 	C		: CLEAN CODE
->>>>>>> develop/Grot.190119.1252
 
 	S		: moved from root to util
 				nl.zoethout.grot.SessionAttributes		-> nl.zoethout.grot.util.SessionAttributes
@@ -770,21 +590,12 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.HttpError			-> nl.zoethout.grot.util.HttpError
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-19.	R		: Users - show a single user with all it's fields
-
-	D		: wrote some functionality, then got to writing forms to display and edit users
-	D		: already made a distinction on pages for admin, profile-owner, other user
-	D		: reference to make fields and labels for single user
-=======
 ................................................................................................................................................
 19.	R		: Users - show a single user with all it's fields
 
 	C		: wrote some functionality, then got to writing forms to display and edit users
 	C		: already made a distinction on pages for admin, profile-owner, other user
 	C		: reference to make fields and labels for single user
->>>>>>> develop/Grot.190119.1252
 				| spring_12
 				| : user_read_guest.jsp
 				| : user_read_author.jsp
@@ -816,43 +627,21 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, String)
 
 	* P19-01	: /WEB-INF/jsp/user_unknown.jsp (line: [9], column: [3]) Unable to find setter method for attribute: [commandName]
-<<<<<<< HEAD
-	D		: https://stackoverflow.com/questions/46989072/org-apache-jasper-jasperexception-web-inf-views-home-jsp-line-25-column
-				After version 5, commandName was removed, you should use modelAttribute, instead.
-	S		: re-write
-				\src\main\webapp\WEB-INF\jsp\user_unknown.jsp
-	D		: commandName -> modelAttribute
-=======
 	C		: https://stackoverflow.com/questions/46989072/org-apache-jasper-jasperexception-web-inf-views-home-jsp-line-25-column
 				After version 5, commandName was removed, you should use modelAttribute, instead.
 	S		: re-write
 				\src\main\webapp\WEB-INF\jsp\user_unknown.jsp
 	C		: commandName -> modelAttribute
->>>>>>> develop/Grot.190119.1252
 	* P19-01	: solved...!
 
 	* P19-02	: Request processing failed; nested exception is java.lang.IllegalStateException:
 			  Neither BindingResult nor plain target object for bean name 'member' available as request attribute
-<<<<<<< HEAD
-	D		: Words "request attribute" and "modelAttribute" made me think to add the member entity as an attribute to the model.
-=======
 	C		: Words "request attribute" and "modelAttribute" made me think to add the member entity as an attribute to the model.
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
 				nl.zoethout.grot.web.UserController.rmUser(Model, HttpServletRequest, String)
 	* P19-02	: solved...!
 
-<<<<<<< HEAD
-	D		: static display of data to guest does work now.
-
-
-------------------------------------------------------------------------------------------------------------------------------------------------
-20.	R		: Users - get hibernate annotations to work on sql-model
-
-	D		: after many trial and error succeeded in adapting SQL-model (version db_example_180625_1406.sql)
-	D		: what I did sub-optimally I don't know, even downloaded pretty good example
-=======
 	C		: static display of data to guest does work now.
 
 
@@ -861,7 +650,6 @@ Since previous	:  20 d, 18:59
 
 	C		: after many trial and error succeeded in adapting SQL-model (version db_example_180625_1406.sql)
 	C		: what I did sub-optimally I don't know, even downloaded pretty good example
->>>>>>> develop/Grot.190119.1252
 				https://www.journaldev.com/2916/hibernate-one-to-one-mapping-example-annotation
 				HibernateOneToOneMapping.zip
 
@@ -891,11 +679,7 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.dao.UserDaoImpl.readAddress(int)
 				nl.zoethout.grot.service.UserService.readAddress(int)
 				nl.zoethout.grot.service.UserServiceImpl.readAddress(int)
-<<<<<<< HEAD
-	D		: (appears not to be used???)
-=======
 	C		: (appears not to be used???)
->>>>>>> develop/Grot.190119.1252
 
 	S		: re-write
 				nl.zoethout.grot.domain.User
@@ -961,17 +745,10 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.domain.Member
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-21.	R		: Users - show a single user with fields of address on page(s)
-
-	D		: WARNING - WARNING - WARNING
-=======
 ................................................................................................................................................
 21.	R		: Users - show a single user with fields of address on page(s)
 
 	C		: WARNING - WARNING - WARNING
->>>>>>> develop/Grot.190119.1252
 				make a flawless fieldmapping between .jsp , .properties and respective entities
 				make utterly sure the number of fields and spelling of fields are an exact match
 				(for instance: no "mail" instead of "email", no missing fields on one end)
@@ -992,17 +769,10 @@ Since previous	:  20 d, 18:59
 				/src/main/webapp/WEB-INF/jsp/user_verified.jsp
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-22.	R		: Users - save member with address (backend)
-
-	D		: BACKEND
-=======
 ................................................................................................................................................
 22.	R		: Users - save member with address (backend)
 
 	C		: BACKEND
->>>>>>> develop/Grot.190119.1252
 
 	S		: add
 				nl.zoethout.grot.dao.UserDao.saveAddress(Address)
@@ -1020,13 +790,8 @@ Since previous	:  20 d, 18:59
 	S		: rename
 				nl.zoethout.grot.web.WebController.getAttr(HttpServletRequest) -> provider(HttpServletRequest)
 
-<<<<<<< HEAD
-	D		: CLEAN CODE
-	D		: value no longer from field, but composite entity instead. Type from List<String> to Set<Role>.
-=======
 	C		: CLEAN CODE
 	C		: value no longer from field, but composite entity instead. Type from List<String> to Set<Role>.
->>>>>>> develop/Grot.190119.1252
 
 	S		: rename & re-write
 				nl.zoethout.grot.domain.Member.roles -> userRoles
@@ -1063,21 +828,12 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.dao.UserDaoImpl.listProfiles()
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-23.	R		: Users - save member with address (frontend)
-
-	* P23-01	: controller does not get request attributes
-	D		: 1 - both method in controller and form action in page use GET instead of POST
-	D		: 2 - fields on page are not in form-scope
-=======
 ................................................................................................................................................
 23.	R		: Users - save member with address (frontend)
 
 	* P23-01	: controller does not get request attributes
 	C		: 1 - both method in controller and form action in page use GET instead of POST
 	C		: 2 - fields on page are not in form-scope
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 				/src/main/webapp/WEB-INF/jsp/user_unknown.jsp
@@ -1097,11 +853,7 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-=======
 ................................................................................................................................................
->>>>>>> develop/Grot.190119.1252
 24.	R		: Users - save member with roles
 
 	S		: add
@@ -1114,20 +866,12 @@ Since previous	:  20 d, 18:59
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
 
-<<<<<<< HEAD
-	D		: CLEAN CODE
-=======
 	C		: CLEAN CODE
->>>>>>> develop/Grot.190119.1252
 
 	S		: add
 				nl.zoethout.grot.domain.UserWrapper
 	S		: re-write
-<<<<<<< HEAD
-	D		: extends UserWrapper
-=======
 	C		: extends UserWrapper
->>>>>>> develop/Grot.190119.1252
 				nl.zoethout.grot.domain.Principal
 				nl.zoethout.grot.domain.Member
 	S		: delete (from Principal)
@@ -1187,33 +931,19 @@ Since previous	:  20 d, 18:59
 	S		: add
 				nl.zoethout.grot.domain.User.getRoles()
 				nl.zoethout.grot.domain.User.setRoles(Set<Role>)
-<<<<<<< HEAD
-	D		: reversal of P16-02
-
-	D		: edit page does not show roles when no admin
-=======
 	C		: reversal of P16-02
 
 	C		: edit page does not show roles when no admin
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
 
 19:25 4-7-2018
 	S		: re-write
-<<<<<<< HEAD
-	D		: after save routing to read-mode page
-				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
-
-
-------------------------------------------------------------------------------------------------------------------------------------------------
-=======
 	C		: after save routing to read-mode page
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 
 
 ................................................................................................................................................
->>>>>>> develop/Grot.190119.1252
 26.	R		: Users - fieldvalidation
 
 				https://www.tutorialspoint.com/springmvc/springmvc_hibernate_validator.htm
@@ -1225,18 +955,6 @@ Since previous	:  20 d, 18:59
 				/src/main/resources/messages.properties
 				/src/main/resources/messages_nl.properties
 
-<<<<<<< HEAD
-	D		: Kept being bothered by a NullpointerException when WrapClass "nl.zoethout.grot.domain.Member" was used as "<editUser>" on page.
-				Obviously, some component of "nl.zoethout.grot.domain.Member" was not loaded
-	D		: Decided to use just "nl.zoethout.grot.domain.User" on page, with just one field: "firstName"
-
-	S		: add
-	D		: copied from "Member"
-				nl.zoethout.grot.domain.User.getDateBirthDisplay()
-				nl.zoethout.grot.domain.User.getDateRegisteredDisplay()
-				nl.zoethout.grot.domain.User.getUserRoleNames()
-	D		: copied from "UserWrapper"
-=======
 	C		: Kept being bothered by a NullpointerException when WrapClass "nl.zoethout.grot.domain.Member" was used as "<editUser>" on page.
 				Obviously, some component of "nl.zoethout.grot.domain.Member" was not loaded
 	C		: Decided to use just "nl.zoethout.grot.domain.User" on page, with just one field: "firstName"
@@ -1247,43 +965,16 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.domain.User.getDateRegisteredDisplay()
 				nl.zoethout.grot.domain.User.getUserRoleNames()
 	C		: copied from "UserWrapper"
->>>>>>> develop/Grot.190119.1252
 				nl.zoethout.grot.domain.User.hasRole(String)
 	S		: delete
 				nl.zoethout.grot.domain.User.sdf
 
-<<<<<<< HEAD
-	D		: Copied working validation example to desired methods (GET / POST)
-=======
 	C		: Copied working validation example to desired methods (GET / POST)
->>>>>>> develop/Grot.190119.1252
 	S		: add
 				nl.zoethout.grot.web.PocController.rmStudentGet(Map<String, Object>) -> rmUserGet(Map<String, Object>)
 				/src/main/webapp/WEB-INF/jsp/validation/student.jsp -> user_writable.jsp
 				nl.zoethout.grot.web.PocController.rmStudentPost(Student, BindingResult, Model) -> rmUserPost(Student, BindingResult, Model)
 				/src/main/webapp/WEB-INF/jsp/validation/result.jsp -> user_readable.jsp
-<<<<<<< HEAD
-	D		: action points to wrong method
-	S		: re-write
-				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
-	D		: changed navigation
-	D		: changed table definition
-	S		: re-write
-				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
-				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
-	D		: moved form definition outside table
-				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
-	D		: added form definition outside table
-				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
-	D		: added button below form definition
-	D		: added taglib "www.springframework.org/tags"
-				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
-				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
-	D		: removed old button
-				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
-
-	D		: removed "modelAttribute" from form definition
-=======
 	C		: action points to wrong method
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
@@ -1304,44 +995,27 @@ Since previous	:  20 d, 18:59
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 
 	C		: removed "modelAttribute" from form definition
->>>>>>> develop/Grot.190119.1252
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 	* P26-01	: Exception...!
 				Request processing failed;
 				 nested exception is java.lang.IllegalStateException:
 				 Neither BindingResult nor plain target object for bean name 'command' available as request attribute
-<<<<<<< HEAD
-	D		: added "modelAttribute" to form definition
-=======
 	C		: added "modelAttribute" to form definition
->>>>>>> develop/Grot.190119.1252
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 	* P26-01	: Solved...!
 
-<<<<<<< HEAD
-	D		: chosen member - username
-	D		: chosen member - reading
-	D		: chosen member - session
-	D		: chosen member - model (P19-02 / mutable user)
-	D		: changed signature
-=======
 	C		: chosen member - username
 	C		: chosen member - reading
 	C		: chosen member - session
 	C		: chosen member - model (P19-02 / mutable user)
 	C		: changed signature
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				nl.zoethout.grot.web.PocController.rmUserGet(Map<String, Object>)
 				-> rmUserGet(Model, HttpServletRequest)
 
-<<<<<<< HEAD
-	D		: add immutable user to sessionattributes
-=======
 	C		: add immutable user to sessionattributes
->>>>>>> develop/Grot.190119.1252
 	S		: add
 				nl.zoethout.grot.util.SessionAttributes.FIXED
 				nl.zoethout.grot.util.AttributeProvider.getSAFixed()
@@ -1350,28 +1024,16 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.util.AttributeProvider.Impl.setSAFixed(User)
 				nl.zoethout.grot.web.PocController.rmUserGet(Model, HttpServletRequest)
 
-<<<<<<< HEAD
-	D		: added tables for user and address
-				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
-				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
-
-	D		: saved version 26-01
-=======
 	C		: added tables for user and address
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 
 	C		: saved version 26-01
->>>>>>> develop/Grot.190119.1252
 				nl.zoethout.grot.web.PocController -> PocController_26-01
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp -> user_readable_26-01.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp -> user_writable_26-01.jsp
 
-<<<<<<< HEAD
-	D		: changed model attribute from "student" to "mutable"
-=======
 	C		: changed model attribute from "student" to "mutable"
->>>>>>> develop/Grot.190119.1252
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 	* P26-02	: Exception...!
 				org.springframework.beans.NotReadablePropertyException:
@@ -1389,38 +1051,18 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.domain.Address.getCountryName()
 	* P26-03	: Solved...!
 
-<<<<<<< HEAD
-	D		: moved fields to table for user
-	D		: added field for chosen member - session
-=======
 	C		: moved fields to table for user
 	C		: added field for chosen member - session
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 	S		: add
 				nl.zoethout.grot.domain.Address.getClassName()
 
-<<<<<<< HEAD
-	D		: validate just one field (firstName)
-=======
 	C		: validate just one field (firstName)
->>>>>>> develop/Grot.190119.1252
 	S		: add
 				nl.zoethout.grot.validation.UserValidator
 				nl.zoethout.grot.web.PocController.rmUserPost(User, BindingResult, Model)
 
-<<<<<<< HEAD
-	D		: show validated user in read-mode
-	S		: re-write
-				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
-	D		: lost model-attribute "mutable" (no field values shown)
-	D		: found notation to show address and it's values
-	S		: re-write
-				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
-
-	D		: saved version 26-02
-=======
 	C		: show validated user in read-mode
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
@@ -1430,17 +1072,12 @@ Since previous	:  20 d, 18:59
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 
 	C		: saved version 26-02
->>>>>>> develop/Grot.190119.1252
 				nl.zoethout.grot.web.PocController -> PocController_26-02
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp -> user_readable_26-02.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp -> user_writable_26-02.jsp
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-=======
 ................................................................................................................................................
->>>>>>> develop/Grot.190119.1252
 25.	R		: Users - save member with values
 
 	S		: add
@@ -1448,45 +1085,25 @@ Since previous	:  20 d, 18:59
 	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 
-<<<<<<< HEAD
-	D		: added more fields to mutable
-	S		: re-write
-				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
-				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
-	D		: conversion error on date fields
-	D		: disabled editing date fields
-=======
 	C		: added more fields to mutable
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 	C		: conversion error on date fields
 	C		: disabled editing date fields
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 
-<<<<<<< HEAD
-	D		: no dates or roles shown
-	D		: changed signature
-=======
 	C		: no dates or roles shown
 	C		: changed signature
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult)
 				-> rmUserPost(Model, User, BindingResult, HttpServletRequest)
 
-<<<<<<< HEAD
-	D		: move methods to abstract parent class
-	S		: re-write
-	D		: changed signature
-=======
 	C		: move methods to abstract parent class
 	S		: re-write
 	C		: changed signature
->>>>>>> develop/Grot.190119.1252
 				nl.zoethout.grot.web.UserController.editAuthorisation(HttpServletRequest, Member)
 				-> editAuthorisation(UserService, HttpServletRequest, Member)
 				nl.zoethout.grot.web.UserController.setAuthorisation(User)
@@ -1502,22 +1119,14 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.web.UserController.editAuthorisation(UserService, HttpServletRequest, Member)
 				nl.zoethout.grot.web.UserController.setAuthorisation(UserService, User)
 	S		: re-write
-<<<<<<< HEAD
-	D		: changed signature
-=======
 	C		: changed signature
->>>>>>> develop/Grot.190119.1252
 				nl.zoethout.grot.web.WebController.editAuthorisation(UserService, HttpServletRequest, Member)
 				-> editAuthorisation(UserService, HttpServletRequest, User)
 	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
 
-<<<<<<< HEAD
-	D		: change case
-=======
 	C		: change case
->>>>>>> develop/Grot.190119.1252
 	S		: add
 				nl.zoethout.grot.domain.User.changeCase()
 				nl.zoethout.grot.domain.Address.changeCase()
@@ -1526,22 +1135,14 @@ Since previous	:  20 d, 18:59
 
 	* P25-01	: Exception...!
 				javax.el.ELException: Error reading [dateBirthDisplay] on type [nl.zoethout.grot.domain.User]
-<<<<<<< HEAD
-	D		: field is not on model entity
-=======
 	C		: field is not on model entity
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
 	* P25-01	: Solved...!
 
 	* P25-02	: Exception...!
 				org.springframework.orm.jpa.JpaSystemException
-<<<<<<< HEAD
-	D		: added some more fields that needed value before saving
-=======
 	C		: added some more fields that needed value before saving
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				nl.zoethout.grot.web.PocController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
 	* P25-02	: Solved...!
@@ -1554,11 +1155,7 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.web.PocController.initBinder(WebDataBinder)
 	* P25-03	: Solved...!
 
-<<<<<<< HEAD
-	D		: added support for input and display of "Role" and "Country"
-=======
 	C		: added support for input and display of "Role" and "Country"
->>>>>>> develop/Grot.190119.1252
 	S		: add
 				nl.zoethout.grot.web.PocController.maCountries(HttpServletRequest)
 	S		: re-write
@@ -1566,27 +1163,16 @@ Since previous	:  20 d, 18:59
 				/src/main/webapp/WEB-INF/jsp/user_readable.jsp
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 
-<<<<<<< HEAD
-	D		: more validations
-=======
 	C		: more validations
->>>>>>> develop/Grot.190119.1252
 	S		: re-write
 				nl.zoethout.grot.validation.AddressValidator
 				nl.zoethout.grot.validation.UserValidator
 
 
-<<<<<<< HEAD
-------------------------------------------------------------------------------------------------------------------------------------------------
-27	R		: Users - copy fieldvalidation from PocController to UserController
-
-	D		: Start with pages. (Essentially: eradicate "Member". May decide to remove "Member" everywhere.)
-=======
 ................................................................................................................................................
 27	R		: Users - copy fieldvalidation from PocController to UserController
 
 	C		: Start with pages. (Essentially: eradicate "Member". May decide to remove "Member" everywhere.)
->>>>>>> develop/Grot.190119.1252
 
 				/src/main/webapp/WEB-INF/jsp/user_writable.jsp
 			->
@@ -1598,11 +1184,7 @@ Since previous	:  20 d, 18:59
 				/src/main/webapp/WEB-INF/jsp/user_test_verified.jsp
 				/src/main/webapp/WEB-INF/jsp/user_test_read_button.jsp
 
-<<<<<<< HEAD
-	D		: Challenge: URL from PocController is different to UserController. Latter is what I want.
-=======
 	C		: Challenge: URL from PocController is different to UserController. Latter is what I want.
->>>>>>> develop/Grot.190119.1252
 
 				GET	: nl.zoethout.grot.web.PocController.rmUserGet(Model, HttpServletRequest)
 				GET	: nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
@@ -1611,17 +1193,6 @@ Since previous	:  20 d, 18:59
 				POST	: nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 
 	S		: re-write
-<<<<<<< HEAD
-	D		: disabled requestmapping (commented out)
-				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
-				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
-	S		: add
-	D		: copy from nl.zoethout.grot.web.PocController
-				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest)
-				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
-	S		: re-write
-	D		: added correct requestmapping
-=======
 	C		: disabled requestmapping (commented out)
 				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
@@ -1631,7 +1202,6 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
 	S		: re-write
 	C		: added correct requestmapping
->>>>>>> develop/Grot.190119.1252
 				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest)
 				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
 
@@ -1639,56 +1209,14 @@ Since previous	:  20 d, 18:59
 				org.apache.jasper.el.JspELException: /WEB-INF/jsp/user_writable.jsp(97,38) '${roles.keySet()}'
 				 Method not found: class java.util.LinkedHashSet.keySet()
 	S		: re-write
-<<<<<<< HEAD
-	D		: renamed / commented out annotation
-				nl.zoethout.grot.web.UserController.maRoles(HttpServletRequest) -> maRoles_24
-	S		: add
-	D		: copy from nl.zoethout.grot.web.PocController
-=======
 	C		: renamed / commented out annotation
 				nl.zoethout.grot.web.UserController.maRoles(HttpServletRequest) -> maRoles_24
 	S		: add
 	C		: copy from nl.zoethout.grot.web.PocController
->>>>>>> develop/Grot.190119.1252
 				nl.zoethout.grot.web.UserController.maRoles(HttpServletRequest)
 	* P27-01	: Solved...!
 
 	S		: re-write
-<<<<<<< HEAD
-	D		: changed signature to edit chosen member
-				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest) ->
-				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest, String)
-	D		: strange format of dates
-	D		: URL to "Proofs of concepts"
-	S		: re-write
-				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
-	D		: (copy of "user_writable.jsp")
-	D		: no field "enabled" or "countryname"
-	S		: add
-	D		: copy from nl.zoethout.grot.web.PocController
-				nl.zoethout.grot.web.UserController.maCountries(HttpServletRequest)
-	D		: Tworks...! With submit-button missing... :-(
-	S		: re-write
-				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
-	D		: Tworks...! Submit-button shows, but doesn't work... :-(
-
-	S		: re-write
-				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
-	D		:
-				<sft:form method = "POST" action = "user" modelAttribute = "mutable">
-			->
-				<sft:form method = "POST" action = "save" modelAttribute = "mutable">
-	D		: Tworks...! With Exception on date fields... :-(
-
-	S		: add
-	D		: copy from nl.zoethout.grot.web.PocController
-				nl.zoethout.grot.web.UserController.initBinder(WebDataBinder)
-				nl.zoethout.grot.web.UserController.RoleEditor
-	D		: https://www.logicbig.com/tutorials/spring-framework/spring-core/property-editors.html
-	D		: Tworks...! But no routing to read... :-(
-
-	D		: temporary logging to "test"
-=======
 	C		: changed signature to edit chosen member
 				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest) ->
 				nl.zoethout.grot.web.UserController.rmUserGet(Model, HttpServletRequest, String)
@@ -1722,25 +1250,12 @@ Since previous	:  20 d, 18:59
 	C		: Tworks...! But no routing to read... :-(
 
 	C		: temporary logging to "test"
->>>>>>> develop/Grot.190119.1252
 				getCode : city.length
 				getDefaultMessage : null
 				getObjectName : mutable
 				Field error in object 'mutable' on field 'address.city': rejected value [Test];
 				 codes [city.length.mutable.address.city,city.length.address.city,city.length.city,city.length.java.lang.String,city.length];
 				 arguments []; default message [null]
-<<<<<<< HEAD
-	D		: (Conclusion = validation fails on field "city")
-
-	S		: re-write
-	D		: changed signature to route to appropriate page
-				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest)
-					->
-				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest, String)
-	D		: Tworks...! Correct routing on validation fail... :-)
-
-	D		: on validation succeed route to read member
-=======
 	C		: (Conclusion = validation fails on field "city")
 
 	S		: re-write
@@ -1751,38 +1266,23 @@ Since previous	:  20 d, 18:59
 	C		: Tworks...! Correct routing on validation fail... :-)
 
 	C		: on validation succeed route to read member
->>>>>>> develop/Grot.190119.1252
 	S		: add
 				nl.zoethout.grot.web.UserController.logging(Model, BindingResult, String)
 	S		: re-write
 				nl.zoethout.grot.web.UserController.rmUserPost(Model, User, BindingResult, HttpServletRequest, String)
 				/src/main/webapp/WEB-INF/jsp/user_read_button.jsp
-<<<<<<< HEAD
-	D		: (copy of "user_readable.jsp")
-	D		: Tworks...! Correct routing to generic page on validation succes... :-)
-
-	D		: saving to database from interface
-=======
 	C		: (copy of "user_readable.jsp")
 	C		: Tworks...! Correct routing to generic page on validation succes... :-)
 
 	C		: saving to database from interface
->>>>>>> develop/Grot.190119.1252
 	* P27-02	: Exception...!
 				Request processing failed;
 				 nested exception is java.lang.IllegalStateException:
 				 Neither BindingResult nor plain target object for bean name 'mutable' available as request attribute
-<<<<<<< HEAD
-	D		: (but changed ARE correctly saved to DB, so problem could be in page)
-	D		: save routes to read userPage, which method put model-attribute "member" instead of "mutable"
-
-	D		: fase-out SAMember
-=======
 	C		: (but changed ARE correctly saved to DB, so problem could be in page)
 	C		: save routes to read userPage, which method put model-attribute "member" instead of "mutable"
 
 	C		: fase-out SAMember
->>>>>>> develop/Grot.190119.1252
 	S		: delete
 				nl.zoethout.grot.util.AttributeProvider.getSAMember()
 				nl.zoethout.grot.util.AttributeProvider.setSAMember(Member)
@@ -1794,11 +1294,7 @@ Since previous	:  20 d, 18:59
 				/src/main/webapp/WEB-INF/jsp/user_read.jsp
 				/src/main/webapp/WEB-INF/jsp/user_read_button.jsp
 
-<<<<<<< HEAD
-	D		: CLEAN CODE
-=======
 	C		: CLEAN CODE
->>>>>>> develop/Grot.190119.1252
 	S		: delete
 				nl.zoethout.grot.web.PocController.rmMemberGet(Model, HttpServletRequest)
 				nl.zoethout.grot.web.PocController.rmMemberPost(Member, BindingResult, Model, HttpServletRequest)
@@ -1808,11 +1304,7 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
 				nl.zoethout.grot.web.UserController.maRoles_24(HttpServletRequest)
 
-<<<<<<< HEAD
-	D		: fase-out Member
-=======
 	C		: fase-out Member
->>>>>>> develop/Grot.190119.1252
 	S		: moved
 				nl.zoethout.grot.domain.Member -> nl.zoethout.grot.web.PocController.Member
 	S		: delete
@@ -1831,9 +1323,6 @@ Since previous	:  20 d, 18:59
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-<<<<<<< HEAD
-28	R		: Get base-code on Github
-=======
 Version		: 181124_1611
 Since previous	: 134 d, 00:19
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2968,4 +2457,3 @@ meaning following versions:
 	grot_180619_2053.zip
 
 To get these versions into Git, I best checkout to "Initial commit" and build the sourcetree upon that.
->>>>>>> develop/Grot.190119.1252

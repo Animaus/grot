@@ -18,10 +18,7 @@ public class AddressValidator extends MainValidator {
 		super();
 	}
 
-<<<<<<< HEAD
-=======
 	//TODO 31 - Make testcases for Validator
->>>>>>> develop/Grot.190119.1252
 	public static void main(String[] args) {
 		AddressValidator av = new AddressValidator();
 		test(av, "abc");

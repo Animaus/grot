@@ -20,11 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 
  * @author Gerard Zoethout
  */
-<<<<<<< HEAD
-// TODO JAVA 8 - Check to see re-write as Lambda
-=======
 // TODO 29 - Check to see re-write as Lambda
->>>>>>> develop/Grot.190119.1252
 public final class PseudoSecurityExecute {
 	private PseudoSecurityExecute() {
 	}

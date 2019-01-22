@@ -1,10 +1,7 @@
 package nl.zoethout.grot.web;
 
-<<<<<<< HEAD
-=======
 import static nl.zoethout.grot.util.PageURL.ERROR;
 
->>>>>>> develop/Grot.190119.1252
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
@@ -51,34 +48,16 @@ public class CustomErrorController extends WebController implements ErrorControl
 		if (exception == null) {
 			model.put("exception", "N/A");
 		} else {
-<<<<<<< HEAD
-//			exception.getCause().getStackTrace();
-=======
->>>>>>> develop/Grot.190119.1252
 			model.put("exception", exception.getMessage());
 			String stackTrace = "";
 			for (StackTraceElement ste : exception.getCause().getStackTrace()) {
 				stackTrace += ste.toString() + "<br>";
 			}
 			model.put("trace", "<pre>" + stackTrace + "</pre>");
-<<<<<<< HEAD
-
-//			model.put("exception", exception.getMessage());
-//			String stackTrace = "";
-//			for (StackTraceElement ste : exception.getStackTrace()) {
-//				stackTrace += ste.toString() + "<br>";
-//			}
-//			model.put("trace", "<pre>" + stackTrace + "</pre>");
-		}
-		
-		// To page
-		return PAGE_ERROR;
-=======
 		}
 		
 		// To page
 		return ERROR.part();
->>>>>>> develop/Grot.190119.1252
 	}
 
 	@Override

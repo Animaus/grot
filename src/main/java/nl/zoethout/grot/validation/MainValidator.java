@@ -10,17 +10,6 @@ public abstract class MainValidator implements Validator {
 
 	public abstract void validate(Object arg0, Errors arg1) ;
 
-<<<<<<< HEAD
-	public boolean isAlphaNumericSpace(String strValue){
-		return StringUtils.isAlphanumericSpace(strValue);
-	}
-	
-	public boolean isAlphaNumeric(String strValue){
-		return StringUtils.isAlphanumeric(strValue);
-	}
-	
-	public boolean isAlphaSpace(String strValue){
-=======
 	protected boolean isAlphaNumericSpace(String strValue){
 		return StringUtils.isAlphanumericSpace(strValue);
 	}
@@ -30,7 +19,6 @@ public abstract class MainValidator implements Validator {
 	}
 	
 	protected boolean isAlphaSpace(String strValue){
->>>>>>> develop/Grot.190119.1252
 		return StringUtils.isAlphaSpace(strValue);
 	}
 }
