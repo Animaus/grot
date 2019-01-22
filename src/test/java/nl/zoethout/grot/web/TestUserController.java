@@ -208,35 +208,6 @@ public class TestUserController extends MyTestCases {
 			assertRun(null, null, "pu");
 		}
 
-		@Test
-		@DisplayName("rmHome2")
-		void rmHome2(TestInfo inf) throws Exception {
-			printLine(inf.getDisplayName());
-			User user = getAdmin();
-			// Prepare web
-			String page = "home";
-			String url = "/home";
-			MockHttpServletRequest req = new MockHttpServletRequest("GET", url);
-			mockLogin(req, user);
-			// Print parameters
-			// printParameters(user, userName, 0, page);
-			// Prepare action
-			MockHttpServletRequestBuilder action = get(url).with(mockRequest(req));
-			ResultActions ra = mockMvc.perform(action);
-			// Check status
-			ra.andExpect(status().isOk());
-			// Check page to access
-			ra.andExpect(view().name(page));
-			// Check user to be edited
-			// assertUser(req, userName, ra);
-		}
-		
-		@Test
-		@DisplayName("rmHome3")
-		void rmHome3(TestInfo inf) throws Exception {
-			mockMvc.perform(get("/")).andExpect(status().isOk());
-		}
-
 	}
 
 	@Nested

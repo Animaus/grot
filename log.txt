@@ -68,11 +68,12 @@ TODO
 	R		: 15	- Users - registration
 	R		: 28	- Make code J8 compliant - replace constants with enumeration
 	R		: 29	- Replace statements with lambda
-	R		: 35	- Code improvement
+	R		: 35	- Code improvement / clean code
 	R		: 42	- Write unit-tests for HomeController
 	R		: 43	- Write unit-tests for LoginController
 	R		: 44	- Re-write unit-tests for UserController
 	R		: 46	- Re-write unit-tests for HomeController
+	R		: 47	- Bugfix - Bad Request. This combination of host and port requires TLS.
 
 
 ================================================================================================================================================
@@ -106,7 +107,7 @@ Version		: 180606_1633
 
 
 ................................................................................................................................................
-4	R		: SQL-datamodel - diagram
+04.	R		: SQL-datamodel - diagram
 
 	C		: current version
 				sql_datamodel_02
@@ -518,7 +519,8 @@ Since previous	:  20 d, 18:59
 	C		: initially Principal, but removed removed singleton behaviour to be able to put different instances in one list.
 
 
-	C		: CLEAN CODE
+................................................................................................................................................
+35	R		: Code improvement / clean code
 
 	S		: add
 				nl.zoethout.grot.web.WebController.getAttr(HttpServletRequest)
@@ -540,6 +542,9 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.web.UserController.rmLogout(HttpServletRequest)
 				nl.zoethout.grot.web.UserController.rmLoginPost(Map<String, Object>, HttpServletRequest)
 
+
+................................................................................................................................................
+17.	R		: Users - show a list of users
 
 	C		: ADD A MENU-ITEM FOR USERS / MEMBERS
 
@@ -581,7 +586,8 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.web.WebController.PAGE_USERS_VERIFIED
 
 
-	C		: CLEAN CODE
+................................................................................................................................................
+35	R		: Code improvement / clean code
 
 	S		: moved from root to util
 				nl.zoethout.grot.SessionAttributes		-> nl.zoethout.grot.util.SessionAttributes
@@ -790,7 +796,10 @@ Since previous	:  20 d, 18:59
 	S		: rename
 				nl.zoethout.grot.web.WebController.getAttr(HttpServletRequest) -> provider(HttpServletRequest)
 
-	C		: CLEAN CODE
+
+................................................................................................................................................
+35	R		: Code improvement / clean code
+
 	C		: value no longer from field, but composite entity instead. Type from List<String> to Set<Role>.
 
 	S		: rename & re-write
@@ -866,7 +875,9 @@ Since previous	:  20 d, 18:59
 	S		: re-write
 				/src/main/webapp/WEB-INF/jsp/user_edit.jsp
 
-	C		: CLEAN CODE
+
+................................................................................................................................................
+35	R		: Code improvement / clean code
 
 	S		: add
 				nl.zoethout.grot.domain.UserWrapper
@@ -1294,7 +1305,10 @@ Since previous	:  20 d, 18:59
 				/src/main/webapp/WEB-INF/jsp/user_read.jsp
 				/src/main/webapp/WEB-INF/jsp/user_read_button.jsp
 
-	C		: CLEAN CODE
+
+................................................................................................................................................
+35	R		: Code improvement / clean code
+
 	S		: delete
 				nl.zoethout.grot.web.PocController.rmMemberGet(Model, HttpServletRequest)
 				nl.zoethout.grot.web.PocController.rmMemberPost(Member, BindingResult, Model, HttpServletRequest)
@@ -1303,6 +1317,10 @@ Since previous	:  20 d, 18:59
 				nl.zoethout.grot.web.UserController.rmUserSave(Model, HttpServletRequest, HttpServletResponse, Member, BindingResult)
 				nl.zoethout.grot.web.UserController.rmUserEdit(Model, HttpServletRequest, String)
 				nl.zoethout.grot.web.UserController.maRoles_24(HttpServletRequest)
+
+
+................................................................................................................................................
+27	R		: Users - copy fieldvalidation from PocController to UserController
 
 	C		: fase-out Member
 	S		: moved
@@ -1765,7 +1783,7 @@ Since previous	:   4 d, 19:44
 
 
 ................................................................................................................................................
-35	R		: Code improvement
+35	R		: Code improvement / clean code
 
 	S		: delete
 				nl.zoethout.grot.web.Api
@@ -1868,7 +1886,7 @@ Since previous	:   4 d, 19:44
 
 
 ................................................................................................................................................
-35	R		: Code improvement
+35	R		: Code improvement / clean code
 
 	S		: delete
 				nl.zoethout.grot.validation.poc.Student
@@ -2061,7 +2079,7 @@ Since previous	:  14 d, 03:36
 
 
 ................................................................................................................................................
-35	R		: Code improvement
+35	R		: Code improvement / clean code
 
 	S		: delete
 				nl.zoethout.grot.web.UserController.rmLoginGet(HttpServletRequest)
@@ -2171,7 +2189,7 @@ Since previous	:   3 d, 21:21
 
 
 ................................................................................................................................................
-35	R		: Code improvement
+35	R		: Code improvement / clean code
 
 	S		: delete
 				nl.zoethout.grot.repository.UserRepository
@@ -2436,7 +2454,7 @@ Since previous	:   3 d, 02:23
 
 
 ................................................................................................................................................
-35	R		: Code improvement
+35	R		: Code improvement / clean code
 
 	S		: delete
 				nl.zoethout.grot.web.TestUserControllerIntegration
@@ -2446,8 +2464,6 @@ Since previous	:   3 d, 02:23
 Version		: 1901xx_xxxx
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-................................................................................................................................................
 Version on Github	: 180710_1552
 
 meaning following versions:
@@ -2457,3 +2473,19 @@ meaning following versions:
 	grot_180619_2053.zip
 
 To get these versions into Git, I best checkout to "Initial commit" and build the sourcetree upon that.
+
+
+................................................................................................................................................
+44	R		: Re-write unit-tests for UserController
+
+	S		: delete
+				nl.zoethout.grot.web.TestUserController.Usrs.rmHome2(TestInfo)
+				nl.zoethout.grot.web.TestUserController.Usrs.rmHome3(TestInfo)
+
+
+................................................................................................................................................
+47	R		: Bugfix - Bad Request. This combination of host and port requires TLS.
+
+	C		: Didn't see that one coming...
+				Last running version = grot_181202_1500
+				First bugged version = grot_181216_1836
